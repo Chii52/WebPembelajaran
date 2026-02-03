@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Belajar | Modern UI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="floating-nav">
+        <ul>
+            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="#materi">Materi</a></li>
+            <li><a href="#contoh">Kode</a></li>
+            <li><a href="#game">Simulasi</a></li>
+            <li><a href="#quiz">Kuis</a></li>
+        </ul>
+    </nav>
+
+    <section id="beranda" class="hero">
+        <div class="hero-content">
+            <h1 class="main-title">Pembelajaran <span class="highlight">Gim & Software</span></h1>
+            <p class="subtitle">Platform belajar interaktif dengan simulasi dan kuis.</p>
+        </div>
+        <div class="glow-circle circle-1"></div>
+        <div class="glow-circle circle-2"></div>
+    </section>
+
+    <section id="materi" class="container">
+        <h2 class="section-title">Materi Belajar</h2>
+        <div class="grid-container">
+            <div class="card">
+                <h3>HTML Dasar</h3>
+                <p>Pengenalan struktur web.</p>
+            </div>
+            <div class="card">
+                <h3>CSS Styling</h3>
+                <p>Mempercantik tampilan web.</p>
+            </div>
+            <div class="card">
+                <h3>JavaScript</h3>
+                <p>Membuat web interaktif.</p>
+            </div>
+            <div class="card">
+                <h3>Game Dev</h3>
+                <p>Logika dasar pembuatan gim.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contoh" class="container">
+        <h2 class="section-title">Contoh Program</h2>
+        <div class="code-window">
+            <div class="window-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+            </div>
+            <div class="window-body">
+                <p><span class="keyword">print</span>(<span class="string">"Hello World"</span>)</p>
+                <p class="comment"># Output akan muncul di bawah ini</p>
+                <p class="output">> Hello World</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="game" class="container">
+        <h2 class="section-title">Simulasi: Tebak Angka</h2>
+        <div class="interactive-box">
+            <p>Saya memikirkan angka 1-10. Coba tebak!</p>
+            <input type="number" id="tebakInput" placeholder="0" min="1" max="10">
+            <button onclick="mainkanGame()" class="btn-primary">Tebak</button>
+            <p id="gameResult" class="result-text"></p>
+        </div>
+    </section>
+
+    <section id="quiz" class="container">
+        <h2 class="section-title">Kuis Singkat</h2>
+        <form id="quizForm" class="interactive-box">
+            <div class="question-box">
+                <p>1. Untuk membuat teks tebal di HTML?</p>
+                <label><input type="radio" name="q1" value="a"> &lt;b&gt;</label>
+                <label><input type="radio" name="q1" value="b"> &lt;italic&gt;</label>
+            </div>
+
+            <div class="question-box">
+                <p>2. CSS adalah singkatan dari?</p>
+                <label><input type="radio" name="q2" value="a"> Computer Style</label>
+                <label><input type="radio" name="q2" value="b"> Cascading Style Sheets</label>
+            </div>
+
+            <button type="button" onclick="cekQuiz()" class="btn-primary">Lihat Nilai</button>
+            <div id="quizResult" class="score-display"></div>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Web Belajar. Dibuat dengan antusias.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

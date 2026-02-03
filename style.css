@@ -1,0 +1,248 @@
+/* --- 1. Reset & Variabel Warna --- */
+:root {
+    --bg-dark: #0f0c1b;
+    --primary-purple: #6c63ff;
+    --secondary-blue: #2c2f48;
+    --text-white: #ffffff;
+    --text-grey: #b3b3b3;
+    --glass-bg: rgba(20, 15, 40, 0.85);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden; /* Mencegah scroll menyamping */
+}
+
+/* --- 2. Navbar "Floating Pill" (Responsif & Efek Hover) --- */
+.floating-nav {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    padding: 8px 10px; /* Padding dikurangi sedikit agar muat di HP */
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    width: auto;
+    max-width: 95%; /* Agar tidak melebihi lebar layar HP */
+}
+
+.floating-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 5px; /* Jarak antar menu */
+    align-items: center;
+    padding: 0 10px;
+}
+
+.floating-nav a {
+    text-decoration: none;
+    color: var(--text-grey);
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 30px; /* Membuat background bulat saat hover */
+    transition: all 0.3s ease; /* Animasi halus */
+    display: block;
+    white-space: nowrap; /* Mencegah teks turun ke bawah */
+}
+
+/* --- EFEK HOVER KEREN DI SINI --- */
+
+/* Hapus selector .active agar tidak nyala permanen */
+.floating-nav a:hover, .floating-nav a:active { 
+    background-color: var(--primary-purple); /* Background Ungu */
+    color: #fff; /* Teks Putih */
+    box-shadow: 0 0 15px rgba(108, 99, 255, 0.6); /* Efek Glowing */
+    transform: translateY(-2px); /* Sedikit naik ke atas */
+}
+
+/* --- 3. Hero Section --- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 0 20px;
+}
+
+.hero-content { z-index: 2; width: 100%; }
+
+.main-title {
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #fff, #a5a5a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle { color: var(--text-grey); font-size: 1.2rem; }
+
+/* Background Blobs */
+.glow-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 1;
+    opacity: 0.4;
+}
+.circle-1 {
+    width: 300px; height: 300px;
+    background: var(--primary-purple);
+    top: 20%; left: 20%;
+}
+.circle-2 {
+    width: 400px; height: 400px;
+    background: #2a2a72;
+    bottom: 10%; right: 10%;
+}
+
+/* --- 4. Layout Umum & Grid Responsif --- */
+section.container {
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: var(--primary-purple);
+}
+
+.grid-container {
+    display: grid;
+    /* Auto-fit: Otomatis turun ke bawah jika layar sempit */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--secondary-blue);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    background: #363a55;
+    border-color: var(--primary-purple);
+}
+
+/* --- 5. Elemen Interaktif (Code, Game, Quiz) --- */
+.code-window, .interactive-box {
+    background: #1e1e1e; /* Warna sedikit lebih gelap untuk kontras */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    max-width: 600px;
+    margin: 0 auto; /* Tengah */
+}
+.interactive-box { background: var(--secondary-blue); }
+
+.window-header { display: flex; gap: 8px; margin-bottom: 15px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+
+.keyword { color: #cc99cd; } .string { color: #7ec699; } .comment { color: #666; font-style: italic; }
+
+input[type="number"] {
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: none;
+    background: rgba(0,0,0,0.3);
+    color: white;
+    width: 100px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    background: var(--primary-purple);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(108, 99, 255, 0.4);
+}
+
+.question-box {
+    text-align: left;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 15px;
+}
+
+/* --- 6. MEDIA QUERIES (Sihir Responsif) --- */
+
+/* Tablet (Layar lebar sedang) */
+@media (max-width: 768px) {
+    .main-title { font-size: 2.5rem; }
+    
+    .floating-nav {
+        width: 90%; /* Navbar melebar sedikit */
+        top: 15px;
+    }
+    
+    .floating-nav ul { gap: 2px; }
+    
+    .floating-nav a {
+        font-size: 0.8rem; /* Font menu mengecil */
+        padding: 8px 10px;
+    }
+}
+
+/* Mobile (Layar HP Kecil) */
+@media (max-width: 480px) {
+    .main-title { font-size: 2rem; }
+    .subtitle { font-size: 1rem; }
+    
+    .floating-nav {
+        top: auto;
+        bottom: 20px; /* Pindah ke bawah agar mudah dipencet jempol */
+        width: 90%;
+        padding: 5px;
+    }
+
+    .floating-nav ul {
+        justify-content: space-between; /* Meratakan ikon */
+        padding: 0;
+    }
+
+    .floating-nav a {
+        font-size: 0.75rem;
+        padding: 8px 8px;
+    }
+
+    /* Mengatur background blobs agar tidak menutupi teks di HP */
+    .glow-circle { opacity: 0.3; width: 200px; height: 200px; }
+    
+    section.container { padding: 60px 20px; }
+}
