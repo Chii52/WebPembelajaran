@@ -31,24 +31,35 @@
     <section id="materi" class="container">
         <h2 class="section-title">Materi Belajar</h2>
         <div class="grid-container">
-            <div class="card">
+            <div class="card" onclick="bukaDetail('html')">
                 <h3>HTML Dasar</h3>
                 <p>Pengenalan struktur web.</p>
+                <p class="card-hint">Klik untuk detail →</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="bukaDetail('css')">
                 <h3>CSS Styling</h3>
                 <p>Mempercantik tampilan web.</p>
+                <p class="card-hint">Klik untuk detail →</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="bukaDetail('javascript')">
                 <h3>JavaScript</h3>
                 <p>Membuat web interaktif.</p>
+                <p class="card-hint">Klik untuk detail →</p>
             </div>
-            <div class="card">
+            <div class="card" onclick="bukaDetail('gamedev')">
                 <h3>Game Dev</h3>
                 <p>Logika dasar pembuatan gim.</p>
+                <p class="card-hint">Klik untuk detail →</p>
             </div>
         </div>
     </section>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="tutupDetail()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
 
     <section id="contoh" class="container">
         <h2 class="section-title">Contoh Program</h2>
