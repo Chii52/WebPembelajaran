@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Belajar | Kuis</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><span class="logo-text">wpldg</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="game.html">Simulasi</a></li>
+            <li><a href="quiz.html" class="active">Kuis</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#" class="btn-login">Masuk/Daftar</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <section class="container" style="margin-top: 100px;">
+        <h2 class="section-title reveal">Evaluasi Kemampuan</h2>
+        <form id="quizForm" class="interactive-box reveal">
+            <div class="question-box">
+                <p>1. Untuk membuat teks tebal di HTML?</p>
+                <label><input type="radio" name="q1" value="a"> &lt;b&gt;</label>
+                <label><input type="radio" name="q1" value="b"> &lt;italic&gt;</label>
+            </div>
+
+            <div class="question-box">
+                <p>2. CSS adalah singkatan dari?</p>
+                <label><input type="radio" name="q2" value="a"> Computer Style</label>
+                <label><input type="radio" name="q2" value="b"> Cascading Style Sheets</label>
+            </div>
+
+            <button type="button" onclick="cekQuiz()" class="btn-primary">Lihat Nilai</button>
+            <div id="quizResult" class="score-display"></div>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 wpldg. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

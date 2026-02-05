@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Belajar | Simulasi Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><span class="logo-text">wpldg</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="game.html" class="active">Simulasi</a></li>
+            <li><a href="quiz.html">Kuis</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#" class="btn-login">Masuk/Daftar</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <section class="container" style="margin-top: 100px;">
+        <h2 class="section-title reveal">Area Simulasi</h2>
+        
+        <div class="interactive-box reveal">
+            <h3>1. Tebak Angka (1-10)</h3>
+            <p>Sistem telah memilih angka acak.</p>
+            <input type="number" id="tebakInput" placeholder="0" min="1" max="10">
+            <button onclick="mainkanGame()" class="btn-primary">Tebak</button>
+            <p id="gameResult" class="result-text">Menunggu input...</p>
+        </div>
+
+        <div class="interactive-box reveal delay-2" style="margin-top: 30px;">
+            <h3>2. Batu Gunting Kertas</h3>
+            <p>Lawan komputer! Pilih senjata:</p>
+            <div class="suit-buttons">
+                <button onclick="mainkanSuit('batu')" class="btn-suit">✊ Batu</button>
+                <button onclick="mainkanSuit('gunting')" class="btn-suit">✌️ Gunting</button>
+                <button onclick="mainkanSuit('kertas')" class="btn-suit">🖐 Kertas</button>
+            </div>
+            <p id="suitResult" class="result-text">VS Komputer: ???</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 wpldg. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
