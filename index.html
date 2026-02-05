@@ -3,72 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Belajar | Modern UI</title>
+    <title>Web Belajar | Beranda</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<nav class="floating-nav">
-        <ul>
-            <li><a href="#beranda">Beranda</a></li>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-text">Power Rangers</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Beranda</a></li>
+            <li><a href="game.html">Simulasi</a></li> <li><a href="quiz.html">Kuis</a></li>     <li><a href="#about">Tim</a></li>
             <li><a href="#materi">Materi</a></li>
-            <li><a href="#contoh">Kode</a></li>
-            <li><a href="#game">Simulasi</a></li>
-            <li><a href="#quiz">Kuis</a></li> <li><a href="#about">About Us</a></li>
         </ul>
+        <div class="nav-actions">
+            <a href="#" class="btn-login">Masuk/Daftar</a>
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
     </nav>
 
-    <section id="beranda" class="hero">
+    <section id="beranda" class="hero bright-theme">
+        
         <div class="hero-content reveal">
-            <h1 class="main-title">Pembelajaran <span class="highlight">Gim & Software</span></h1>
-            <p class="subtitle">Platform belajar interaktif dengan simulasi dan kuis.</p>
+            <h1 class="main-title bright-text">Eksplorasi Dunia <span class="highlight-bright">Digital & Gim</span></h1>
+            <p class="subtitle bright-sub">Platform belajar interaktif dengan simulasi yang menyenangkan.</p>
+            <a href="#materi" class="btn-primary btn-bright">Mulai Petualangan</a>
         </div>
-        <div class="glow-circle circle-1"></div>
-        <div class="glow-circle circle-2"></div>
+
+        <div class="cloud-container">
+            <svg class="cloud c1 float-slow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" fill="currentColor">
+                <path d="M160,60 C160,40 145,25 125,25 C120,10 100,0 80,0 C55,0 35,15 30,35 C15,35 0,45 0,65 C0,85 15,100 35,100 L160,100 C180,100 200,85 200,65 C200,50 185,40 160,60 Z"/>
+            </svg>
+            
+            <svg class="cloud c2 float-medium" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" fill="currentColor">
+                <path d="M150,50 C150,30 135,15 115,15 C110,5 90,0 70,0 C45,0 25,15 20,35 C5,35 0,45 0,65 C0,85 15,100 35,100 L150,100 C170,100 190,85 190,65 C190,50 175,40 150,50 Z"/>
+            </svg>
+
+            <svg class="cloud c3 float-fast" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" fill="currentColor">
+                <path d="M170,70 C170,50 155,35 135,35 C130,20 110,10 90,10 C65,10 45,25 40,45 C25,45 10,55 10,75 C10,95 25,110 45,110 L170,110 C190,110 210,95 210,75 C210,60 195,50 170,70 Z"/>
+            </svg>
+        </div>
+
+        <div class="wave-bottom">
+            <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+                <path fill="var(--bg-dark)" fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
     </section>
 
-<section id="materi" class="container">
+    <section id="kategori" class="container">
+        <h2 class="section-title reveal">Pilih Jalur Belajarmu</h2>
+        <div class="kategori-wrapper">
+            <div class="kategori-cards">
+                <div class="kat-card reveal delay-1">
+                    <div class="kat-icon">🌐</div>
+                    <h3>Web Dev</h3>
+                    <p>Bikin website dari nol.</p>
+                </div>
+                <div class="kat-card reveal delay-2">
+                    <div class="kat-icon">🎮</div>
+                    <h3>Game Dev</h3>
+                    <p>Ciptakan dunia gim.</p>
+                </div>
+                <div class="kat-card reveal delay-3">
+                    <div class="kat-icon">🧠</div>
+                    <h3>Logika</h3>
+                    <p>Asah otak algoritma.</p>
+                </div>
+            </div>
+            <div class="kategori-illustration reveal delay-4">
+                <div class="floating-img">
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/web-development-4438753-3718430.png" alt="Ilustrasi">
+                    <div class="glow-effect"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="materi" class="container">
         <h2 class="section-title reveal">Materi Belajar</h2>
         <div class="grid-container">
-            
             <div class="card reveal delay-1" onclick="bukaDetail('html')">
                 <h3>HTML Dasar</h3>
-                <p>Pengenalan struktur web.</p>
-                <p class="card-hint">Klik untuk detail →</p>
+                <p>Struktur web modern.</p>
             </div>
             <div class="card reveal delay-2" onclick="bukaDetail('css')">
                 <h3>CSS Styling</h3>
-                <p>Mempercantik tampilan web.</p>
-                <p class="card-hint">Klik untuk detail →</p>
+                <p>Desain visual web.</p>
             </div>
             <div class="card reveal delay-3" onclick="bukaDetail('javascript')">
                 <h3>JavaScript</h3>
-                <p>Membuat web interaktif.</p>
-                <p class="card-hint">Klik untuk detail →</p>
+                <p>Logika interaktif.</p>
             </div>
             <div class="card reveal delay-4" onclick="bukaDetail('gamedev')">
                 <h3>Game Dev</h3>
-                <p>Logika dasar pembuatan gim.</p>
-                <p class="card-hint">Klik untuk detail →</p>
+                <p>Dasar pembuatan gim.</p>
             </div>
-
             <div class="card reveal delay-1" onclick="bukaDetail('toolsgame')">
                 <h3>Software Game</h3>
-                <p>Engine populer untuk bikin gim.</p>
-                <p class="card-hint">Klik untuk detail →</p>
+                <p>Engine Unity & Godot.</p>
             </div>
-
             <div class="card reveal delay-2" onclick="bukaDetail('toolsdev')">
                 <h3>Code Editors</h3>
-                <p>Aplikasi wajib para programmer.</p>
-                <p class="card-hint">Klik untuk detail →</p>
+                <p>VS Code & Sublime.</p>
             </div>
-
         </div>
     </section>
-
-    
 
     <div id="detailModal" class="modal">
         <div class="modal-content">
@@ -77,121 +121,43 @@
         </div>
     </div>
 
-    <section id="contoh" class="container">
-        <h2 class="section-title reveal">Contoh Program: Python</h2>
-        <div class="code-window reveal">
-            <div class="window-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span style="color: #666; font-size: 0.8rem; margin-left: 10px;">ganjil_genap.py</span>
-            </div>
-            <div class="window-body">
-                <p><span class="comment"># Program Cek Angka Ganjil/Genap</span></p>
-                <br>
-                <p><span class="keyword">def</span> <span class="string">cek_angka</span>(x):</p>
-                <p style="padding-left: 20px;"><span class="keyword">if</span> x % 2 == 0:</p>
-                <p style="padding-left: 40px;"><span class="keyword">return</span> <span class="string">"Genap"</span></p>
-                <p style="padding-left: 20px;"><span class="keyword">else</span>:</p>
-                <p style="padding-left: 40px;"><span class="keyword">return</span> <span class="string">"Ganjil"</span></p>
-                <br>
-                <p><span class="keyword">print</span>(cek_angka(10)) <span class="comment"># Output: Genap</span></p>
-                <p><span class="keyword">print</span>(cek_angka(7)) &nbsp;<span class="comment"># Output: Ganjil</span></p>
-            </div>
-        </div>
-    </section>
-
-    <section id="game" class="container">
-        <h2 class="section-title reveal">Area Simulasi</h2>
-        
-        <div class="interactive-box reveal" style="margin-bottom: 30px;">
-            <h3>1. Tebak Angka (1-10)</h3>
-            <p>Sistem telah memilih angka acak.</p>
-            <input type="number" id="tebakInput" placeholder="0" min="1" max="10">
-            <button onclick="mainkanGame()" class="btn-primary">Tebak</button>
-            <p id="gameResult" class="result-text">Menunggu input...</p>
-        </div>
-
-        <div class="interactive-box reveal delay-2">
-            <h3>2. Batu Gunting Kertas</h3>
-            <p>Lawan komputer! Pilih senjata:</p>
-            
-            <div class="suit-buttons">
-                <button onclick="mainkanSuit('batu')" class="btn-suit">✊ Batu</button>
-                <button onclick="mainkanSuit('gunting')" class="btn-suit">✌️ Gunting</button>
-                <button onclick="mainkanSuit('kertas')" class="btn-suit">🖐 Kertas</button>
-            </div>
-            
-            <p id="suitResult" class="result-text">VS Komputer: ???</p>
-        </div>
-    </section>
-
-    <section id="quiz" class="container">
-        <h2 class="section-title reveal">Kuis Singkat</h2>
-        <form id="quizForm" class="interactive-box reveal">
-            <div class="question-box">
-                <p>1. Untuk membuat teks tebal di HTML?</p>
-                <label><input type="radio" name="q1" value="a"> &lt;b&gt;</label>
-                <label><input type="radio" name="q1" value="b"> &lt;italic&gt;</label>
-            </div>
-
-            <div class="question-box">
-                <p>2. CSS adalah singkatan dari?</p>
-                <label><input type="radio" name="q2" value="a"> Computer Style</label>
-                <label><input type="radio" name="q2" value="b"> Cascading Style Sheets</label>
-            </div>
-
-            <button type="button" onclick="cekQuiz()" class="btn-primary">Lihat Nilai</button>
-            <div id="quizResult" class="score-display"></div>
-        </form>
-    </section>
-    
-<section id="about" class="container">
+    <section id="about" class="container">
         <h2 class="section-title reveal">Meet The Team</h2>
         <div class="grid-container">
-            
-            <div class="card team-card reveal delay-1">
-                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Alpha+One&background=6c63ff&color=fff');"></div>
-                <h3>asdasddas</h3>
-                <p class="role">Project Manager</p>
-                <p class="desc">Memimpin jalannya proyek dan memastikan kode bersih.</p>
+            <div class="card team-card reveal delay-1" onclick="bukaDetail('member1')">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff');"></div>
+                <h3>Aditya R.</h3><p class="role">Project Manager</p>
             </div>
-
-            <div class="card team-card reveal delay-2">
-                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Beta+Two&background=ff5f56&color=fff');"></div>
-                <h3>asdsadsaads</h3>
-                <p class="role">UI/UX Designer</p>
-                <p class="desc">Mendesain tampilan antarmuka yang modern dan ramah pengguna.</p>
+            <div class="card team-card reveal delay-2" onclick="bukaDetail('member2')">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff');"></div>
+                <h3>Bunga C.</h3><p class="role">UI/UX Designer</p>
             </div>
-
-            <div class="card team-card reveal delay-3">
-                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Charlie+Three&background=27c93f&color=fff');"></div>
-                <h3>dsadasad</h3>
-                <p class="role">Full Stack Dev</p>
-                <p class="desc">Mengurus logika backend dan struktur frontend website.</p>
+            <div class="card team-card reveal delay-3" onclick="bukaDetail('member3')">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff');"></div>
+                <h3>Chandra K.</h3><p class="role">Full Stack Dev</p>
             </div>
-
-            <div class="card team-card reveal delay-4">
-                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Delta+Four&background=ffbd2e&color=fff');"></div>
-                <h3>asdsadasd</h3>
-                <p class="role">Konten Writer</p>
-                <p class="desc">Konten Writer</p>
+            <div class="card team-card reveal delay-4" onclick="bukaDetail('member4')">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff');"></div>
+                <h3>Dinda P.</h3><p class="role">Game Developer</p>
             </div>
-
-            <div class="card team-card reveal delay-1"> <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Echo+Five&background=00f3ff&color=fff');"></div>
-                <h3>asdsada</h3>
-                <p class="role">Tester</p>
-                <p class="desc">Mencari bug dan memastikan sistem berjalan lancar.</p>
+            <div class="card team-card reveal delay-1" onclick="bukaDetail('member5')">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff');"></div>
+                <h3>Eko S.</h3><p class="role">Quality Assurance</p>
             </div>
-
         </div>
     </section>
 
-    
-<footer>
-        <p class="reveal">&copy; 2024 wpldg. All Rights Reserved.</p>
+    <div class="ambient-background">
+        <div class="shape-blob shape-1"></div>
+        <div class="shape-blob shape-2"></div>
+        <div class="shape-blob shape-3"></div>
+    </div>
+
+    <footer>
+        <p class="reveal">&copy; 2026 Power Rangers. All Rights Reserved.</p>
     </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
+
