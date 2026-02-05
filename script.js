@@ -432,3 +432,57 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 
 revealElements.forEach(el => revealObserver.observe(el));
+
+/* ========================================= */
+/* ===  MUSIC PLAYER (YOUTUBE API)       === */
+/* ========================================= */
+
+var player;
+var isPlaying = false;
+
+// 1. Memuat IFrame Player API code secara asinkron.
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// 2. Fungsi ini akan jalan otomatis saat API siap
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('music-player', {
+        height: '0',
+        width: '0',
+        videoId: 'hEAMhsRE5rc', // ID LAGU BARU: Cheerleader - Porter Robinson
+        playerVars: {
+            'autoplay': 0,      
+            'controls': 0,      
+            'loop': 1,          
+            'playlist': 'hEAMhsRE5rc' // Wajib sama dengan videoId agar loop jalan
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+// 3. Saat player siap
+function onPlayerReady(event) {
+    // Volume diset 40% agar tidak terlalu berisik
+    event.target.setVolume(40);
+}
+
+// 4. Fungsi Tombol Play/Pause
+function toggleMusic() {
+    var btn = document.getElementById("musicBtn");
+    
+    if (isPlaying) {
+        player.pauseVideo();
+        btn.innerHTML = "🎵 Play Music";
+        btn.classList.remove("music-playing");
+        isPlaying = false;
+    } else {
+        player.playVideo();
+        btn.innerHTML = "⏸ Pause Music";
+        btn.classList.add("music-playing");
+        isPlaying = true;
+    }
+}
