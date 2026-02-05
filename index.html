@@ -9,18 +9,18 @@
 </head>
 <body>
 
-    <nav class="floating-nav">
+<nav class="floating-nav">
         <ul>
             <li><a href="#beranda">Beranda</a></li>
             <li><a href="#materi">Materi</a></li>
             <li><a href="#contoh">Kode</a></li>
             <li><a href="#game">Simulasi</a></li>
-            <li><a href="#quiz">Kuis</a></li>
+            <li><a href="#quiz">Kuis</a></li> <li><a href="#about">About Us</a></li>
         </ul>
     </nav>
 
     <section id="beranda" class="hero">
-        <div class="hero-content">
+        <div class="hero-content reveal">
             <h1 class="main-title">Pembelajaran <span class="highlight">Gim & Software</span></h1>
             <p class="subtitle">Platform belajar interaktif dengan simulasi dan kuis.</p>
         </div>
@@ -28,31 +28,47 @@
         <div class="glow-circle circle-2"></div>
     </section>
 
-    <section id="materi" class="container">
-        <h2 class="section-title">Materi Belajar</h2>
+<section id="materi" class="container">
+        <h2 class="section-title reveal">Materi Belajar</h2>
         <div class="grid-container">
-            <div class="card" onclick="bukaDetail('html')">
+            
+            <div class="card reveal delay-1" onclick="bukaDetail('html')">
                 <h3>HTML Dasar</h3>
                 <p>Pengenalan struktur web.</p>
                 <p class="card-hint">Klik untuk detail →</p>
             </div>
-            <div class="card" onclick="bukaDetail('css')">
+            <div class="card reveal delay-2" onclick="bukaDetail('css')">
                 <h3>CSS Styling</h3>
                 <p>Mempercantik tampilan web.</p>
                 <p class="card-hint">Klik untuk detail →</p>
             </div>
-            <div class="card" onclick="bukaDetail('javascript')">
+            <div class="card reveal delay-3" onclick="bukaDetail('javascript')">
                 <h3>JavaScript</h3>
                 <p>Membuat web interaktif.</p>
                 <p class="card-hint">Klik untuk detail →</p>
             </div>
-            <div class="card" onclick="bukaDetail('gamedev')">
+            <div class="card reveal delay-4" onclick="bukaDetail('gamedev')">
                 <h3>Game Dev</h3>
                 <p>Logika dasar pembuatan gim.</p>
                 <p class="card-hint">Klik untuk detail →</p>
             </div>
+
+            <div class="card reveal delay-1" onclick="bukaDetail('toolsgame')">
+                <h3>Software Game</h3>
+                <p>Engine populer untuk bikin gim.</p>
+                <p class="card-hint">Klik untuk detail →</p>
+            </div>
+
+            <div class="card reveal delay-2" onclick="bukaDetail('toolsdev')">
+                <h3>Code Editors</h3>
+                <p>Aplikasi wajib para programmer.</p>
+                <p class="card-hint">Klik untuk detail →</p>
+            </div>
+
         </div>
     </section>
+
+    
 
     <div id="detailModal" class="modal">
         <div class="modal-content">
@@ -62,34 +78,57 @@
     </div>
 
     <section id="contoh" class="container">
-        <h2 class="section-title">Contoh Program</h2>
-        <div class="code-window">
+        <h2 class="section-title reveal">Contoh Program: Python</h2>
+        <div class="code-window reveal">
             <div class="window-header">
                 <span class="dot red"></span>
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
+                <span style="color: #666; font-size: 0.8rem; margin-left: 10px;">ganjil_genap.py</span>
             </div>
             <div class="window-body">
-                <p><span class="keyword">print</span>(<span class="string">"Hello World"</span>)</p>
-                <p class="comment"># Output akan muncul di bawah ini</p>
-                <p class="output">> Hello World</p>
+                <p><span class="comment"># Program Cek Angka Ganjil/Genap</span></p>
+                <br>
+                <p><span class="keyword">def</span> <span class="string">cek_angka</span>(x):</p>
+                <p style="padding-left: 20px;"><span class="keyword">if</span> x % 2 == 0:</p>
+                <p style="padding-left: 40px;"><span class="keyword">return</span> <span class="string">"Genap"</span></p>
+                <p style="padding-left: 20px;"><span class="keyword">else</span>:</p>
+                <p style="padding-left: 40px;"><span class="keyword">return</span> <span class="string">"Ganjil"</span></p>
+                <br>
+                <p><span class="keyword">print</span>(cek_angka(10)) <span class="comment"># Output: Genap</span></p>
+                <p><span class="keyword">print</span>(cek_angka(7)) &nbsp;<span class="comment"># Output: Ganjil</span></p>
             </div>
         </div>
     </section>
 
     <section id="game" class="container">
-        <h2 class="section-title">Simulasi: Tebak Angka</h2>
-        <div class="interactive-box">
-            <p>Saya memikirkan angka 1-10. Coba tebak!</p>
+        <h2 class="section-title reveal">Area Simulasi</h2>
+        
+        <div class="interactive-box reveal" style="margin-bottom: 30px;">
+            <h3>1. Tebak Angka (1-10)</h3>
+            <p>Sistem telah memilih angka acak.</p>
             <input type="number" id="tebakInput" placeholder="0" min="1" max="10">
             <button onclick="mainkanGame()" class="btn-primary">Tebak</button>
-            <p id="gameResult" class="result-text"></p>
+            <p id="gameResult" class="result-text">Menunggu input...</p>
+        </div>
+
+        <div class="interactive-box reveal delay-2">
+            <h3>2. Batu Gunting Kertas</h3>
+            <p>Lawan komputer! Pilih senjata:</p>
+            
+            <div class="suit-buttons">
+                <button onclick="mainkanSuit('batu')" class="btn-suit">✊ Batu</button>
+                <button onclick="mainkanSuit('gunting')" class="btn-suit">✌️ Gunting</button>
+                <button onclick="mainkanSuit('kertas')" class="btn-suit">🖐 Kertas</button>
+            </div>
+            
+            <p id="suitResult" class="result-text">VS Komputer: ???</p>
         </div>
     </section>
 
     <section id="quiz" class="container">
-        <h2 class="section-title">Kuis Singkat</h2>
-        <form id="quizForm" class="interactive-box">
+        <h2 class="section-title reveal">Kuis Singkat</h2>
+        <form id="quizForm" class="interactive-box reveal">
             <div class="question-box">
                 <p>1. Untuk membuat teks tebal di HTML?</p>
                 <label><input type="radio" name="q1" value="a"> &lt;b&gt;</label>
@@ -106,9 +145,51 @@
             <div id="quizResult" class="score-display"></div>
         </form>
     </section>
+    
+<section id="about" class="container">
+        <h2 class="section-title reveal">Meet The Team</h2>
+        <div class="grid-container">
+            
+            <div class="card team-card reveal delay-1">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Alpha+One&background=6c63ff&color=fff');"></div>
+                <h3>asdasddas</h3>
+                <p class="role">Project Manager</p>
+                <p class="desc">Memimpin jalannya proyek dan memastikan kode bersih.</p>
+            </div>
 
-    <footer>
-        <p>&copy; 2024 Web Belajar. Dibuat dengan antusias.</p>
+            <div class="card team-card reveal delay-2">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Beta+Two&background=ff5f56&color=fff');"></div>
+                <h3>asdsadsaads</h3>
+                <p class="role">UI/UX Designer</p>
+                <p class="desc">Mendesain tampilan antarmuka yang modern dan ramah pengguna.</p>
+            </div>
+
+            <div class="card team-card reveal delay-3">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Charlie+Three&background=27c93f&color=fff');"></div>
+                <h3>dsadasad</h3>
+                <p class="role">Full Stack Dev</p>
+                <p class="desc">Mengurus logika backend dan struktur frontend website.</p>
+            </div>
+
+            <div class="card team-card reveal delay-4">
+                <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Delta+Four&background=ffbd2e&color=fff');"></div>
+                <h3>asdsadasd</h3>
+                <p class="role">Konten Writer</p>
+                <p class="desc">Konten Writer</p>
+            </div>
+
+            <div class="card team-card reveal delay-1"> <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Echo+Five&background=00f3ff&color=fff');"></div>
+                <h3>asdsada</h3>
+                <p class="role">Tester</p>
+                <p class="desc">Mencari bug dan memastikan sistem berjalan lancar.</p>
+            </div>
+
+        </div>
+    </section>
+
+    
+<footer>
+        <p class="reveal">&copy; 2024 wpldg. All Rights Reserved.</p>
     </footer>
 
     <script src="script.js"></script>
