@@ -5,26 +5,31 @@
 let targetAngka = Math.floor(Math.random() * 10) + 1;
 
 function mainkanGame() {
-    const inputUser = document.getElementById('tebakInput').value;
-    const resultText = document.getElementById('gameResult');
+    // Ambil elemen hanya jika ada di halaman (Pencegahan Error)
+    const inputUserElem = document.getElementById('tebakInput');
+    const resultTextElem = document.getElementById('gameResult');
+
+    if (!inputUserElem || !resultTextElem) return;
+
+    const inputUser = inputUserElem.value;
 
     if (inputUser === '') {
-        resultText.style.color = "#ffbd2e";
-        resultText.innerText = "Masukkan angka dulu!";
+        resultTextElem.style.color = "#ffbd2e";
+        resultTextElem.innerText = "Masukkan angka dulu!";
         return;
     }
 
     if (inputUser == targetAngka) {
-        resultText.style.color = "#7ec699";
-        resultText.innerText = "BENAR! Angkanya adalah " + targetAngka;
+        resultTextElem.style.color = "#7ec699";
+        resultTextElem.innerText = "BENAR! Angkanya adalah " + targetAngka;
         targetAngka = Math.floor(Math.random() * 10) + 1;
-        document.getElementById('tebakInput').value = ''; 
+        inputUserElem.value = ''; 
     } else if (inputUser > targetAngka) {
-        resultText.style.color = "#ff5f56";
-        resultText.innerText = "Terlalu tinggi! Coba turunkan.";
+        resultTextElem.style.color = "#ff5f56";
+        resultTextElem.innerText = "Terlalu tinggi! Coba turunkan.";
     } else if (inputUser < targetAngka) {
-        resultText.style.color = "#ff5f56";
-        resultText.innerText = "Terlalu rendah! Coba naikkan.";
+        resultTextElem.style.color = "#ff5f56";
+        resultTextElem.innerText = "Terlalu rendah! Coba naikkan.";
     }
 }
 
@@ -33,9 +38,10 @@ function mainkanGame() {
 /* =========================================================== */
 
 function mainkanSuit(pilihanPlayer) {
-    const pilihanKomputer = ['batu', 'gunting', 'kertas'][Math.floor(Math.random() * 3)];
     const resultText = document.getElementById('suitResult');
-    
+    if (!resultText) return;
+
+    const pilihanKomputer = ['batu', 'gunting', 'kertas'][Math.floor(Math.random() * 3)];
     let hasil = '';
 
     if (pilihanPlayer === pilihanKomputer) {
@@ -57,454 +63,328 @@ function mainkanSuit(pilihanPlayer) {
 }
 
 /* =========================================================== */
-/* BAGIAN 3: LOGIKA KUIS (NILAI OTOMATIS)                      */
+/* BAGIAN 3: LOGIKA KUIS (10 SOAL)                             */
 /* =========================================================== */
 
 function cekQuiz() {
-    const q1 = document.querySelector('input[name="q1"]:checked');
-    const q2 = document.querySelector('input[name="q2"]:checked');
-    let skor = 0;
-    
-    if(q1 && q1.value === 'a') skor += 50;
-    if(q2 && q2.value === 'b') skor += 50;
-
     const hasil = document.getElementById('quizResult');
+    if (!hasil) return;
+
+    // Kunci Jawaban (Sesuai urutan soal 1-10)
+    const kunciJawaban = ['c', 'b', 'd', 'c', 'd', 'b', 'c', 'c', 'c', 'c'];
     
-    if(skor === 100) {
-        hasil.style.color = "#7ec699";
-        hasil.innerText = "Skor: 100/100 (Sempurna!)";
-    } else if(skor === 50) {
-        hasil.style.color = "#ffbd2e";
-        hasil.innerText = "Skor: 50/100 (Belajar lagi ya!)";
+    let jumlahBenar = 0;
+    const totalSoal = 10;
+
+    for (let i = 1; i <= totalSoal; i++) {
+        const jawabanUser = document.querySelector(`input[name="q${i}"]:checked`);
+        if (jawabanUser && jawabanUser.value === kunciJawaban[i-1]) {
+            jumlahBenar++;
+        }
+    }
+
+    const skor = (jumlahBenar / totalSoal) * 100;
+    
+    if(skor >= 80) {
+        hasil.style.color = "#7ec699"; 
+        hasil.innerText = `Luar Biasa! Skor: ${skor} / 100 (${jumlahBenar} Benar)`;
+    } else if(skor >= 60) {
+        hasil.style.color = "#ffbd2e"; 
+        hasil.innerText = `Cukup Bagus! Skor: ${skor} / 100 (${jumlahBenar} Benar)`;
     } else {
-        hasil.style.color = "#ff5f56";
-        hasil.innerText = "Skor: 0/100 (Salah semua, semangat!)";
+        hasil.style.color = "#ff5f56"; 
+        hasil.innerText = `Jangan Menyerah! Skor: ${skor} / 100 (${jumlahBenar} Benar)`;
     }
 }
 
 /* =========================================================== */
-/* BAGIAN 4: DATABASE MATERI (DEEP & SIMPLE VERSION)           */
+/* BAGIAN 4: DATABASE MATERI (PEMBARUAN LENGKAP)               */
 /* =========================================================== */
 
 function bukaDetail(materi) {
     const modal = document.getElementById('detailModal');
     const modalBody = document.getElementById('modalBody');
+    if (!modal || !modalBody) return;
+
     let konten = '';
 
-    // --- 1. HTML (MATERI MENDALAM) ---
+    // --- 1. HTML ---
     if(materi === 'html') {
         konten = `
-            <h2 class="modal-title">HTML5: Struktur & Semantik</h2>
+            <h2 class="modal-title">HTML (HyperText Markup Language)</h2>
+            <p class="modal-description">
+                HTML adalah bahasa markup standar yang digunakan untuk menyusun struktur halaman website. 
+                HTML menjadi dasar dari semua halaman web.
+            </p>
             
             <div class="modal-benefits">
-                <h4>Filosofi Dasar</h4>
-                <p class="modal-description">
-                    Jangan hafal semua tag! Pahami konsepnya: HTML adalah tentang <strong>memberi arti</strong> pada konten. 
-                    Browser tidak tahu mana "judul" dan mana "paragraf" kecuali kita memberitahunya lewat tag.
-                    <br><br>
-                    Jika Website = Rumah, maka HTML adalah pondasi, tiang, dan tembok batanya.
-                </p>
+                <h4>Fungsi HTML:</h4>
+                <ol>
+                    <li>Menentukan struktur dan konten halaman web</li>
+                    <li>Menampilkan teks, gambar, audio, dan video</li>
+                    <li>Membuat hyperlink antar halaman</li>
+                    <li>Membuat tabel dan form input</li>
+                </ol>
             </div>
 
             <div class="modal-benefits">
-                <h4>Struktur Wajib (Anatomi)</h4>
+                <h4>Struktur Dasar HTML:</h4>
                 <ul>
-                    <li><code>&lt;!DOCTYPE html&gt;</code>: "KTP" website, memberitahu browser ini HTML5 modern.</li>
-                    <li><code>&lt;head&gt;</code>: Bagian otak. Isinya judul tab, link CSS, dan info SEO (tidak tampil di layar).</li>
-                    <li><code>&lt;body&gt;</code>: Bagian tubuh. Semua tulisan, gambar, dan tombol yang user lihat ada di sini.</li>
+                    <li><code>&lt;!DOCTYPE html&gt;</code> : deklarasi dokumen</li>
+                    <li><code>&lt;html&gt;</code> : elemen utama</li>
+                    <li><code>&lt;head&gt;</code> : informasi halaman</li>
+                    <li><code>&lt;body&gt;</code> : isi halaman</li>
                 </ul>
             </div>
 
             <div class="modal-benefits">
-                <h4>Tag Paling Sering Dipakai (Top 5)</h4>
+                <h4>Elemen HTML yang Sering Digunakan:</h4>
                 <ul>
-                    <li><code>&lt;div&gt;</code>: Kotak kosong (pembungkus) untuk mengatur layout.</li>
-                    <li><code>&lt;h1&gt;</code> s/d <code>&lt;h6&gt;</code>: Judul (H1 paling besar/penting).</li>
-                    <li><code>&lt;p&gt;</code>: Paragraf teks bacaan.</li>
-                    <li><code>&lt;a href="..."&gt;</code>: Anchor (Link) untuk pindah halaman.</li>
-                    <li><code>&lt;img src="..."&gt;</code>: Image (Gambar). Unik karena tidak punya tag penutup.</li>
+                    <li><strong>Heading:</strong> <code>&lt;h1&gt;</code> – <code>&lt;h6&gt;</code></li>
+                    <li><strong>Paragraf:</strong> <code>&lt;p&gt;</code></li>
+                    <li><strong>Gambar:</strong> <code>&lt;img&gt;</code></li>
+                    <li><strong>Link:</strong> <code>&lt;a&gt;</code></li>
+                    <li><strong>List:</strong> <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, <code>&lt;li&gt;</code></li>
+                    <li><strong>Form:</strong> <code>&lt;form&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;button&gt;</code></li>
                 </ul>
             </div>
 
             <div class="modal-example">
-                <h4>Contoh Kode Nyata:</h4>
-                <div class="code-example">&lt;!-- Struktur Artikel Blog --&gt;
-&lt;article&gt;
-   &lt;h1&gt;Belajar Koding Itu Seru&lt;/h1&gt;
-   &lt;img src="laptop.jpg" alt="Foto Laptop" /&gt;
-   &lt;p&gt;Koding melatih logika kita...&lt;/p&gt;
-   &lt;button&gt;Baca Selengkapnya&lt;/button&gt;
-&lt;/article&gt;</div>
+                <h4>Contoh HTML Lengkap:</h4>
+                <div class="code-example">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Website PPLG&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Selamat Datang di PPLG&lt;/h1&gt;
+    &lt;p&gt;Belajar HTML itu menyenangkan&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;HTML&lt;/li&gt;
+      &lt;li&gt;CSS&lt;/li&gt;
+      &lt;li&gt;JavaScript&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</div>
             </div>`;
     } 
-    // --- 2. CSS (MATERI MENDALAM) ---
+    // --- 2. CSS ---
     else if(materi === 'css') {
         konten = `
-            <h2 class="modal-title">CSS3: Visual & Tata Letak</h2>
+            <h2 class="modal-title">CSS (Cascading Style Sheets)</h2>
+            <p class="modal-description">
+                CSS adalah bahasa yang digunakan untuk mengatur tampilan halaman web agar lebih menarik dan mudah digunakan.
+            </p>
             
             <div class="modal-benefits">
-                <h4>Filosofi Dasar</h4>
-                <p class="modal-description">
-                    HTML tanpa CSS itu jelek (hitam putih). CSS bertugas mendandani HTML.
-                    <br><br>
-                    Prinsip kerjanya: <strong>"Pilih Siapa" (Selector)</strong> lalu <strong>"Ubah Apa" (Property).</strong>
-                </p>
+                <h4>Fungsi CSS:</h4>
+                <ol>
+                    <li>Mengatur warna, font, dan ukuran</li>
+                    <li>Mengatur layout halaman</li>
+                    <li>Membuat animasi sederhana</li>
+                    <li>Membuat website responsif</li>
+                </ol>
             </div>
 
             <div class="modal-benefits">
-                <h4>The Box Model (Konsep Paling Penting)</h4>
-                <p class="modal-description">Pemula sering bingung mengatur jarak. Ingatlah mantra ini, urut dari dalam ke luar:</p>
+                <h4>Cara Menggunakan CSS:</h4>
                 <ul>
-                    <li>1. <strong>Content:</strong> Isi murninya (teks/gambar).</li>
-                    <li>2. <strong>Padding:</strong> Jarak napas antara isi dengan bingkai.</li>
-                    <li>3. <strong>Border:</strong> Bingkai/Garis tepi.</li>
-                    <li>4. <strong>Margin:</strong> Jarak tolak-menolak dengan elemen tetangga.</li>
+                    <li><strong>Inline CSS:</strong> Ditulis langsung di elemen HTML.</li>
+                    <li><strong>Internal CSS:</strong> Ditulis di dalam tag <code>&lt;style&gt;</code>.</li>
+                    <li><strong>External CSS:</strong> File terpisah (.css).</li>
                 </ul>
             </div>
 
             <div class="modal-benefits">
-                <h4>Layout Modern: Flexbox</h4>
-                <p class="modal-description">Dulu mengatur posisi itu susah. Sekarang kita pakai <code>display: flex</code>.</p>
+                <h4>Properti CSS Umum:</h4>
                 <ul>
-                    <li><code>justify-content: center;</code> (Rata tengah Horizontal/Kiri-Kanan).</li>
-                    <li><code>align-items: center;</code> (Rata tengah Vertikal/Atas-Bawah).</li>
+                    <li><code>color</code>, <code>background-color</code></li>
+                    <li><code>font-size</code>, <code>font-family</code></li>
+                    <li><code>margin</code> dan <code>padding</code></li>
+                    <li><code>border</code></li>
                 </ul>
             </div>
 
             <div class="modal-example">
-                <h4>Contoh Kode Styling:</h4>
-                <div class="code-example">/* Memilih elemen dengan class "kotak" */
-.kotak {
-    background: crimson;
-    color: white;
-    padding: 20px;       /* Lega di dalam */
-    margin-bottom: 10px; /* Jarak ke bawah */
-    border-radius: 10px; /* Sudut tumpul */
+                <h4>Contoh CSS:</h4>
+                <div class="code-example">body {
+  background-color: #eef;
+  font-family: Arial;
+}
+h1 {
+  color: blue;
 }</div>
             </div>`;
     } 
-    // --- 3. JAVASCRIPT (MATERI MENDALAM) ---
+    // --- 3. JAVASCRIPT ---
     else if(materi === 'javascript') {
         konten = `
-            <h2 class="modal-title">JavaScript: Logika & Interaksi</h2>
+            <h2 class="modal-title">JavaScript (JS)</h2>
+            <p class="modal-description">
+                JavaScript adalah bahasa pemrograman yang membuat website menjadi interaktif dan dinamis.
+            </p>
             
             <div class="modal-benefits">
-                <h4>Filosofi Dasar</h4>
-                <p class="modal-description">
-                    Jika HTML adalah mobil, dan CSS adalah cat warnanya, maka <strong>JS adalah Mesin dan Setirnya.</strong>
-                    JS membuat website bisa "merespon" tindakan user (klik, scroll, ketik).
-                </p>
+                <h4>Fungsi JavaScript:</h4>
+                <ol>
+                    <li>Menangani event (klik, input)</li>
+                    <li>Mengolah data</li>
+                    <li>Validasi form</li>
+                    <li>Membuat game berbasis web</li>
+                </ol>
             </div>
 
             <div class="modal-benefits">
-                <h4>3 Pilar Utama Programming JS</h4>
+                <h4>Dasar JavaScript:</h4>
+                <ul>
+                    <li><strong>Variabel:</strong> <code>let</code>, <code>const</code></li>
+                    <li><strong>Operator</strong> (+, -, *, /)</li>
+                    <li><strong>Percabangan:</strong> <code>if else</code></li>
+                    <li><strong>Perulangan:</strong> <code>for</code>, <code>while</code></li>
+                    <li><strong>Function</strong></li>
+                </ul>
+            </div>
+
+            <div class="modal-example">
+                <h4>Contoh JavaScript:</h4>
+                <div class="code-example">&lt;script&gt;
+let nilai = 80;
+if (nilai >= 75) {
+  alert("Lulus");
+} else {
+  alert("Tidak Lulus");
+}
+&lt;/script&gt;</div>
+            </div>`;
+    } 
+    // --- 4. GAME DEV ---
+    else if(materi === 'gamedev') {
+        konten = `
+            <h2 class="modal-title">Gim dan Game Development</h2>
+            <p class="modal-description">
+                Gim adalah perangkat lunak interaktif yang dibuat untuk hiburan, edukasi, atau simulasi.
+            </p>
+            
+            <div class="modal-benefits">
+                <h4>Unsur Gim:</h4>
                 <ol>
-                    <li>
-                        <strong>Variable (Wadah Data):</strong><br>
-                        Tempat simpan skor, nama user, dll.<br>
-                        <code>let skor = 0;</code> (Bisa berubah)<br>
-                        <code>const pi = 3.14;</code> (Tetap/Konstan)
-                    </li>
-                    <br>
-                    <li>
-                        <strong>Function (Resep Perintah):</strong><br>
-                        Kumpulan kode yang disimpan untuk dipakai nanti.<br>
-                        <code>function lompat() { karakter.y += 10; }</code>
-                    </li>
-                    <br>
-                    <li>
-                        <strong>DOM (Pengendali HTML):</strong><br>
-                        JS bisa mengubah HTML sesuka hati.<br>
-                        <code>document.getElementById("judul").style.color = "red";</code>
-                    </li>
+                    <li>Player (Pemain)</li>
+                    <li>Aturan permainan</li>
+                    <li>Skor</li>
+                    <li>Level</li>
+                    <li>Tantangan</li>
+                </ol>
+            </div>
+
+            <div class="modal-benefits">
+                <h4>Alur Pembuatan Gim:</h4>
+                <ol>
+                    <li>Ide dan konsep</li>
+                    <li>Desain karakter dan aturan</li>
+                    <li>Pembuatan kode (Coding)</li>
+                    <li>Pengujian (Testing)</li>
+                    <li>Perbaikan (Debugging)</li>
                 </ol>
             </div>
 
             <div class="modal-example">
-                <h4>Contoh Logika If/Else:</h4>
-                <div class="code-example">let nyawa = 3;
-
-function kenaDamage() {
-    nyawa = nyawa - 1;
-    
-    if (nyawa <= 0) {
-        alert("GAME OVER!");
-    } else {
-        alert("Hati-hati! Sisa nyawa: " + nyawa);
-    }
-}</div>
+                <h4>Contoh Logika Game Sederhana:</h4>
+                <div class="code-example">&lt;script&gt;
+let skor = 0;
+function tambahSkor() {
+  skor++;
+  alert("Skor: " + skor);
+}
+&lt;/script&gt;
+&lt;button onclick="tambahSkor()"&gt;Tambah Skor&lt;/button&gt;</div>
             </div>`;
     } 
-    // --- 4. GAME DEV (MATERI MENDALAM) ---
-    else if(materi === 'gamedev') {
-        konten = `
-            <h2 class="modal-title">Dasar Game Development</h2>
-            
-            <div class="modal-benefits">
-                <h4>Bedanya Web vs Game</h4>
-                <p class="modal-description">
-                    Web itu statis (diam menunggu diklik). Game itu dinamis (bergerak terus).
-                    Game membutuhkan <strong>Game Loop</strong>, yaitu kode yang dijalankan ulang 60 kali setiap detik (60 FPS).
-                </p>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>3 Fase Utama dalam Loop</h4>
-                <ul>
-                    <li><strong>1. Input:</strong> Mendengar tombol keyboard/mouse (Ditekan gak?).</li>
-                    <li><strong>2. Update:</strong> Mengubah matematika (Posisi X maju 5 langkah, Nyawa kurang 1).</li>
-                    <li><strong>3. Render:</strong> Menghapus layar lama, lalu menggambar ulang posisi baru.</li>
-                </ul>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>Koordinat (X dan Y)</h4>
-                <p class="modal-description">
-                    Layar komputer itu seperti grafik matematika Kartesius.
-                    <br><strong>X</strong> = Kiri (0) ke Kanan (+).
-                    <br><strong>Y</strong> = Atas (0) ke Bawah (+) <small>*Awas! Di komputer, Y makin ke bawah makin positif.</small>
-                </p>
-            </div>
-
-            <div class="modal-example">
-                <h4>Contoh Logika Gerak:</h4>
-                <div class="code-example">let playerX = 0;
-
-function gameLoop() {
-    // Tiap frame, player maju 5 pixel
-    playerX = playerX + 5; 
-    
-    // Gambar ulang kotak di posisi baru
-    ctx.clearRect(0,0, 500, 500);
-    ctx.fillRect(playerX, 100, 50, 50);
-    
-    requestAnimationFrame(gameLoop);
-}</div>
-            </div>`;
-    } 
-    // --- 5. SOFTWARE GAME (MATERI MENDALAM) ---
+    // --- 5. SOFTWARE PPLG (MENGGANTIKAN TOOLS GAME) ---
     else if(materi === 'toolsgame') {
         konten = `
-            <h2 class="modal-title">Mengenal Game Engine</h2>
+            <h2 class="modal-title">Software dalam PPLG</h2>
             <p class="modal-description">
-                Zaman dulu bikin game harus ngetik kode ribuan baris cuma buat nampilin gambar. 
-                Sekarang kita pakai <strong>Game Engine</strong>, software sakti yang sudah punya fitur fisika (gravitasi/tabrakan) siap pakai.
+                Software adalah perangkat lunak yang digunakan untuk membantu pekerjaan pemrograman dan pengembangan.
             </p>
             
             <div class="modal-benefits">
-                <h4>1. Unity (Si Populer)</h4>
-                <ul>
-                    <li><strong>Bahasa:</strong> C# (Dibaca: C-Sharp).</li>
-                    <li><strong>Kenapa Populer?</strong> Bisa bikin game untuk HP (Android/iOS), PC, sampai PlayStation. Komunitasnya raksasa, jadi kalau error gampang cari solusi di Google.</li>
-                    <li><strong>Game:</strong> Mobile Legends, Among Us, Pokemon Go.</li>
-                </ul>
+                <h4>Jenis Software:</h4>
+                <ol>
+                    <li><strong>Software Sistem:</strong> Windows, Linux, MacOS.</li>
+                    <li><strong>Software Aplikasi:</strong> Microsoft Office, Browser.</li>
+                    <li><strong>Software Pemrograman:</strong> VS Code, Python, Java.</li>
+                </ol>
             </div>
 
             <div class="modal-benefits">
-                <h4>2. Godot (Si Ringan)</h4>
+                <h4>Contoh Software Pendukung:</h4>
                 <ul>
-                    <li><strong>Bahasa:</strong> GDScript (Mirip Python, sangat mudah dibaca).</li>
-                    <li><strong>Kenapa Bagus?</strong> Ukurannya kecil (< 100MB), Gratis total (Open Source), dan sangat cepat dijalankan di laptop spek rendah.</li>
-                    <li><strong>Cocok Untuk:</strong> Pemula yang baru belajar bikin game 2D.</li>
-                </ul>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>3. Unreal Engine (Si Grafis Dewa)</h4>
-                <ul>
-                    <li><strong>Bahasa:</strong> C++ atau Blueprints (Coding pakai gambar kabel, tanpa ngetik).</li>
-                    <li><strong>Kenapa Bagus?</strong> Grafisnya ultra-realistis seperti film. Biasa dipakai studio besar.</li>
-                    <li><strong>Game:</strong> PUBG, Valorant, Fortnite, Tekken 8.</li>
+                    <li><strong>Web Browser:</strong> Chrome, Firefox (Untuk menjalankan web).</li>
+                    <li><strong>Text Editor:</strong> VS Code, Sublime Text (Untuk ngetik kode).</li>
+                    <li><strong>Compiler/Interpreter:</strong> Menerjemahkan kode ke bahasa mesin.</li>
+                    <li><strong>Software Desain:</strong> Figma, Photoshop, Canva.</li>
                 </ul>
             </div>`;
     } 
-    // --- 6. SOFTWARE CODING (MATERI MENDALAM) ---
+    // --- 6. CODE EDITOR (MENGGANTIKAN TOOLS DEV) ---
     else if(materi === 'toolsdev') {
         konten = `
-            <h2 class="modal-title">Text Editor (Senjata Programmer)</h2>
+            <h2 class="modal-title">Code Editor</h2>
             <p class="modal-description">
-                Jangan pernah koding pakai Microsoft Word! Itu untuk nulis surat.
-                Programmer butuh <strong>Text Editor</strong> atau <strong>IDE</strong> yang bisa mewarnai kode (Syntax Highlighting) biar gak sakit mata.
+                Code editor adalah software yang digunakan untuk menulis dan mengedit kode program.
             </p>
             
             <div class="modal-benefits">
-                <h4>1. Visual Studio Code (VS Code)</h4>
-                <p>Raja editor saat ini. Gratis buatan Microsoft.</p>
-                <ul>
-                    <li><strong>Kelebihan:</strong> Punya "Extension". Mau koding Web? Install plugin Web. Mau Python? Install plugin Python. Sangat fleksibel.</li>
-                    <li><strong>Fitur Wajib:</strong> Terminal bawaan, Git integration, dan Auto-complete (saran kode otomatis).</li>
-                </ul>
+                <h4>Fungsi Code Editor:</h4>
+                <ol>
+                    <li>Menulis kode dengan rapi.</li>
+                    <li>Memberi warna pada kode (Syntax Highlighting) agar mudah dibaca.</li>
+                    <li>Membantu mendeteksi kesalahan (Error detection).</li>
+                </ol>
             </div>
 
             <div class="modal-benefits">
-                <h4>2. Sublime Text</h4>
-                <p>Editor legendaris yang super cepat.</p>
+                <h4>Fitur Umum:</h4>
                 <ul>
-                    <li><strong>Kelebihan:</strong> Sangat ringan. Kalau laptopmu RAM-nya kecil, pakailah ini. Buka file coding 10.000 baris cuma butuh 1 detik.</li>
+                    <li><strong>Auto Complete:</strong> Melengkapi kode otomatis.</li>
+                    <li><strong>Syntax Highlighting:</strong> Pewarnaan kode.</li>
+                    <li><strong>Extension / Plugin:</strong> Menambah fitur tambahan.</li>
                 </ul>
             </div>
 
             <div class="modal-example">
-                <h4>Istilah Wajib Tahu:</h4>
+                <h4>Contoh Code Editor Populer:</h4>
                 <ul>
-                    <li><strong>Bug:</strong> Error/kesalahan dalam kode.</li>
-                    <li><strong>Debugging:</strong> Proses mencari dan membasmi bug.</li>
-                    <li><strong>Syntax:</strong> Tata bahasa dalam koding (kalau salah koma, program crash).</li>
+                    <li>Visual Studio Code (Paling populer)</li>
+                    <li>Sublime Text (Ringan)</li>
+                    <li>Notepad++ (Klasik)</li>
+                    <li>Atom</li>
                 </ul>
             </div>`;
     }
-
-    // ... (kode materi html, css, js, dll biarkan saja di atasnya) ...
-
-    // --- BIODATA TIM 1: ADITYA ---
+    // --- BIODATA TIM (TIDAK BERUBAH) ---
     else if(materi === 'member1') {
-        konten = `
-            <div style="text-align:center;">
-                <img src="https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #6c63ff;">
-                <h2 class="modal-title">Aditya R.</h2>
-                <p style="color:#6c63ff; font-weight:bold; margin-bottom:20px;">PROJECT MANAGER</p>
-            </div>
-            
-            <div class="modal-benefits">
-                <h4>Tentang Saya:</h4>
-                <p class="modal-description">
-                    "Pemimpin yang percaya bahwa kode yang bersih berawal dari komunikasi yang jelas." 
-                    Saya memiliki pengalaman 5 tahun memimpin tim developer dalam membangun aplikasi skala besar.
-                </p>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>Keahlian (Skills):</h4>
-                <ul>
-                    <li>Leadership & Scrum Master (Agile).</li>
-                    <li>Manajemen Risiko Proyek.</li>
-                    <li>Komunikasi Tim & Klien.</li>
-                </ul>
-            </div>
-            
-            <div class="modal-example">
-                <h4>Motto:</h4>
-                <p><em>"Work smart, not just hard."</em></p>
-            </div>`;
+        konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #6c63ff;"><h2 class="modal-title">Aditya R.</h2><p style="color:#6c63ff; font-weight:bold;">PROJECT MANAGER</p></div><div class="modal-benefits"><h4>Tentang Saya:</h4><p>"Pemimpin yang percaya bahwa kode yang bersih berawal dari komunikasi yang jelas."</p></div>`;
     } 
-
-    // --- BIODATA TIM 2: BUNGA ---
     else if(materi === 'member2') {
-        konten = `
-            <div style="text-align:center;">
-                <img src="https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ff5f56;">
-                <h2 class="modal-title">Bunga C.</h2>
-                <p style="color:#ff5f56; font-weight:bold; margin-bottom:20px;">UI/UX DESIGNER</p>
-            </div>
-            
-            <div class="modal-benefits">
-                <h4>Tentang Saya:</h4>
-                <p class="modal-description">
-                    Seniman digital yang terobsesi dengan detail pixel dan kenyamanan pengguna. 
-                    Mendesain antarmuka yang tidak hanya cantik, tapi juga mudah digunakan oleh nenek saya sekalipun.
-                </p>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>Tools Favorit:</h4>
-                <ul>
-                    <li>Figma & Adobe XD.</li>
-                    <li>Prototyping & Wireframing.</li>
-                    <li>Teori Warna & Tipografi.</li>
-                </ul>
-            </div>`;
+        konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ff5f56;"><h2 class="modal-title">Bunga C.</h2><p style="color:#ff5f56; font-weight:bold;">UI/UX DESIGNER</p></div><div class="modal-benefits"><h4>Tentang Saya:</h4><p>Mendesain antarmuka yang tidak hanya cantik, tapi juga mudah digunakan.</p></div>`;
     }
-
-    // --- BIODATA TIM 3: CHANDRA ---
     else if(materi === 'member3') {
-        konten = `
-            <div style="text-align:center;">
-                <img src="https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #27c93f;">
-                <h2 class="modal-title">Chandra K.</h2>
-                <p style="color:#27c93f; font-weight:bold; margin-bottom:20px;">FULL STACK DEV</p>
-            </div>
-            
-            <div class="modal-benefits">
-                <h4>Tentang Saya:</h4>
-                <p class="modal-description">
-                    Saya berbicara bahasa manusia dan bahasa mesin. Menguasai sisi depan (Frontend) yang indah 
-                    dan sisi belakang (Backend) yang kuat. Hobi ngoding sambil minum kopi hitam.
-                </p>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>Tech Stack:</h4>
-                <ul>
-                    <li>Frontend: HTML, CSS, React.js.</li>
-                    <li>Backend: Node.js, Python, MySQL.</li>
-                    <li>Server: AWS & Linux.</li>
-                </ul>
-            </div>`;
+        konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #27c93f;"><h2 class="modal-title">Chandra K.</h2><p style="color:#27c93f; font-weight:bold;">FULL STACK DEV</p></div><div class="modal-benefits"><h4>Tentang Saya:</h4><p>Menguasai sisi depan (Frontend) yang indah dan sisi belakang (Backend) yang kuat.</p></div>`;
     }
-
-    // --- BIODATA TIM 4: DINDA ---
     else if(materi === 'member4') {
-        konten = `
-            <div style="text-align:center;">
-                <img src="https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ffbd2e;">
-                <h2 class="modal-title">Dinda P.</h2>
-                <p style="color:#ffbd2e; font-weight:bold; margin-bottom:20px;">GAME DEVELOPER</p>
-            </div>
-            
-            <div class="modal-benefits">
-                <h4>Tentang Saya:</h4>
-                <p class="modal-description">
-                    Gamer sejati yang beralih menjadi pembuat game. Menciptakan dunia virtual interaktif 
-                    dan logika permainan yang menantang adalah passion saya sejak kecil.
-                </p>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>Engine Keahlian:</h4>
-                <ul>
-                    <li>Unity 3D (C#).</li>
-                    <li>Godot Engine (GDScript).</li>
-                    <li>Blender (3D Modeling Dasar).</li>
-                </ul>
-            </div>`;
+        konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ffbd2e;"><h2 class="modal-title">Dinda P.</h2><p style="color:#ffbd2e; font-weight:bold;">GAME DEVELOPER</p></div><div class="modal-benefits"><h4>Tentang Saya:</h4><p>Menciptakan dunia virtual interaktif dan logika permainan yang menantang.</p></div>`;
     }
-
-    // --- BIODATA TIM 5: EKO ---
     else if(materi === 'member5') {
-        konten = `
-            <div style="text-align:center;">
-                <img src="https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #00f3ff;">
-                <h2 class="modal-title">Eko S.</h2>
-                <p style="color:#00f3ff; font-weight:bold; margin-bottom:20px;">QUALITY ASSURANCE</p>
-            </div>
-            
-            <div class="modal-benefits">
-                <h4>Tentang Saya:</h4>
-                <p class="modal-description">
-                    "Detektif Bug". Saya tidak akan membiarkan satu kesalahan pun lolos ke tangan pengguna. 
-                    Jika ada celah, saya pasti menemukannya sebelum orang lain.
-                </p>
-            </div>
-
-            <div class="modal-benefits">
-                <h4>Keahlian:</h4>
-                <ul>
-                    <li>Automated Testing (Selenium).</li>
-                    <li>Manual Testing & Bug Reporting.</li>
-                    <li>Performance Testing.</li>
-                </ul>
-            </div>`;
+        konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #00f3ff;"><h2 class="modal-title">Eko S.</h2><p style="color:#00f3ff; font-weight:bold;">QUALITY ASSURANCE</p></div><div class="modal-benefits"><h4>Tentang Saya:</h4><p>"Detektif Bug". Saya tidak akan membiarkan satu kesalahan pun lolos.</p></div>`;
     }
 
-    // Masukkan konten ke dalam modal lalu tampilkan
     modalBody.innerHTML = konten;
     modal.style.display = 'block';
 }
 
-/* ... (KODE LOGIKA GAME, SUIT, KUIS, MATERI BIARKAN SAMA SEPERTI SEBELUMNYA) ... */
-
 /* =========================================================== */
-/* BAGIAN 5: UTILITY (UPDATE AGAR TIDAK ERROR DI HALAMAN LAIN) */
+/* BAGIAN 5: UTILITY & EVENT LISTENER                          */
 /* =========================================================== */
 
 function tutupDetail() {
@@ -525,8 +405,7 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-// PENGAMAN: Cek dulu apakah elemen 'tebakInput' ada di halaman ini?
-// Kalau tidak ada (misal lagi di halaman Kuis), kode ini tidak akan dijalankan.
+// Event Listener Tebak Angka (Hanya jika elemen ada)
 const inputTebak = document.getElementById('tebakInput');
 if (inputTebak) {
     inputTebak.addEventListener('keypress', function(event) {
@@ -536,13 +415,13 @@ if (inputTebak) {
     });
 }
 
-// LOGIKA HAMBURGER MENU (MOBILE)
+// Hamburger Menu
 function toggleMenu() {
     const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('active');
+    if (navLinks) navLinks.classList.toggle('active');
 }
 
-// SCROLL REVEAL (Tetap jalan di semua halaman)
+// Scroll Reveal
 const revealElements = document.querySelectorAll('.reveal');
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
