@@ -1,3 +1,8 @@
+/* ========================================= */
+/* ===  STYLE.CSS (NO SCROLLBAR VERSION) === */
+/* ========================================= */
+
+/* --- 1. Reset & Config --- */
 :root {
     --bg-dark: #0f0c1b;
     --primary-purple: #6c63ff;
@@ -12,15 +17,25 @@
     padding: 0;
     box-sizing: border-box;
     scroll-behavior: smooth;
+    
+    /* Hapus Scrollbar untuk Firefox (Semua Elemen) */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+/* Hapus Scrollbar untuk Chrome, Safari, dan Opera (Semua Elemen) */
+*::-webkit-scrollbar {
+    display: none;
 }
 
 body {
     background-color: var(--bg-dark);
     color: var(--text-white);
     font-family: 'Poppins', sans-serif;
-    overflow-x: hidden;
+    overflow-x: hidden; /* Mencegah scroll ke samping */
 }
 
+/* --- Navigation --- */
 .floating-nav {
     position: fixed;
     top: 20px;
@@ -57,6 +72,7 @@ body {
     white-space: nowrap;
 }
 
+/* Efek Hover Navbar */
 .floating-nav a:hover, .floating-nav a:active { 
     background-color: var(--primary-purple);
     color: #fff;
@@ -64,6 +80,7 @@ body {
     transform: translateY(-2px);
 }
 
+/* --- Hero Section --- */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -110,6 +127,7 @@ body {
     bottom: 10%; right: 10%;
 }
 
+/* --- Layout --- */
 section.container {
     padding: 80px 20px;
     max-width: 1100px;
@@ -129,20 +147,22 @@ section.container {
     gap: 25px;
 }
 
+/* --- Cards --- */
 .card {
     background: var(--secondary-blue);
     padding: 30px;
     border-radius: 20px;
     border: 1px solid rgba(255,255,255,0.05);
-    transition: transform 0.3s;
+    transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
     position: relative;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
     background: #363a55;
     border-color: var(--primary-purple);
+    box-shadow: 0 10px 30px rgba(108, 99, 255, 0.2);
 }
 
 .card-hint {
@@ -153,133 +173,9 @@ section.container {
     transition: opacity 0.3s;
 }
 
-.card:hover .card-hint {
-    opacity: 1;
-}
+.card:hover .card-hint { opacity: 1; }
 
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-    background: var(--secondary-blue);
-    margin: 5% auto;
-    padding: 40px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 800px;
-    max-height: 80vh;
-    overflow-y: auto;
-    position: relative;
-    border: 1px solid rgba(108, 99, 255, 0.3);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.4s ease;
-}
-
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 28px;
-    cursor: pointer;
-    color: var(--text-grey);
-    transition: color 0.3s;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.close-btn:hover {
-    color: var(--primary-purple);
-    background: rgba(108, 99, 255, 0.1);
-}
-
-.modal-title {
-    color: var(--primary-purple);
-    margin-bottom: 20px;
-    font-size: 2.2rem;
-}
-
-.modal-description {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-    color: var(--text-white);
-}
-
-.modal-example {
-    background: #1a1a2e;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0;
-    border-left: 4px solid var(--primary-purple);
-}
-
-.modal-example h4 {
-    color: var(--primary-purple);
-    margin-bottom: 10px;
-}
-
-.code-example {
-    background: #0d1117;
-    padding: 15px;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    overflow-x: auto;
-    margin: 10px 0;
-    color: #f8f8f2;
-    white-space: pre-wrap;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.modal-benefits {
-    margin-top: 25px;
-}
-
-.modal-benefits h4 {
-    color: var(--primary-purple);
-    margin-bottom: 10px;
-}
-
-.modal-benefits ul {
-    list-style-position: inside;
-    padding-left: 15px;
-}
-
-.modal-benefits li {
-    margin-bottom: 8px;
-    color: var(--text-grey);
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from { 
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
+/* --- Interactive Boxes & Code --- */
 .code-window, .interactive-box {
     background: #1e1e1e;
     border-radius: 15px;
@@ -338,20 +234,10 @@ input[type="number"] {
     border-radius: 15px;
 }
 
-.question-box label {
-    display: block;
-    margin: 8px 0;
-    cursor: pointer;
-}
+.question-box label { display: block; margin: 8px 0; cursor: pointer; }
+.result-text, .score-display { margin-top: 15px; font-weight: 600; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); }
 
-.result-text, .score-display {
-    margin-top: 15px;
-    font-weight: 600;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(0,0,0,0.2);
-}
-
+/* --- Footer --- */
 footer {
     text-align: center;
     padding: 30px;
@@ -360,88 +246,184 @@ footer {
     margin-top: 50px;
 }
 
+/* --- Modal Styles (SCROLLBAR HIDDEN HERE TOO) --- */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: var(--secondary-blue);
+    margin: 5% auto;
+    padding: 40px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    overflow-y: auto; /* Scroll tetap aktif, tapi bar disembunyikan oleh rule di atas */
+    position: relative;
+    border: 1px solid rgba(108, 99, 255, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.4s ease;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--text-grey);
+    transition: color 0.3s;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+.close-btn:hover { color: var(--primary-purple); background: rgba(108, 99, 255, 0.1); }
+.modal-title { color: var(--primary-purple); margin-bottom: 20px; font-size: 2.2rem; }
+.modal-description { font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; color: var(--text-white); }
+.modal-example { background: #1a1a2e; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--primary-purple); }
+.modal-example h4 { color: var(--primary-purple); margin-bottom: 10px; }
+.code-example { background: #0d1117; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; overflow-x: auto; margin: 10px 0; color: #f8f8f2; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; }
+.modal-benefits { margin-top: 25px; }
+.modal-benefits h4 { color: var(--primary-purple); margin-bottom: 10px; }
+.modal-benefits ul { list-style-position: inside; padding-left: 15px; }
+.modal-benefits li { margin-bottom: 8px; color: var(--text-grey); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
     .main-title { font-size: 2.5rem; }
-    
-    .floating-nav {
-        width: 90%;
-        top: 15px;
-    }
-    
+    .floating-nav { width: 90%; top: 15px; }
     .floating-nav ul { gap: 2px; }
-    
-    .floating-nav a {
-        font-size: 0.8rem;
-        padding: 8px 10px;
-    }
-    
-    .modal-content {
-        padding: 30px 20px;
-        margin: 10% auto;
-        width: 95%;
-        max-height: 85vh;
-    }
-    
-    .modal-title {
-        font-size: 1.8rem;
-    }
-    
-    section.container {
-        padding: 60px 20px;
-    }
+    .floating-nav a { font-size: 0.8rem; padding: 8px 10px; }
+    .modal-content { padding: 30px 20px; margin: 10% auto; width: 95%; max-height: 85vh; }
+    .modal-title { font-size: 1.8rem; }
+    section.container { padding: 60px 20px; }
 }
 
 @media (max-width: 480px) {
     .main-title { font-size: 2rem; }
     .subtitle { font-size: 1rem; }
-    
-    .floating-nav {
-        top: auto;
-        bottom: 20px;
-        width: 90%;
-        padding: 5px;
-    }
-
-    .floating-nav ul {
-        justify-content: space-between;
-        padding: 0;
-    }
-
-    .floating-nav a {
-        font-size: 0.75rem;
-        padding: 8px 8px;
-    }
-
+    .floating-nav { top: auto; bottom: 20px; width: 90%; padding: 5px; }
+    .floating-nav ul { justify-content: space-between; padding: 0; }
+    .floating-nav a { font-size: 0.75rem; padding: 8px 8px; }
     .glow-circle { opacity: 0.3; width: 200px; height: 200px; }
-    
     section.container { padding: 50px 15px; }
-    
-    .modal-content {
-        padding: 25px 15px;
-        margin: 15% auto;
-        max-height: 90vh;
-    }
-    
-    .modal-title {
-        font-size: 1.5rem;
-    }
-    
-    .modal-description {
-        font-size: 1rem;
-    }
-    
-    .close-btn {
-        top: 15px;
-        right: 15px;
-        font-size: 24px;
-    }
-    
-    .grid-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .card {
-        padding: 20px;
-    }
+    .modal-content { padding: 25px 15px; margin: 15% auto; max-height: 90vh; }
+    .grid-container { grid-template-columns: 1fr; gap: 15px; }
+    .card { padding: 20px; }
 }
+
+/* --- ANIMASI POP-OUT (SCROLL REVEAL) --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* ... (PASTIKAN KODE DI ATASNYA TETAP ADA) ... */
+
+/* --- STYLE TAMBAHAN UNTUK GAME SUIT --- */
+.suit-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap; /* Agar tombol turun ke bawah di HP kecil */
+}
+
+.btn-suit {
+    background: #23233b;
+    border: 2px solid var(--primary-purple);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-suit:hover {
+    background: var(--primary-purple);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(108, 99, 255, 0.5);
+}
+
+.btn-suit:active {
+    transform: scale(0.95);
+}
+
+/* ... (KODE LAMA TETAP ADA DI ATASNYA) ... */
+
+/* --- STYLE UNTUK SECTION ABOUT (TIM) --- */
+
+/* Modifikasi kartu khusus tim agar teks rata tengah */
+.team-card {
+    text-align: center;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Foto Profil Bulat */
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-color: #333; /* Warna cadangan jika gambar gagal load */
+    margin-bottom: 15px;
+    border: 3px solid var(--primary-purple);
+    box-shadow: 0 0 15px rgba(108, 99, 255, 0.4);
+    transition: transform 0.3s;
+}
+
+/* Efek saat foto disentuh */
+.team-card:hover .profile-img {
+    transform: rotate(5deg) scale(1.1);
+    border-color: #fff;
+}
+
+/* Teks Jabatan */
+.role {
+    color: var(--primary-purple);
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Deskripsi Singkat */
+.desc {
+    color: var(--text-grey);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
