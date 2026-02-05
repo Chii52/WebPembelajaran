@@ -354,22 +354,167 @@ function gameLoop() {
             </div>`;
     }
 
+    // ... (kode materi html, css, js, dll biarkan saja di atasnya) ...
+
+    // --- BIODATA TIM 1: ADITYA ---
+    else if(materi === 'member1') {
+        konten = `
+            <div style="text-align:center;">
+                <img src="https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #6c63ff;">
+                <h2 class="modal-title">Aditya R.</h2>
+                <p style="color:#6c63ff; font-weight:bold; margin-bottom:20px;">PROJECT MANAGER</p>
+            </div>
+            
+            <div class="modal-benefits">
+                <h4>Tentang Saya:</h4>
+                <p class="modal-description">
+                    "Pemimpin yang percaya bahwa kode yang bersih berawal dari komunikasi yang jelas." 
+                    Saya memiliki pengalaman 5 tahun memimpin tim developer dalam membangun aplikasi skala besar.
+                </p>
+            </div>
+
+            <div class="modal-benefits">
+                <h4>Keahlian (Skills):</h4>
+                <ul>
+                    <li>Leadership & Scrum Master (Agile).</li>
+                    <li>Manajemen Risiko Proyek.</li>
+                    <li>Komunikasi Tim & Klien.</li>
+                </ul>
+            </div>
+            
+            <div class="modal-example">
+                <h4>Motto:</h4>
+                <p><em>"Work smart, not just hard."</em></p>
+            </div>`;
+    } 
+
+    // --- BIODATA TIM 2: BUNGA ---
+    else if(materi === 'member2') {
+        konten = `
+            <div style="text-align:center;">
+                <img src="https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ff5f56;">
+                <h2 class="modal-title">Bunga C.</h2>
+                <p style="color:#ff5f56; font-weight:bold; margin-bottom:20px;">UI/UX DESIGNER</p>
+            </div>
+            
+            <div class="modal-benefits">
+                <h4>Tentang Saya:</h4>
+                <p class="modal-description">
+                    Seniman digital yang terobsesi dengan detail pixel dan kenyamanan pengguna. 
+                    Mendesain antarmuka yang tidak hanya cantik, tapi juga mudah digunakan oleh nenek saya sekalipun.
+                </p>
+            </div>
+
+            <div class="modal-benefits">
+                <h4>Tools Favorit:</h4>
+                <ul>
+                    <li>Figma & Adobe XD.</li>
+                    <li>Prototyping & Wireframing.</li>
+                    <li>Teori Warna & Tipografi.</li>
+                </ul>
+            </div>`;
+    }
+
+    // --- BIODATA TIM 3: CHANDRA ---
+    else if(materi === 'member3') {
+        konten = `
+            <div style="text-align:center;">
+                <img src="https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #27c93f;">
+                <h2 class="modal-title">Chandra K.</h2>
+                <p style="color:#27c93f; font-weight:bold; margin-bottom:20px;">FULL STACK DEV</p>
+            </div>
+            
+            <div class="modal-benefits">
+                <h4>Tentang Saya:</h4>
+                <p class="modal-description">
+                    Saya berbicara bahasa manusia dan bahasa mesin. Menguasai sisi depan (Frontend) yang indah 
+                    dan sisi belakang (Backend) yang kuat. Hobi ngoding sambil minum kopi hitam.
+                </p>
+            </div>
+
+            <div class="modal-benefits">
+                <h4>Tech Stack:</h4>
+                <ul>
+                    <li>Frontend: HTML, CSS, React.js.</li>
+                    <li>Backend: Node.js, Python, MySQL.</li>
+                    <li>Server: AWS & Linux.</li>
+                </ul>
+            </div>`;
+    }
+
+    // --- BIODATA TIM 4: DINDA ---
+    else if(materi === 'member4') {
+        konten = `
+            <div style="text-align:center;">
+                <img src="https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ffbd2e;">
+                <h2 class="modal-title">Dinda P.</h2>
+                <p style="color:#ffbd2e; font-weight:bold; margin-bottom:20px;">GAME DEVELOPER</p>
+            </div>
+            
+            <div class="modal-benefits">
+                <h4>Tentang Saya:</h4>
+                <p class="modal-description">
+                    Gamer sejati yang beralih menjadi pembuat game. Menciptakan dunia virtual interaktif 
+                    dan logika permainan yang menantang adalah passion saya sejak kecil.
+                </p>
+            </div>
+
+            <div class="modal-benefits">
+                <h4>Engine Keahlian:</h4>
+                <ul>
+                    <li>Unity 3D (C#).</li>
+                    <li>Godot Engine (GDScript).</li>
+                    <li>Blender (3D Modeling Dasar).</li>
+                </ul>
+            </div>`;
+    }
+
+    // --- BIODATA TIM 5: EKO ---
+    else if(materi === 'member5') {
+        konten = `
+            <div style="text-align:center;">
+                <img src="https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #00f3ff;">
+                <h2 class="modal-title">Eko S.</h2>
+                <p style="color:#00f3ff; font-weight:bold; margin-bottom:20px;">QUALITY ASSURANCE</p>
+            </div>
+            
+            <div class="modal-benefits">
+                <h4>Tentang Saya:</h4>
+                <p class="modal-description">
+                    "Detektif Bug". Saya tidak akan membiarkan satu kesalahan pun lolos ke tangan pengguna. 
+                    Jika ada celah, saya pasti menemukannya sebelum orang lain.
+                </p>
+            </div>
+
+            <div class="modal-benefits">
+                <h4>Keahlian:</h4>
+                <ul>
+                    <li>Automated Testing (Selenium).</li>
+                    <li>Manual Testing & Bug Reporting.</li>
+                    <li>Performance Testing.</li>
+                </ul>
+            </div>`;
+    }
+
     // Masukkan konten ke dalam modal lalu tampilkan
     modalBody.innerHTML = konten;
     modal.style.display = 'block';
 }
 
+/* ... (KODE LOGIKA GAME, SUIT, KUIS, MATERI BIARKAN SAMA SEPERTI SEBELUMNYA) ... */
+
 /* =========================================================== */
-/* BAGIAN 5: UTILITY (TUTUP MODAL, SCROLL, DLL)                */
+/* BAGIAN 5: UTILITY (UPDATE AGAR TIDAK ERROR DI HALAMAN LAIN) */
 /* =========================================================== */
 
 function tutupDetail() {
-    document.getElementById('detailModal').style.display = 'none';
+    const modal = document.getElementById('detailModal');
+    if (modal) modal.style.display = 'none';
 }
 
 window.onclick = function(event) {
     const modal = document.getElementById('detailModal');
-    if (event.target == modal) {
+    if (modal && event.target == modal) {
         tutupDetail();
     }
 }
@@ -380,38 +525,31 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-document.getElementById('tebakInput').addEventListener('keypress', function(event) {
-    if (event.key === 'Enter') {
-        mainkanGame();
-    }
-});
-
-document.querySelectorAll('.floating-nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: 'smooth'
-        });
+// PENGAMAN: Cek dulu apakah elemen 'tebakInput' ada di halaman ini?
+// Kalau tidak ada (misal lagi di halaman Kuis), kode ini tidak akan dijalankan.
+const inputTebak = document.getElementById('tebakInput');
+if (inputTebak) {
+    inputTebak.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            mainkanGame();
+        }
     });
-});
+}
 
-/* =========================================================== */
-/* BAGIAN 6: ANIMASI SCROLL REVEAL                             */
-/* =========================================================== */
+// LOGIKA HAMBURGER MENU (MOBILE)
+function toggleMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    navLinks.classList.toggle('active');
+}
 
+// SCROLL REVEAL (Tetap jalan di semua halaman)
 const revealElements = document.querySelectorAll('.reveal');
-
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
         }
     });
-}, {
-    threshold: 0.15 
-});
+}, { threshold: 0.15 });
 
 revealElements.forEach(el => revealObserver.observe(el));
