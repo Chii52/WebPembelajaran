@@ -1,15 +1,17 @@
 /* ========================================= */
-/* ===  STYLE.CSS (NO SCROLLBAR VERSION) === */
+/* ===  STYLE.CSS (LIGHT / SKY THEME)    === */
 /* ========================================= */
 
-/* --- 1. Reset & Config --- */
+/* --- 1. Reset & Palet Warna Cerah --- */
 :root {
-    --bg-dark: #0f0c1b;
-    --primary-purple: #6c63ff;
-    --secondary-blue: #2c2f48;
-    --text-white: #ffffff;
-    --text-grey: #b3b3b3;
-    --glass-bg: rgba(20, 15, 40, 0.85);
+    /* UBAH DARI GELAP KE TERANG */
+    --bg-main: #f0f9ff;           /* Latar belakang utama (Biru Langit Sangat Muda) */
+    --primary-blue: #0ea5e9;      /* Warna aksen utama (Biru Langit Cerah) */
+    --card-bg: #ffffff;           /* Warna kartu (Putih Bersih) */
+    --text-main: #0f172a;         /* Warna teks utama (Biru Gelap/Hitam) */
+    --text-secondary: #64748b;    /* Warna teks sekunder (Abu-abu Kebiruan) */
+    --glass-nav: rgba(255, 255, 255, 0.8); /* Navbar Transparan Putih */
+    --border-light: rgba(0, 0, 0, 0.05);   /* Garis tipis halus */
 }
 
 * {
@@ -18,69 +20,125 @@
     box-sizing: border-box;
     scroll-behavior: smooth;
     
-    /* Hapus Scrollbar untuk Firefox (Semua Elemen) */
+    /* Sembunyikan Scrollbar */
     scrollbar-width: none; 
-    -ms-overflow-style: none;  /* IE and Edge */
+    -ms-overflow-style: none;
 }
 
-/* Hapus Scrollbar untuk Chrome, Safari, dan Opera (Semua Elemen) */
-*::-webkit-scrollbar {
-    display: none;
-}
+*::-webkit-scrollbar { display: none; }
 
 body {
-    background-color: var(--bg-dark);
-    color: var(--text-white);
+    background-color: var(--bg-main);
+    color: var(--text-main);
     font-family: 'Poppins', sans-serif;
-    overflow-x: hidden; /* Mencegah scroll ke samping */
+    overflow-x: hidden;
 }
 
-/* --- Navigation --- */
-.floating-nav {
+/* --- 2. Navbar Full Width (Cerah) --- */
+.navbar {
     position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--glass-bg);
-    backdrop-filter: blur(12px);
-    padding: 8px 10px;
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--glass-nav); /* Jadi putih transparan */
+    backdrop-filter: blur(15px);
     z-index: 1000;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    width: auto;
-    max-width: 95%;
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03); /* Bayangan halus */
 }
 
-.floating-nav ul {
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-blue); /* Logo jadi biru */
+    letter-spacing: 1px;
+}
+
+.nav-links {
     list-style: none;
     display: flex;
-    gap: 5px;
-    align-items: center;
-    padding: 0 10px;
+    gap: 30px;
 }
 
-.floating-nav a {
+.nav-links a {
     text-decoration: none;
-    color: var(--text-grey);
+    color: var(--text-secondary);
     font-weight: 500;
-    font-size: 0.9rem;
-    padding: 8px 16px;
-    border-radius: 30px;
-    transition: all 0.3s ease;
-    display: block;
-    white-space: nowrap;
+    font-size: 0.95rem;
+    transition: 0.3s;
+    position: relative;
 }
 
-/* Efek Hover Navbar */
-.floating-nav a:hover, .floating-nav a:active { 
-    background-color: var(--primary-purple);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(108, 99, 255, 0.6);
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary-blue);
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--primary-blue);
+    transition: width 0.3s;
+    border-radius: 2px;
+}
+
+.nav-links a:hover::after { width: 100%; }
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.3s;
+}
+
+.search-btn:hover { opacity: 1; color: var(--primary-blue); }
+
+.btn-login {
+    text-decoration: none;
+    background: var(--primary-blue);
+    color: white;
+    padding: 8px 25px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.3s;
+    box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
+}
+
+.btn-login:hover {
+    background: #0284c7;
     transform: translateY(-2px);
 }
 
-/* --- Hero Section --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+}
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-main);
+}
+
+/* --- 3. Hero Section (Langit) --- */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -89,341 +147,457 @@ body {
     text-align: center;
     position: relative;
     padding: 0 20px;
+    /* Gradasi Langit Cerah */
+    background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
+    overflow: hidden;
 }
 
-.hero-content { z-index: 2; width: 100%; }
+.hero-content { z-index: 5; width: 100%; max-width: 800px; }
 
 .main-title {
     font-size: 3.5rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    background: linear-gradient(to right, #fff, #a5a5a5);
+    font-weight: 800;
+    margin-bottom: 15px;
+    background: linear-gradient(to right, #0284c7, #0ea5e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    line-height: 1.2;
 }
 
-.highlight {
-    color: var(--primary-purple);
-    -webkit-text-fill-color: var(--primary-purple);
+.subtitle { 
+    color: var(--text-secondary); 
+    font-size: 1.2rem; 
+    margin-bottom: 20px;
 }
 
-.subtitle { color: var(--text-grey); font-size: 1.2rem; }
+/* TOMBOL MULAI PETUALANGAN (DITURUNKAN) */
+.hero .btn-primary {
+    margin: top 100px;/* <--- INI YANG MEMBUAT TOMBOL TURUN */
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
+}
 
-.glow-circle {
+/* Elemen Awan & Gelombang */
+.cloud-container {
     position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    z-index: 1;
-    opacity: 0.4;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1; pointer-events: none;
 }
-.circle-1 {
-    width: 300px; height: 300px;
-    background: var(--primary-purple);
-    top: 20%; left: 20%;
+.cloud {
+    position: absolute; opacity: 0.8; color: #fff;
+    filter: drop-shadow(0 10px 15px rgba(186, 230, 253, 0.5));
 }
-.circle-2 {
-    width: 400px; height: 400px;
-    background: #2a2a72;
-    bottom: 10%; right: 10%;
-}
+.c1 { top: 10%; left: 5%; width: 150px; opacity: 0.6; }
+.c2 { bottom: 25%; right: -5%; width: 300px; opacity: 0.9; }
+.c3 { top: 30%; right: 20%; width: 100px; opacity: 0.4; }
 
-/* --- Layout --- */
+@keyframes floatCloud {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(10px, -20px); }
+}
+.float-slow { animation: floatCloud 8s ease-in-out infinite; }
+.float-medium { animation: floatCloud 6s ease-in-out infinite reverse; }
+.float-fast { animation: floatCloud 10s ease-in-out infinite; }
+
+.wave-bottom {
+    position: absolute; bottom: -1px; left: 0; width: 100%;
+    line-height: 0; z-index: 3;
+}
+.wave-bottom svg path { fill: var(--bg-main); } /* Warna gelombang ikut background utama */
+
+/* --- 4. Layout Umum --- */
 section.container {
-    padding: 80px 20px;
+    padding: 100px 20px;
     max-width: 1100px;
     margin: auto;
 }
 
 .section-title {
     text-align: center;
-    margin-bottom: 40px;
-    font-size: 2rem;
-    color: var(--primary-purple);
+    margin-bottom: 50px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text-main);
 }
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
 }
 
-/* --- Cards --- */
+/* --- 5. Cards (Materi Belajar - LEBIH INTERAKTIF) --- */
 .card {
-    background: var(--secondary-blue);
+    background: var(--card-bg);
     padding: 30px;
     border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--border-light);
+    
+    /* Transisi dibuat lebih 'bouncy' (mantul dikit) biar enak rasanya */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
     cursor: pointer;
     position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden; /* Menjaga isi tetap di dalam */
 }
 
+/* EFEK HOVER DI SINI */
 .card:hover {
-    transform: translateY(-10px);
-    background: #363a55;
-    border-color: var(--primary-purple);
-    box-shadow: 0 10px 30px rgba(108, 99, 255, 0.2);
+    transform: translateY(-12px) scale(1.03); /* Naik ke atas + Membesar sedikit */
+    background: #f0f9ff; /* Background jadi biru muda lembut */
+    border-color: var(--primary-blue);
+    box-shadow: 0 25px 50px rgba(14, 165, 233, 0.25); /* Bayangan glowing biru */
+}
+
+.card h3 {
+    color: var(--text-main);
+    margin-bottom: 10px;
+    transition: color 0.3s;
+}
+
+/* Judul berubah warna saat kartu dihover */
+.card:hover h3 {
+    color: var(--primary-blue);
+}
+
+.card p {
+    color: var(--text-secondary);
+    transition: color 0.3s;
 }
 
 .card-hint {
-    color: var(--primary-purple);
-    font-size: 0.85rem;
-    margin-top: 10px;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    color: var(--primary-blue);
+    font-size: 0.9rem;
+    margin-top: 15px;
+    font-weight: 700;
+    display: flex; /* Biar ikon panah bisa diatur */
+    align-items: center;
+    gap: 5px;
+    transition: transform 0.3s ease;
 }
 
-.card:hover .card-hint { opacity: 1; }
+/* Efek Panah Bergeser ke Kanan */
+.card:hover .card-hint {
+    transform: translateX(10px); /* Geser ke kanan 10px */
+}
 
-/* --- Interactive Boxes & Code --- */
-.code-window, .interactive-box {
-    background: #1e1e1e;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+/* Tambahan: Garis Dekorasi di Bawah (Opsional biar makin keren) */
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: var(--primary-blue);
+    transition: width 0.4s ease;
+}
+
+.card:hover::after {
+    width: 100%; /* Garis biru muncul dari kiri ke kanan */
+}
+/* --- 6. Section Kategori (Split Layout) --- */
+.kategori-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+.kategori-cards {
+    display: flex; gap: 20px; flex: 2;
+    justify-content: center; flex-wrap: wrap;
+}
+.kat-card {
+    background: var(--card-bg);
+    padding: 30px 20px;
+    border-radius: 25px;
+    text-align: center;
+    width: 180px;
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+.kat-card:hover {
+    transform: translateY(-15px);
+    border-color: var(--primary-blue);
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2);
+}
+.kat-icon {
+    font-size: 3rem; margin-bottom: 15px;
+    background: #f1f5f9; /* Abu sangat muda */
+    width: 70px; height: 70px; line-height: 70px;
+    border-radius: 50%; margin-left: auto; margin-right: auto;
+}
+.kat-card h3 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 5px; }
+.kat-card p { font-size: 0.8rem; color: var(--text-secondary); }
+
+.kategori-illustration { flex: 1; display: flex; justify-content: center; }
+.floating-img { width: 300px; animation: float 6s ease-in-out infinite; position: relative; }
+.floating-img img { width: 100%; z-index: 2; position: relative; }
+.floating-img .glow-effect {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 200px; height: 200px; background: var(--primary-blue);
+    filter: blur(80px); opacity: 0.3; z-index: 1; border-radius: 50%;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* --- 7. Interactive Box (Game & Quiz) --- */
+.interactive-box, .code-window {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.05);
     max-width: 600px;
     margin: 0 auto;
-}
-.interactive-box { background: var(--secondary-blue); }
-
-.window-header { display: flex; gap: 8px; margin-bottom: 15px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; }
-.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
-
-.keyword { color: #cc99cd; } 
-.string { color: #7ec699; } 
-.comment { color: #666; font-style: italic; }
-.output { color: #f8f8f2; margin-top: 10px; padding-top: 10px; border-top: 1px solid #333; }
-
-input[type="number"] {
-    padding: 12px 20px;
-    border-radius: 50px;
-    border: none;
-    background: rgba(0,0,0,0.3);
-    color: white;
-    width: 100px;
+    border: 1px solid var(--border-light);
     text-align: center;
-    margin: 10px 0;
-    display: block;
-    font-size: 1rem;
-}
-
-.btn-primary {
-    background: var(--primary-purple);
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-    margin-top: 10px;
-    font-size: 1rem;
-}
-
-.btn-primary:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(108, 99, 255, 0.4);
 }
 
 .question-box {
     text-align: left;
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(0,0,0,0.2);
+    background: #f8fafc; /* Abu muda */
+    padding: 20px;
     border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-light);
 }
+.question-box p { font-weight: 600; margin-bottom: 10px; color: var(--text-main); }
+.question-box label { color: var(--text-secondary); cursor: pointer; display: block; margin: 5px 0; }
 
-.question-box label { display: block; margin: 8px 0; cursor: pointer; }
-.result-text, .score-display { margin-top: 15px; font-weight: 600; padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); }
-
-/* --- Footer --- */
-footer {
+input[type="number"] {
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 2px solid #e2e8f0;
+    background: #fff;
+    color: var(--text-main);
+    width: 120px;
     text-align: center;
-    padding: 30px;
-    color: var(--text-grey);
-    border-top: 1px solid rgba(255,255,255,0.1);
-    margin-top: 50px;
+    margin: 15px auto;
+    display: block;
+    font-size: 1.1rem;
+    outline: none;
 }
+input[type="number"]:focus { border-color: var(--primary-blue); }
 
-/* --- Modal Styles (SCROLLBAR HIDDEN HERE TOO) --- */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.85);
-    z-index: 2000;
-    backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-    background: var(--secondary-blue);
-    margin: 5% auto;
-    padding: 40px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 800px;
-    max-height: 80vh;
-    overflow-y: auto; /* Scroll tetap aktif, tapi bar disembunyikan oleh rule di atas */
-    position: relative;
-    border: 1px solid rgba(108, 99, 255, 0.3);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    animation: slideUp 0.4s ease;
-}
-
-.close-btn {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    font-size: 28px;
-    cursor: pointer;
-    color: var(--text-grey);
-    transition: color 0.3s;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-.close-btn:hover { color: var(--primary-purple); background: rgba(108, 99, 255, 0.1); }
-.modal-title { color: var(--primary-purple); margin-bottom: 20px; font-size: 2.2rem; }
-.modal-description { font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; color: var(--text-white); }
-.modal-example { background: #1a1a2e; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid var(--primary-purple); }
-.modal-example h4 { color: var(--primary-purple); margin-bottom: 10px; }
-.code-example { background: #0d1117; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; overflow-x: auto; margin: 10px 0; color: #f8f8f2; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; }
-.modal-benefits { margin-top: 25px; }
-.modal-benefits h4 { color: var(--primary-purple); margin-bottom: 10px; }
-.modal-benefits ul { list-style-position: inside; padding-left: 15px; }
-.modal-benefits li { margin-bottom: 8px; color: var(--text-grey); }
-
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
-
-/* --- MEDIA QUERIES --- */
-@media (max-width: 768px) {
-    .main-title { font-size: 2.5rem; }
-    .floating-nav { width: 90%; top: 15px; }
-    .floating-nav ul { gap: 2px; }
-    .floating-nav a { font-size: 0.8rem; padding: 8px 10px; }
-    .modal-content { padding: 30px 20px; margin: 10% auto; width: 95%; max-height: 85vh; }
-    .modal-title { font-size: 1.8rem; }
-    section.container { padding: 60px 20px; }
-}
-
-@media (max-width: 480px) {
-    .main-title { font-size: 2rem; }
-    .subtitle { font-size: 1rem; }
-    .floating-nav { top: auto; bottom: 20px; width: 90%; padding: 5px; }
-    .floating-nav ul { justify-content: space-between; padding: 0; }
-    .floating-nav a { font-size: 0.75rem; padding: 8px 8px; }
-    .glow-circle { opacity: 0.3; width: 200px; height: 200px; }
-    section.container { padding: 50px 15px; }
-    .modal-content { padding: 25px 15px; margin: 15% auto; max-height: 90vh; }
-    .grid-container { grid-template-columns: 1fr; gap: 15px; }
-    .card { padding: 20px; }
-}
-
-/* --- ANIMASI POP-OUT (SCROLL REVEAL) --- */
-.reveal {
-    opacity: 0;
-    transform: translateY(50px) scale(0.9);
-    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-.delay-1 { transition-delay: 0.1s; }
-.delay-2 { transition-delay: 0.2s; }
-.delay-3 { transition-delay: 0.3s; }
-.delay-4 { transition-delay: 0.4s; }
-
-/* ... (PASTIKAN KODE DI ATASNYA TETAP ADA) ... */
-
-/* --- STYLE TAMBAHAN UNTUK GAME SUIT --- */
-.suit-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-    flex-wrap: wrap; /* Agar tombol turun ke bawah di HP kecil */
-}
-
-.btn-suit {
-    background: #23233b;
-    border: 2px solid var(--primary-purple);
+/* Tombol Utama */
+.btn-primary {
+    background: var(--primary-blue);
     color: white;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
+}
+.btn-primary:hover {
+    background: #0284c7;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4);
+}
+
+.result-text { font-weight: 700; margin-top: 20px; font-size: 1.1rem; }
+
+/* Tombol Suit */
+.suit-buttons { display: flex; justify-content: center; gap: 15px; margin: 25px 0; flex-wrap: wrap; }
+.btn-suit {
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    color: var(--text-main);
     padding: 15px 25px;
     border-radius: 15px;
     font-size: 1.2rem;
     cursor: pointer;
     transition: 0.2s;
 }
-
 .btn-suit:hover {
-    background: var(--primary-purple);
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(108, 99, 255, 0.5);
+    border-color: var(--primary-blue);
+    background: #f0f9ff;
+    transform: scale(1.05);
 }
 
-.btn-suit:active {
-    transform: scale(0.95);
+/* --- 8. Modal / Popup --- */
+.modal {
+    display: none; position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.6); /* Backdrop agak gelap biar fokus */
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
 }
-
-/* ... (KODE LAMA TETAP ADA DI ATASNYA) ... */
-
-/* --- STYLE UNTUK SECTION ABOUT (TIM) --- */
-
-/* Modifikasi kartu khusus tim agar teks rata tengah */
-.team-card {
-    text-align: center;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.modal-content {
+    background: #fff;
+    margin: 5% auto; padding: 40px;
+    border-radius: 20px; width: 90%; max-width: 800px;
+    max-height: 85vh; overflow-y: auto; position: relative;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+    animation: slideUp 0.4s ease;
 }
-
-/* Foto Profil Bulat */
-.profile-img {
-    width: 100px;
-    height: 100px;
+.close-btn {
+    position: absolute; top: 20px; right: 25px;
+    font-size: 28px; cursor: pointer; color: var(--text-secondary);
+    transition: 0.3s; width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
     border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    background-color: #333; /* Warna cadangan jika gambar gagal load */
-    margin-bottom: 15px;
-    border: 3px solid var(--primary-purple);
-    box-shadow: 0 0 15px rgba(108, 99, 255, 0.4);
+}
+.close-btn:hover { background: #f1f5f9; color: var(--text-main); }
+
+.modal-title { color: var(--primary-blue); margin-bottom: 15px; font-size: 2rem; }
+.modal-description { color: var(--text-main); line-height: 1.7; margin-bottom: 25px; }
+
+/* Code Block di dalam Modal (Tetap Gelap biar kontras) */
+.code-example {
+    background: #1e293b; /* Biru gelap/hitam */
+    color: #f8fafc;
+    padding: 20px; border-radius: 10px;
+    font-family: 'Courier New', monospace;
+    overflow-x: auto; margin: 15px 0;
+    border-left: 5px solid var(--primary-blue);
+}
+.modal-example h4, .modal-benefits h4 { color: var(--primary-blue); margin-bottom: 10px; }
+.modal-benefits li { color: var(--text-secondary); margin-bottom: 8px; }
+
+/* --- 9. Team / About Us --- */
+#about .grid-container {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;
+}
+#about .team-card {
+    flex: 0 1 280px; width: 100%; max-width: 300px; margin: 10px;
+    text-align: center; display: flex; flex-direction: column; align-items: center;
+}
+.profile-img {
+    width: 100px; height: 100px; border-radius: 50%;
+    background-size: cover; background-position: center;
+    margin-bottom: 15px; border: 3px solid var(--primary-blue);
+    box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
     transition: transform 0.3s;
 }
+.team-card:hover .profile-img { transform: rotate(5deg) scale(1.1); }
+.role { color: var(--primary-blue); font-weight: 700; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px;}
+.desc { font-size: 0.85rem; color: var(--text-secondary); }
 
-/* Efek saat foto disentuh */
-.team-card:hover .profile-img {
-    transform: rotate(5deg) scale(1.1);
-    border-color: #fff;
+/* --- 10. Footer --- */
+footer {
+    text-align: center; padding: 40px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border-light);
+    margin-top: 80px; background: #fff;
 }
 
-/* Teks Jabatan */
-.role {
-    color: var(--primary-purple);
-    font-weight: 600;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+/* --- Animasi Dasar --- */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Scroll Reveal */
+.reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+
+/* Responsive HP */
+@media (max-width: 768px) {
+    .navbar { padding: 15px 20px; }
+    .nav-links {
+        display: none; position: absolute; top: 100%; left: 0; width: 100%;
+        background: #fff; flex-direction: column; padding: 20px;
+        text-align: center; border-bottom: 1px solid var(--border-light);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+    .nav-links.active { display: flex; }
+    .nav-actions { display: none; }
+    .hamburger { display: flex; }
+    
+    .main-title { font-size: 2.5rem; }
+    .kategori-wrapper { flex-direction: column-reverse; gap: 20px; }
+    .kat-card { width: 100%; max-width: 280px; }
+    .floating-img { width: 200px; }
+    
+    section.container { padding: 60px 20px; }
 }
 
-/* Deskripsi Singkat */
-.desc {
-    color: var(--text-grey);
-    font-size: 0.85rem;
-    line-height: 1.5;
+/* ========================================= */
+/* ===  TAMBAHAN: AMBIENT BACKGROUND RAMAI === */
+/* ========================================= */
+
+/* Wadah utama yang menutupi seluruh layar di belakang */
+.ambient-background {
+    position: fixed; /* Tetap di tempat saat discroll */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* KUNCI: Taruh di belakang semua konten */
+    overflow: hidden; /* Agar bola tidak keluar layar */
+    pointer-events: none; /* Agar tidak mengganggu klik */
 }
 
+/* Bentuk dasar bola warna */
+.shape-blob {
+    position: absolute;
+    border-radius: 50%; /* Bentuk bulat */
+    filter: blur(120px); /* KUNCI: Blur yang sangat kuat agar lembut */
+    opacity: 0.4; /* Transparan agar tidak terlalu mencolok */
+    mix-blend-mode: multiply; /* Agar warnanya menyatu dengan background putih */
+}
+
+/* --- Bola 1 (Ungu Muda - Kiri Atas/Tengah) --- */
+.shape-1 {
+    background-color: #d8b4fe; /* Ungu pastel */
+    width: 500px;
+    height: 500px;
+    top: 20%;
+    left: -10%;
+    animation: ambientFloat 18s infinite alternate ease-in-out;
+}
+
+/* --- Bola 2 (Biru Cyan - Kanan Bawah) --- */
+.shape-2 {
+    background-color: #67e8f9; /* Biru muda cerah */
+    width: 400px;
+    height: 400px;
+    bottom: 10%;
+    right: -5%;
+    animation: ambientFloat 15s infinite alternate-reverse ease-in-out;
+}
+
+/* --- Bola 3 (Kuning/Oranye Lembut - Tengah Bawah) --- */
+.shape-3 {
+    background-color: #fde047; /* Kuning lembut */
+    width: 300px;
+    height: 300px;
+    bottom: -10%;
+    left: 30%;
+    opacity: 0.3;
+    animation: ambientFloat 20s infinite alternate ease-in-out;
+}
+
+/* --- Animasi Gerakan Pelan --- */
+@keyframes ambientFloat {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    100% {
+        /* Bergerak sedikit, membesar sedikit, berputar sedikit */
+        transform: translate(40px, -40px) scale(1.1) rotate(10deg);
+    }
+}
+
+/* --- Update sedikit pada Card agar lebih menonjol --- */
+/* Karena backgroundnya sekarang berwarna, kita buat kartu sedikit lebih putih/terang */
+.card, .kat-card, .interactive-box, .code-window, .modal-content {
+    /* Menambahkan sedikit transparansi pada background putih kartu 
+       agar warna di belakangnya sedikit tembus (efek kaca buram) */
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(10px);
+}
