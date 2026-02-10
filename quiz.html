@@ -1,139 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Belajar | Kuis</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="logo"><span class="logo-text">wpldg</span></div>
-        <ul class="nav-links">
-            <li><a href="index.html">Beranda</a></li>
-            <li><a href="game.html">Simulasi</a></li>
-            <li><a href="quiz.html" class="active">Kuis</a></li>
-        </ul>
-        <div class="nav-actions">
-            <a href="#" class="btn-login">Masuk/Daftar</a>
-        </div>
-        <div class="hamburger" onclick="toggleMenu()">
-            <span></span><span></span><span></span>
-        </div>
+      <div class="logo"><span class="logo-text">wpldg</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="game.html">Simulasi</a></li>
+        <li><a href="quiz.html" class="active">Kuis</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#" class="btn-login">Masuk/Daftar</a>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
     </nav>
 
-    <section class="container" style="margin-top: 100px;">
-        <h2 class="section-title reveal">Evaluasi Kemampuan</h2>
-        <form id="quizForm" class="interactive-box reveal">
-            <div class="question-box">
-                <p>1. Fungsi utama tag <code>&lt;head&gt;</code> dalam struktur HTML adalah...</p>
-                <label><input type="radio" name="q1" value="a"> A. Menampilkan seluruh isi website</label>
-                <label><input type="radio" name="q1" value="b"> B. Menyimpan elemen interaktif</label>
-                <label><input type="radio" name="q1" value="c"> C. Menyimpan informasi dan metadata halaman</label>
-                <label><input type="radio" name="q1" value="d"> D. Mengatur tampilan halaman</label>
-                <label><input type="radio" name="q1" value="e"> E. Menjalankan kode JavaScript</label>
-            </div>
+    <section class="container" style="margin-top: 100px">
+      <h2 class="section-title reveal">Evaluasi Kemampuan</h2>
+      <form id="quizForm" class="interactive-box reveal">
+        <div class="question-box">
+          <p>
+            1. Fungsi utama tag <code>&lt;head&gt;</code> dalam struktur HTML
+            adalah...
+          </p>
+          <label
+            ><input type="radio" name="q1" value="a" /> A. Menampilkan seluruh
+            isi website</label
+          >
+          <label
+            ><input type="radio" name="q1" value="b" /> B. Menyimpan elemen
+            interaktif</label
+          >
+          <label
+            ><input type="radio" name="q1" value="c" /> C. Menyimpan informasi
+            dan metadata halaman</label
+          >
+          <label
+            ><input type="radio" name="q1" value="d" /> D. Mengatur tampilan
+            halaman</label
+          >
+          <label
+            ><input type="radio" name="q1" value="e" /> E. Menjalankan kode
+            JavaScript</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>2. Perbedaan utama antara HTML dan CSS adalah...</p>
-                <label><input type="radio" name="q2" value="a"> A. HTML untuk logika, CSS untuk data</label>
-                <label><input type="radio" name="q2" value="b"> B. HTML untuk struktur, CSS untuk tampilan</label>
-                <label><input type="radio" name="q2" value="c"> C. HTML untuk animasi, CSS untuk database</label>
-                <label><input type="radio" name="q2" value="d"> D. HTML untuk server, CSS untuk client</label>
-            </div>
+        <div class="question-box">
+          <p>2. Perbedaan utama antara HTML dan CSS adalah...</p>
+          <label
+            ><input type="radio" name="q2" value="a" /> A. HTML untuk logika,
+            CSS untuk data</label
+          >
+          <label
+            ><input type="radio" name="q2" value="b" /> B. HTML untuk struktur,
+            CSS untuk tampilan</label
+          >
+          <label
+            ><input type="radio" name="q2" value="c" /> C. HTML untuk animasi,
+            CSS untuk database</label
+          >
+          <label
+            ><input type="radio" name="q2" value="d" /> D. HTML untuk server,
+            CSS untuk client</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>3. Agar website tampil responsif di berbagai ukuran layar, CSS berperan dalam hal...</p>
-                <label><input type="radio" name="q3" value="a"> A. Validasi form</label>
-                <label><input type="radio" name="q3" value="b"> B. Struktur data</label>
-                <label><input type="radio" name="q3" value="c"> C. Interaksi pengguna</label>
-                <label><input type="radio" name="q3" value="d"> D. Pengaturan layout dan tampilan</label>
-            </div>
+        <div class="question-box">
+          <p>
+            3. Agar website tampil responsif di berbagai ukuran layar, CSS
+            berperan dalam hal...
+          </p>
+          <label
+            ><input type="radio" name="q3" value="a" /> A. Validasi form</label
+          >
+          <label
+            ><input type="radio" name="q3" value="b" /> B. Struktur data</label
+          >
+          <label
+            ><input type="radio" name="q3" value="c" /> C. Interaksi
+            pengguna</label
+          >
+          <label
+            ><input type="radio" name="q3" value="d" /> D. Pengaturan layout dan
+            tampilan</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>4. Fungsi utama atribut <code>onclick</code> pada tombol adalah...</p>
-                <label><input type="radio" name="q4" value="a"> A. Menjalankan kode saat halaman dibuka</label>
-                <label><input type="radio" name="q4" value="b"> B. Menjalankan kode saat mouse diarahkan</label>
-                <label><input type="radio" name="q4" value="c"> C. Menjalankan kode saat tombol diklik</label>
-                <label><input type="radio" name="q4" value="d"> D. Menjalankan kode secara otomatis</label>
-            </div>
+        <div class="question-box">
+          <p>
+            4. Fungsi utama atribut <code>onclick</code> pada tombol adalah...
+          </p>
+          <label
+            ><input type="radio" name="q4" value="a" /> A. Menjalankan kode saat
+            halaman dibuka</label
+          >
+          <label
+            ><input type="radio" name="q4" value="b" /> B. Menjalankan kode saat
+            mouse diarahkan</label
+          >
+          <label
+            ><input type="radio" name="q4" value="c" /> C. Menjalankan kode saat
+            tombol diklik</label
+          >
+          <label
+            ><input type="radio" name="q4" value="d" /> D. Menjalankan kode
+            secara otomatis</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>5. Berikut ini yang BUKAN termasuk unsur utama dalam sebuah gim adalah...</p>
-                <label><input type="radio" name="q5" value="a"> A. Player</label>
-                <label><input type="radio" name="q5" value="b"> B. Level</label>
-                <label><input type="radio" name="q5" value="c"> C. Aturan permainan</label>
-                <label><input type="radio" name="q5" value="d"> D. Compiler</label>
-                <label><input type="radio" name="q5" value="e"> E. Tantangan</label>
-            </div>
+        <div class="question-box">
+          <p>
+            5. Berikut ini yang BUKAN termasuk unsur utama dalam sebuah gim
+            adalah...
+          </p>
+          <label><input type="radio" name="q5" value="a" /> A. Player</label>
+          <label><input type="radio" name="q5" value="b" /> B. Level</label>
+          <label
+            ><input type="radio" name="q5" value="c" /> C. Aturan
+            permainan</label
+          >
+          <label><input type="radio" name="q5" value="d" /> D. Compiler</label>
+          <label><input type="radio" name="q5" value="e" /> E. Tantangan</label>
+        </div>
 
-            <div class="question-box">
-                <p>6. Urutan alur pembuatan gim yang benar adalah...</p>
-                <label><input type="radio" name="q6" value="a"> A. Kode → Ide → Uji → Perbaikan → Desain</label>
-                <label><input type="radio" name="q6" value="b"> B. Ide → Desain → Kode → Uji → Perbaikan</label>
-                <label><input type="radio" name="q6" value="c"> C. Desain → Ide → Kode → Perbaikan → Uji</label>
-                <label><input type="radio" name="q6" value="d"> D. Ide → Kode → Desain → Uji → Perbaikan</label>
-            </div>
+        <div class="question-box">
+          <p>6. Urutan alur pembuatan gim yang benar adalah...</p>
+          <label
+            ><input type="radio" name="q6" value="a" /> A. Kode → Ide → Uji →
+            Perbaikan → Desain</label
+          >
+          <label
+            ><input type="radio" name="q6" value="b" /> B. Ide → Desain → Kode →
+            Uji → Perbaikan</label
+          >
+          <label
+            ><input type="radio" name="q6" value="c" /> C. Desain → Ide → Kode →
+            Perbaikan → Uji</label
+          >
+          <label
+            ><input type="radio" name="q6" value="d" /> D. Ide → Kode → Desain →
+            Uji → Perbaikan</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>7. Pada JavaScript, perintah untuk menyimpan nilai yang tidak boleh berubah adalah...</p>
-                <label><input type="radio" name="q7" value="a"> A. var</label>
-                <label><input type="radio" name="q7" value="b"> B. let</label>
-                <label><input type="radio" name="q7" value="c"> C. const</label>
-                <label><input type="radio" name="q7" value="d"> D. function</label>
-            </div>
+        <div class="question-box">
+          <p>
+            7. Pada JavaScript, perintah untuk menyimpan nilai yang tidak boleh
+            berubah adalah...
+          </p>
+          <label><input type="radio" name="q7" value="a" /> A. var</label>
+          <label><input type="radio" name="q7" value="b" /> B. let</label>
+          <label><input type="radio" name="q7" value="c" /> C. const</label>
+          <label><input type="radio" name="q7" value="d" /> D. function</label>
+        </div>
 
-            <div class="question-box">
-                <p>8. Fungsi utama Code Editor dalam PPLG yang paling krusial adalah...</p>
-                <label><input type="radio" name="q8" value="a"> A. Menjalankan sistem operasi</label>
-                <label><input type="radio" name="q8" value="b"> B. Menyimpan database</label>
-                <label><input type="radio" name="q8" value="c"> C. Membantu menulis dan mendeteksi kesalahan kode</label>
-                <label><input type="radio" name="q8" value="d"> D. Menampilkan website secara online</label>
-            </div>
+        <div class="question-box">
+          <p>
+            8. Fungsi utama Code Editor dalam PPLG yang paling krusial adalah...
+          </p>
+          <label
+            ><input type="radio" name="q8" value="a" /> A. Menjalankan sistem
+            operasi</label
+          >
+          <label
+            ><input type="radio" name="q8" value="b" /> B. Menyimpan
+            database</label
+          >
+          <label
+            ><input type="radio" name="q8" value="c" /> C. Membantu menulis dan
+            mendeteksi kesalahan kode</label
+          >
+          <label
+            ><input type="radio" name="q8" value="d" /> D. Menampilkan website
+            secara online</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>9. Berikut ini yang termasuk software pemrograman adalah...</p>
-                <label><input type="radio" name="q9" value="a"> A. Windows</label>
-                <label><input type="radio" name="q9" value="b"> B. Google Chrome</label>
-                <label><input type="radio" name="q9" value="c"> C. Visual Studio Code</label>
-                <label><input type="radio" name="q9" value="d"> D. Adobe Photoshop</label>
-            </div>
+        <div class="question-box">
+          <p>9. Berikut ini yang termasuk software pemrograman adalah...</p>
+          <label><input type="radio" name="q9" value="a" /> A. Windows</label>
+          <label
+            ><input type="radio" name="q9" value="b" /> B. Google Chrome</label
+          >
+          <label
+            ><input type="radio" name="q9" value="c" /> C. Visual Studio
+            Code</label
+          >
+          <label
+            ><input type="radio" name="q9" value="d" /> D. Adobe
+            Photoshop</label
+          >
+        </div>
 
-            <div class="question-box">
-                <p>10. Mengapa sikap bertanggung jawab terhadap kode sangat penting?</p>
-                <label><input type="radio" name="q10" value="a"> A. Agar kode terlihat lebih panjang</label>
-                <label><input type="radio" name="q10" value="b"> B. Agar website terlihat lebih berwarna</label>
-                <label><input type="radio" name="q10" value="c"> C. Agar kode mudah dipahami, aman, dan dikembangkan</label>
-                <label><input type="radio" name="q10" value="d"> D. Agar program berjalan lebih lambat</label>
-            </div>
+        <div class="question-box">
+          <p>
+            10. Mengapa sikap bertanggung jawab terhadap kode sangat penting?
+          </p>
+          <label
+            ><input type="radio" name="q10" value="a" /> A. Agar kode terlihat
+            lebih panjang</label
+          >
+          <label
+            ><input type="radio" name="q10" value="b" /> B. Agar website
+            terlihat lebih berwarna</label
+          >
+          <label
+            ><input type="radio" name="q10" value="c" /> C. Agar kode mudah
+            dipahami, aman, dan dikembangkan</label
+          >
+          <label
+            ><input type="radio" name="q10" value="d" /> D. Agar program
+            berjalan lebih lambat</label
+          >
+        </div>
 
-            <button type="button" onclick="cekQuiz()" class="btn-primary">Kirim Jawaban</button>
-            <div id="quizResult" class="score-display"></div>
-        </form>
+        <button type="button" onclick="cekQuiz()" class="btn-primary">
+          Kirim Jawaban
+        </button>
+        <div id="quizResult" class="score-display"></div>
+      </form>
     </section>
 
     <div class="ambient-background">
-        <div class="shape-blob shape-1"></div>
-        <div class="shape-blob shape-2"></div>
-        <div class="shape-blob shape-3"></div>
+      <div class="shape-blob shape-1"></div>
+      <div class="shape-blob shape-2"></div>
+      <div class="shape-blob shape-3"></div>
     </div>
 
     <div class="candy-container">
-        <img src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter" class="candy candy-1 float-slow" alt="candy">
-        
-        <img src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter" class="candy candy-2 float-medium" alt="candy">
-        
-        <img src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter" class="candy candy-3 float-fast" alt="candy">
+      <img
+        src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter"
+        class="candy candy-1 float-slow"
+        alt="candy"
+      />
 
-        <img src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter" class="candy candy-4 float-slow" alt="candy">
+      <img
+        src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter"
+        class="candy candy-2 float-medium"
+        alt="candy"
+      />
+
+      <img
+        src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter"
+        class="candy candy-3 float-fast"
+        alt="candy"
+      />
+
+      <img
+        src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter"
+        class="candy candy-4 float-slow"
+        alt="candy"
+      />
     </div>
 
     <footer>
-        <p>&copy; 2026 Power Rangers. All Rights Reserved.</p>
+      <p>&copy; 2026 Power Rangers. All Rights Reserved.</p>
     </footer>
 
-    <script src="script.js"></script>
-</body>
+    <script type="module" src="script.js"></script>
+  </body>
 </html>
+
