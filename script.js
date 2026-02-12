@@ -39,14 +39,14 @@ try {
 let isRegisterMode = false;
 
 /* =========================================================== */
-/* BAGIAN 1: AUTHENTICATION & USER PROFILE                     */
+/* BAGIAN 1: AUTHENTICATION, PROFILE & CLOUDINARY              */
 /* =========================================================== */
 
 window.toggleProfileMenu = function () {
   document.getElementById("dropdownContent").classList.toggle("show");
 };
 
-// Login & Register Logic
+// --- LOGIKA LOGIN & REGISTER ---
 window.bukaLogin = function () {
   const modal = document.getElementById("loginModal");
   if (modal) modal.style.display = "block";
@@ -111,7 +111,7 @@ window.handleLogout = async function () {
   }
 };
 
-// Cek Status Login
+// --- CEK STATUS LOGIN (LISTENER) ---
 if (auth) {
   onAuthStateChanged(auth, (user) => {
     const loginBtn = document.getElementById("navLoginBtn");
@@ -135,7 +135,7 @@ if (auth) {
   });
 }
 
-// Upload Foto Profil
+// --- LOGIKA UPLOAD FOTO (CLOUDINARY) ---
 window.ubahPFP = function () {
   const fileInput = document.getElementById("fileInputPFP");
   if (fileInput) fileInput.click();
@@ -167,7 +167,9 @@ if (fileInput) {
       const data = await response.json();
       const imageUrl = data.secure_url;
       
+      // Simpan ke Firebase
       await window.simpanFotoKeFirebase(imageUrl);
+
     } catch (error) {
       console.error(error);
       alert("Gagal upload foto.");
@@ -176,17 +178,19 @@ if (fileInput) {
   });
 }
 
+// Fungsi Simpan Link Foto ke Firebase
 window.simpanFotoKeFirebase = async function (url) {
   const user = auth.currentUser;
   if (user) {
      try {
-        // Kita gunakan trik dispatch event karena updateProfile di import module
+        // Trik dispatch event agar module bisa menangkap URL
         const event = new CustomEvent("fotoBaruTersedia", { detail: url });
         window.dispatchEvent(event);
      } catch (e) { console.error(e); }
   }
 };
 
+// Listener untuk Update Profil Firebase (Menerima Event dari Window)
 window.addEventListener("fotoBaruTersedia", async (e) => {
   const url = e.detail;
   const user = auth.currentUser;
@@ -202,6 +206,7 @@ window.addEventListener("fotoBaruTersedia", async (e) => {
   }
 });
 
+// --- UBAH PASSWORD ---
 window.ubahPassword = async function () {
   const user = auth.currentUser;
   if (user) {
@@ -219,7 +224,7 @@ window.ubahPassword = async function () {
   }
 };
 
-// Modal Pengaturan
+// --- MODAL PENGATURAN AKUN ---
 window.bukaPengaturan = function () {
   const modal = document.getElementById("settingsModal");
   const user = auth.currentUser;
@@ -281,17 +286,17 @@ window.mainkanSuit = function (pilihanPlayer) {
   let hasil = "";
   
   if (pilihanPlayer === pilihanKomputer) {
-    hasil = "SERI! ";
+    hasil = "SERI! 😐";
     resultText.style.color = "#ffbd2e";
   } else if (
     (pilihanPlayer === "batu" && pilihanKomputer === "gunting") ||
     (pilihanPlayer === "gunting" && pilihanKomputer === "kertas") ||
     (pilihanPlayer === "kertas" && pilihanKomputer === "batu")
   ) {
-    hasil = "KAMU MENANG! 脂";
+    hasil = "KAMU MENANG! 🎉";
     resultText.style.color = "#7ec699";
   } else {
-    hasil = "KAMU KALAH! 逐";
+    hasil = "KAMU KALAH! 💀";
     resultText.style.color = "#ff5f56";
   }
   resultText.innerHTML = `Kamu: <b>${pilihanPlayer}</b> VS CPU: <b>${pilihanKomputer}</b><br>${hasil}`;
@@ -299,7 +304,7 @@ window.mainkanSuit = function (pilihanPlayer) {
 
 
 /* =========================================================== */
-/* BAGIAN 3: KUIS STEP-BY-STEP (YANG HILANG TADI)              */
+/* BAGIAN 3: KUIS STEP-BY-STEP (LIVE SCORE FIX)                */
 /* =========================================================== */
 
 const questionsData = [
@@ -319,6 +324,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let selectedOptionIndex = null;
 
+// Fungsi Render Soal
 function loadQuestion() {
     const questionEl = document.getElementById("question-text");
     const optionsEl = document.getElementById("options-container");
@@ -326,17 +332,20 @@ function loadQuestion() {
     const progressBar = document.getElementById("progress-bar");
     const nextBtn = document.getElementById("next-btn");
     
-    if(!questionEl) return; // Cegah error kalau bukan di halaman kuis
+    // Validasi agar tidak error di halaman lain (Misal di Beranda)
+    if(!questionEl) return; 
 
     const currentData = questionsData[currentQuestionIndex];
     selectedOptionIndex = null;
     nextBtn.disabled = true;
     nextBtn.innerHTML = (currentQuestionIndex === questionsData.length - 1) ? "Selesai" : "Selanjutnya <i class='fa-solid fa-arrow-right'></i>";
     
+    // Update Teks Soal & Progress
     questionEl.innerText = `${currentQuestionIndex + 1}. ${currentData.question}`;
     progressText.innerText = `Soal ${currentQuestionIndex + 1} / ${questionsData.length}`;
     progressBar.style.width = `${((currentQuestionIndex) / questionsData.length) * 100}%`;
 
+    // Render Pilihan Jawaban
     optionsEl.innerHTML = "";
     currentData.options.forEach((opt, index) => {
         const btn = document.createElement("button");
@@ -344,28 +353,42 @@ function loadQuestion() {
         btn.innerText = opt;
         btn.onclick = () => {
             selectedOptionIndex = index;
+            // Visualisasi pilihan
             document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
             btn.classList.add("selected");
+            // Aktifkan tombol next
             nextBtn.disabled = false;
         };
         optionsEl.appendChild(btn);
     });
 }
 
+// Fungsi Pindah Soal / Selesai (DIPERBAIKI)
 window.nextQuestion = function() {
-    if (selectedOptionIndex === questionsData[currentQuestionIndex].correct) score += 10;
+    // Cek jawaban
+    if (selectedOptionIndex === questionsData[currentQuestionIndex].correct) {
+        score += 10;
+        // --- LIVE SCORE UPDATE ---
+        const scoreElem = document.getElementById("score-live");
+        if(scoreElem) {
+            scoreElem.innerText = `Score: ${score}`;
+        }
+    }
+    
     currentQuestionIndex++;
+    
     if (currentQuestionIndex < questionsData.length) {
         loadQuestion();
     } else {
+        // Tampilkan Hasil Akhir
         document.getElementById("quiz-container").style.display = "none";
         document.getElementById("result-container").style.display = "block";
         document.getElementById("final-score").innerText = score;
     }
 }
 
-// --- INISIALISASI KUIS OTOMATIS (PERBAIKAN LOADING) ---
-// Cek apakah elemen kuis ada di halaman ini
+// --- INISIALISASI KUIS OTOMATIS (FIX LOADING TERUS) ---
+// Langsung cek apakah elemen kuis ada di halaman saat script dimuat
 const quizContainer = document.getElementById("quiz-container");
 if (quizContainer) {
     loadQuestion();
@@ -373,16 +396,193 @@ if (quizContainer) {
 
 
 /* =========================================================== */
-/* BAGIAN 4: MATERI & VIDEO                                    */
+/* BAGIAN 4: MATERI & VIDEO (UPDATE MATERI BARU)               */
 /* =========================================================== */
 
 const databaseMateri = {
-  html: { title: "HTML5 Dasar", videoId: "NBZ9Ro6UKV8", content: "<p>HTML adalah kerangka web...</p>" },
-  css: { title: "CSS3 Styling", videoId: "CleFk3BZB3g", content: "<p>CSS mempercantik web...</p>" },
-  javascript: { title: "JavaScript Logic", videoId: "RUTV_5m4WIV", content: "<p>JS bikin web hidup...</p>" },
-  gamedev: { title: "Game Dev Intro", videoId: "z0kTMXv3fQI", content: "<p>Bikin game itu seru...</p>" },
-  toolsgame: { title: "Tools Game", videoId: "8aGhZQkoFbQ", content: "<p>Unity & Godot...</p>" },
-  toolsdev: { title: "Setup VS Code", videoId: "8aGhZQkoFbQ", content: "<p>Install VS Code dulu...</p>" },
+  html: { 
+      title: "2. HTML (HyperText Markup Language)", 
+      videoId: "NBZ9Ro6UKV8", 
+      content: `
+        <p>HTML adalah bahasa markup standar yang digunakan untuk menyusun struktur halaman website. HTML menjadi dasar dari semua halaman web.</p>
+        
+        <h3>Fungsi HTML:</h3>
+        <ul>
+            <li>Menentukan struktur dan konten halaman web</li>
+            <li>Menampilkan teks, gambar, audio, dan video</li>
+            <li>Membuat hyperlink antar halaman</li>
+            <li>Membuat tabel dan form input</li>
+        </ul>
+
+        <h3>Elemen HTML yang Sering Digunakan:</h3>
+        <ol>
+            <li><strong>Heading:</strong> &lt;h1&gt; – &lt;h6&gt;</li>
+            <li><strong>Paragraf:</strong> &lt;p&gt;</li>
+            <li><strong>Gambar:</strong> &lt;img&gt;</li>
+            <li><strong>Link:</strong> &lt;a&gt;</li>
+            <li><strong>List:</strong> &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</li>
+            <li><strong>Form:</strong> &lt;form&gt;, &lt;input&gt;, &lt;button&gt;</li>
+        </ol>
+
+        <h3>Contoh HTML Lengkap:</h3>
+        <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Website PPLG&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Selamat Datang di PPLG&lt;/h1&gt;
+  &lt;p&gt;Belajar HTML itu menyenangkan&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;HTML&lt;/li&gt;
+    &lt;li&gt;CSS&lt;/li&gt;
+    &lt;li&gt;JavaScript&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+      ` 
+  },
+  css: { 
+      title: "3. CSS (Cascading Style Sheets)", 
+      videoId: "CleFk3BZB3g", 
+      content: `
+        <p>CSS adalah bahasa yang digunakan untuk mengatur tampilan halaman web agar lebih menarik dan mudah digunakan.</p>
+        
+        <h3>Fungsi CSS:</h3>
+        <ul>
+            <li>Mengatur warna, font, dan ukuran</li>
+            <li>Mengatur layout halaman</li>
+            <li>Membuat animasi sederhana</li>
+            <li>Membuat website responsif</li>
+        </ul>
+
+        <h3>Cara Menggunakan CSS:</h3>
+        <ol>
+            <li><strong>Inline CSS:</strong> Langsung di elemen HTML</li>
+            <li><strong>Internal CSS:</strong> Di dalam tag &lt;style&gt;</li>
+            <li><strong>External CSS:</strong> File terpisah (.css)</li>
+        </ol>
+
+        <h3>Contoh CSS:</h3>
+        <pre>body {
+  background-color: #eef;
+  font-family: Arial;
+}
+h1 {
+  color: blue;
+}</pre>
+      ` 
+  },
+  javascript: { 
+      title: "4. JavaScript (JS)", 
+      videoId: "RUTV_5m4WIV", 
+      content: `
+        <p>JavaScript adalah bahasa pemrograman yang membuat website menjadi interaktif dan dinamis.</p>
+        
+        <h3>Fungsi JavaScript:</h3>
+        <ul>
+            <li>Menangani event (klik, input)</li>
+            <li>Mengolah data</li>
+            <li>Validasi form</li>
+            <li>Membuat game berbasis web</li>
+        </ul>
+
+        <h3>Dasar JavaScript:</h3>
+        <ul>
+            <li><strong>Variabel:</strong> let, const</li>
+            <li><strong>Operator:</strong> +, -, *, /</li>
+            <li><strong>Percabangan:</strong> if else</li>
+            <li><strong>Perulangan:</strong> for, while</li>
+            <li><strong>Function</strong></li>
+        </ul>
+
+        <h3>Contoh JavaScript:</h3>
+        <pre>&lt;script&gt;
+let nilai = 80;
+if (nilai >= 75) {
+  alert("Lulus");
+} else {
+  alert("Tidak Lulus");
+}
+&lt;/script&gt;</pre>
+      ` 
+  },
+  gamedev: { 
+      title: "5. Gim dan Game Development", 
+      videoId: "z0kTMXv3fQI", 
+      content: `
+        <p>Gim adalah perangkat lunak interaktif yang dibuat untuk hiburan, edukasi, atau simulasi.</p>
+        
+        <h3>Unsur Gim:</h3>
+        <ol>
+            <li>Player</li>
+            <li>Aturan permainan</li>
+            <li>Skor</li>
+            <li>Level</li>
+            <li>Tantangan</li>
+        </ol>
+
+        <h3>Alur Pembuatan Gim:</h3>
+        <ol>
+            <li>Ide dan konsep</li>
+            <li>Desain karakter dan aturan</li>
+            <li>Pembuatan kode</li>
+            <li>Pengujian</li>
+            <li>Perbaikan</li>
+        </ol>
+
+        <h3>Contoh Logika Game Sederhana:</h3>
+        <pre>&lt;script&gt;
+let skor = 0;
+function tambahSkor() {
+  skor++;
+  alert("Skor: " + skor);
+}
+&lt;/script&gt;
+&lt;button onclick="tambahSkor()"&gt;Tambah Skor&lt;/button&gt;</pre>
+      ` 
+  },
+  toolsdev: { 
+      title: "1. Pengenalan PPLG & Tools", 
+      videoId: "8aGhZQkoFbQ", 
+      content: `
+        <h3>Apa itu PPLG?</h3>
+        <p>PPLG (Pengembangan Perangkat Lunak dan Gim) adalah jurusan yang mempelajari proses pembuatan perangkat lunak (software) dan gim mulai dari perencanaan, perancangan, pembuatan, pengujian, hingga pemeliharaan. Jurusan ini menekankan kemampuan berpikir logis, analitis, kreatif, dan pemecahan masalah.</p>
+
+        <h3>Tujuan Pembelajaran PPLG:</h3>
+        <ol>
+            <li>Memahami konsep dasar pemrograman</li>
+            <li>Mampu membuat website dan aplikasi sederhana</li>
+            <li>Mampu membuat gim sederhana</li>
+            <li>Memahami penggunaan software pendukung pemrograman</li>
+        </ol>
+
+        <h3>Sikap yang Diharapkan:</h3>
+        <ul>
+            <li>Teliti dan sabar</li>
+            <li>Mampu bekerja mandiri dan tim</li>
+            <li>Berpikir kritis dan kreatif</li>
+            <li>Bertanggung jawab terhadap kode yang dibuat</li>
+        </ul>
+
+        <hr>
+
+        <h3>6. Software dalam PPLG</h3>
+        <p>Software adalah perangkat lunak yang digunakan untuk membantu pekerjaan pemrograman.</p>
+        <p><strong>Contoh Software Pendukung:</strong></p>
+        <ul>
+            <li>Web browser (Chrome, Firefox)</li>
+            <li>Text editor / Code editor</li>
+            <li>Compiler dan interpreter</li>
+            <li>Software desain</li>
+        </ul>
+
+        <h3>7. Code Editor</h3>
+        <p>Code editor adalah software yang digunakan untuk menulis dan mengedit kode program.</p>
+        <p><strong>Fungsi:</strong> Menulis kode rapi, syntax highlighting, deteksi kesalahan.</p>
+        <p><strong>Contoh Populer:</strong> Visual Studio Code, Sublime Text, Notepad++, Atom.</p>
+      ` 
+  },
 };
 
 window.bukaDetail = function (key) {
@@ -398,21 +598,61 @@ window.bukaDetail = function (key) {
 };
 
 window.tutupDetail = function () {
-  document.getElementById("detailModal").style.display = "none";
-  document.getElementById("materiVideo").src = "";
-  document.body.style.overflow = "auto";
+  const modal = document.getElementById("detailModal");
+  const videoElem = document.getElementById("materiVideo");
+
+  if (modal) {
+    modal.style.display = "none";
+    if (videoElem) videoElem.src = ""; // Matikan video saat tutup
+    document.body.style.overflow = "auto";
+  }
 };
 
 /* =========================================================== */
-/* BAGIAN 5: TIM POPUP & INTERAKSI GLOBAL                      */
+/* BAGIAN 5: TIM POPUP                                         */
 /* =========================================================== */
 
 const teamData = {
-  member1: { name: "Miftah Ramadhan", role: "Project Manager", photo: "https://ui-avatars.com/api/?name=Miftah+R&background=6c63ff&color=fff&size=256", desc: "Pemimpin proyek.", skills: ["Leadership", "Agile"], motto: "Kode bersih, pikiran jernih." },
-  member2: { name: "Rima Amarida", role: "UI/UX Designer", photo: "https://ui-avatars.com/api/?name=Rima+A&background=ff5f56&color=fff&size=256", desc: "Desainer kreatif.", skills: ["Figma", "Design"], motto: "Design is functionality." },
-  member3: { name: "Inayattullah Yoga F.", role: "Full Stack Dev", photo: "https://ui-avatars.com/api/?name=Inayattullah+Y&background=27c93f&color=fff&size=256", desc: "Frontend & Backend.", skills: ["JS", "Firebase"], motto: "Talk is cheap." },
-  member4: { name: "Nayla Seftiawati", role: "Game Developer", photo: "https://ui-avatars.com/api/?name=Nayla+S&background=ffbd2e&color=fff&size=256", desc: "Pembuat Game.", skills: ["Unity", "C#"], motto: "Level Up!" },
-  member5: { name: "Shifa Octaviani", role: "Quality Assurance", photo: "https://ui-avatars.com/api/?name=Shifa+O&background=00f3ff&color=fff&size=256", desc: "Pencari Bug.", skills: ["Testing", "Detail"], motto: "Zero Bug." },
+  member1: { 
+      name: "Miftah Ramadhan", 
+      role: "Project Manager", 
+      photo: "img/miftah.jpg", 
+      desc: "Pemimpin proyek.", 
+      skills: ["Leadership", "Agile"], 
+      motto: "Kode bersih, pikiran jernih." 
+  },
+  member2: { 
+      name: "Rima Amarida", 
+      role: "UI/UX Designer", 
+      photo: "img/rima.jpg", 
+      desc: "Desainer kreatif.", 
+      skills: ["Figma", "Design"], 
+      motto: "Design is functionality." 
+  },
+  member3: { 
+      name: "Inayattullah Yoga F.", 
+      role: "Full Stack Dev", 
+      photo: "img/inayat.jpg", 
+      desc: "Frontend & Backend.", 
+      skills: ["JS", "Firebase"], 
+      motto: "Talk is cheap." 
+  },
+  member4: { 
+      name: "Nayla Seftiawati", 
+      role: "Game Developer", 
+      photo: "img/nayla.jpg", 
+      desc: "Pembuat Game.", 
+      skills: ["Unity", "C#"], 
+      motto: "Level Up!" 
+  },
+  member5: { 
+      name: "Shifa Octaviani", 
+      role: "Quality Assurance", 
+      photo: "img/shifa.jpg", 
+      desc: "Pencari Bug.", 
+      skills: ["Testing", "Detail"], 
+      motto: "Zero Bug." 
+  },
 };
 
 window.bukaTeam = function (id) {
@@ -441,16 +681,20 @@ window.tutupTeam = function () {
   if (modal) modal.style.display = "none";
 };
 
-// GLOBAL CLICK HANDLER (Satu untuk semua)
+/* =========================================================== */
+/* BAGIAN 6: GLOBAL HANDLER & UTILS                            */
+/* =========================================================== */
+
+// GLOBAL CLICK HANDLER (Satu fungsi menangani tutup semua modal)
 window.onclick = function (event) {
-  // Tutup Dropdown
+  // Tutup Dropdown Menu (Titik 3)
   if (!event.target.matches(".three-dots-btn")) {
     const dropdowns = document.getElementsByClassName("dropdown-content");
     for (let i = 0; i < dropdowns.length; i++) {
       if (dropdowns[i].classList.contains("show")) dropdowns[i].classList.remove("show");
     }
   }
-  // Tutup Modal
+  // Tutup Modal jika klik background gelap
   if (event.target === document.getElementById("loginModal")) window.tutupLogin();
   if (event.target === document.getElementById("detailModal")) window.tutupDetail();
   if (event.target === document.getElementById("settingsModal")) window.tutupPengaturan();
@@ -462,7 +706,7 @@ window.toggleMenu = function () {
   if (navLinks) navLinks.classList.toggle("active");
 };
 
-// Scroll Reveal
+// Scroll Reveal Observer
 const revealElements = document.querySelectorAll(".reveal");
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add("active"); });
@@ -470,36 +714,64 @@ const revealObserver = new IntersectionObserver((entries) => {
 revealElements.forEach((el) => revealObserver.observe(el));
 
 /* =========================================================== */
-/* BAGIAN 6: MUSIK PLAYER                                      */
+/* BAGIAN 7: MUSIK PLAYER (FIXED & ROBUST)                     */
 /* =========================================================== */
 
 var player;
 var isPlaying = false;
+var isPlayerReady = false; // Penanda apakah musik sudah siap
+
+// Load YouTube API
 var tag = document.createElement("script");
-tag.src = "https://www.youtube.com/iframe_api";
+tag.src = "https://www.youtube.com/iframe_api"; 
 var firstScriptTag = document.getElementsByTagName("script")[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+// Fungsi yang dipanggil otomatis oleh YouTube API saat siap
 window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player("music-player", {
     height: "0",
     width: "0",
-    videoId: "rrXF9ziZ3AU4",
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: "rrXF9ziZ3AU4", playsinline: 1 },
-    events: { onReady: (e) => e.target.setVolume(40) },
+    // ID Video: Lofi Girl (Pasti Jalan)
+    videoId: "jfKfPfyJRdk", 
+    playerVars: { 
+        autoplay: 0, 
+        controls: 0, 
+        loop: 1, 
+        playlist: "jfKfPfyJRdk", 
+        playsinline: 1 
+    },
+    events: { 
+        onReady: (e) => {
+            isPlayerReady = true; // Beri tahu kalau sudah siap
+            e.target.setVolume(50); 
+            console.log("Musik Siap!");
+        },
+        onError: (e) => {
+            console.error("Error YouTube Player:", e.data);
+        }
+    },
   });
 };
 
+// Fungsi Tombol Play/Pause
 window.toggleMusic = function () {
   var btn = document.getElementById("musicBtn");
+  
+  // Cek apakah player sudah siap
+  if (!isPlayerReady || !player) {
+      alert("Sabar ya, musik sedang dimuat... (Cek koneksi internet)");
+      return;
+  }
+
   if (isPlaying) {
     player.pauseVideo();
-    btn.innerHTML = "七 Play Music";
+    btn.innerHTML = "🎵 Play Music";
     btn.classList.remove("music-playing");
     isPlaying = false;
   } else {
     player.playVideo();
-    btn.innerHTML = "竢ｸ Pause Music";
+    btn.innerHTML = "⏸ Pause Music";
     btn.classList.add("music-playing");
     isPlaying = true;
   }
