@@ -1016,9 +1016,38 @@ footer {
   .nav-links.active {
     display: flex;
   }
-  .nav-actions {
-    display: none;
-  }
+/* --- PERBAIKAN TAMPILAN HP (MOBILE) --- */
+    
+    /* 1. Munculkan Tombol Login / User Menu */
+    .nav-actions {
+        display: flex; /* Ganti dari none ke flex */
+        align-items: center;
+        margin-right: 15px; /* Kasih jarak dengan hamburger */
+    }
+
+    /* 2. Kecilkan Tombol Login biar muat */
+    .btn-login {
+        padding: 6px 15px; /* Lebih ramping */
+        font-size: 0.8rem; /* Huruf lebih kecil */
+    }
+
+    /* 3. Atur ukuran foto profil di HP (kalau sudah login) */
+    .user-info img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* 4. Sembunyikan Nama User di HP (Biar gak penuh, cuma foto aja) */
+    .user-info span {
+        display: none;
+    }
+
+    /* 5. Geser Menu Dropdown Titik 3 biar gak kepotong layar */
+    .dropdown-content {
+        right: -10px; /* Geser dikit ke kanan */
+        width: 150px; /* Kecilkan lebar menu */
+    }
+    
   .hamburger {
     display: flex;
   }
@@ -1940,4 +1969,24 @@ footer {
 @keyframes fadeInQuiz {
     from { opacity: 0; transform: translateX(20px); }
     to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+    /* ... kode lain ... */
+
+    /* INI WAJIB ADA BIAR TOMBOL MUNCUL DI HP */
+    .nav-actions {
+        display: flex !important; /* Paksa muncul */
+        margin-right: 10px;
+    }
+    
+    .btn-login {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+
+    /* Sembunyikan nama user kalau kepanjangan di HP */
+    .user-info span {
+        display: none;
+    }
 }
