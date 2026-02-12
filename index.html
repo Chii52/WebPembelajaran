@@ -201,71 +201,67 @@
       </div>
     </div>
 
+<div id="teamModal" class="modal">
+        <div class="modal-content team-popup-content">
+            <span class="close-btn" onclick="tutupTeam()">&times;</span>
+            
+            <div class="team-popup-layout">
+                <div class="team-popup-left">
+                    <img id="tImg" src="" alt="Foto Member">
+                    <div class="team-socials">
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-linkedin"></i>
+                        <i class="fa-brands fa-github"></i>
+                    </div>
+                </div>
+
+                <div class="team-popup-right">
+                    <span id="tRole" class="badge-role-popup">Role Name</span>
+                    <h2 id="tName">Nama Lengkap</h2>
+                    <hr class="divider-small">
+                    
+                    <p id="tDesc" class="team-desc">Deskripsi...</p>
+                    
+                    <div class="skill-box">
+                        <h4>Skillset:</h4>
+                        <div id="tSkills" class="tech-stack-popup"></div>
+                    </div>
+
+                    <p id="tMotto" class="team-motto">"Motto..."</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section id="about" class="container">
       <h2 class="section-title reveal">Meet The Team</h2>
       <div class="grid-container">
-        <div
-          class="card team-card reveal delay-1"
-          onclick="bukaDetail('member1')"
-        >
-          <div
-            class="profile-img"
-            style="
-              background-image: url(&quot;https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&quot;);
-            "
-          ></div>
+        <div class="card team-card reveal delay-1" onclick="bukaTeam('member1')">
+          <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Miftah+R&background=6c63ff&color=fff');"></div>
           <h3>Miftah Ramadhan</h3>
           <p class="role">Project Manager</p>
         </div>
-        <div
-          class="card team-card reveal delay-2"
-          onclick="bukaDetail('member2')"
-        >
-          <div
-            class="profile-img"
-            style="
-              background-image: url(&quot;https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&quot;);
-            "
-          ></div>
+
+        <div class="card team-card reveal delay-2" onclick="bukaTeam('member2')">
+          <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Rima+A&background=ff5f56&color=fff');"></div>
           <h3>Rima Amarida</h3>
           <p class="role">UI/UX Designer</p>
         </div>
-        <div
-          class="card team-card reveal delay-3"
-          onclick="bukaDetail('member3')"
-        >
-          <div
-            class="profile-img"
-            style="
-              background-image: url(&quot;https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&quot;);
-            "
-          ></div>
+
+        <div class="card team-card reveal delay-3" onclick="bukaTeam('member3')">
+          <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Inayattullah+Y&background=27c93f&color=fff');"></div>
           <h3>Inayattullah Yoga F.</h3>
           <p class="role">Full Stack Dev</p>
         </div>
-        <div
-          class="card team-card reveal delay-4"
-          onclick="bukaDetail('member4')"
-        >
-          <div
-            class="profile-img"
-            style="
-              background-image: url(&quot;https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&quot;);
-            "
-          ></div>
+
+        <div class="card team-card reveal delay-4" onclick="bukaTeam('member4')">
+          <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Nayla+S&background=ffbd2e&color=fff');"></div>
           <h3>Nayla Septiawati</h3>
           <p class="role">Game Developer</p>
         </div>
-        <div
-          class="card team-card reveal delay-1"
-          onclick="bukaDetail('member5')"
-        >
-          <div
-            class="profile-img"
-            style="
-              background-image: url(&quot;https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&quot;);
-            "
-          ></div>
+
+        <div class="card team-card reveal delay-1" onclick="bukaTeam('member5')">
+          <div class="profile-img" style="background-image: url('https://ui-avatars.com/api/?name=Shifa+O&background=00f3ff&color=fff');"></div>
           <h3>Shifa Octaviani</h3>
           <p class="role">Quality Assurance</p>
         </div>
