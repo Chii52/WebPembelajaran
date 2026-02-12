@@ -10,6 +10,12 @@
       rel="stylesheet"
     />
   </head>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
   <body>
     <nav class="navbar">
       <div class="logo">
@@ -20,13 +26,29 @@
         <li><a href="game.html">Simulasi</a></li>
         <li><a href="quiz.html">Kuis</a></li>
         <li><a href="#about">Tim</a></li>
-        <li><a href="#materi">Materi</a></li>
+        <li><a href="materi.html">Materi</a></li>
       </ul>
-      <div class="nav-actions">
-        <a href="#" id="navLoginBtn" class="btn-login" onclick="bukaLogin()"
-          >Masuk/Daftar</a
-        >
-      </div>
+<div class="nav-actions">
+            <a href="#" id="navLoginBtn" class="btn-login" onclick="bukaLogin()">Masuk/Daftar</a>
+
+            <div id="userMenu" class="user-menu" style="display: none;">
+                
+                <div class="user-info">
+                    <img id="navUserImg" src="https://ui-avatars.com/api/?name=User" alt="Profile">
+                    <span id="navUserName">Halo, User</span>
+                </div>
+
+                <div class="dropdown">
+                    <button class="three-dots-btn" onclick="toggleProfileMenu()">⋮</button>
+                    
+                    <div id="dropdownContent" class="dropdown-content">
+                        <a href="#" onclick="ubahPFP()">🖼️ Ganti Foto Profil</a>
+                        <a href="#" onclick="ubahPassword()">🔑 Ubah Password</a>
+                        <hr> <a href="#" onclick="handleLogout()" style="color: #ff5f56;">🚪 Keluar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
       <div class="hamburger" onclick="toggleMenu()">
         <span></span><span></span><span></span>
       </div>
@@ -84,67 +106,44 @@
     </section>
 
     <section id="kategori" class="container">
-      <h2 class="section-title reveal">Pilih Jalur Belajarmu</h2>
-      <div class="kategori-wrapper">
-        <div class="kategori-cards">
-          <div class="kat-card reveal delay-1">
-            <div class="kat-icon"></div>
-            <h3>Web Dev</h3>
-            <p>Bikin website dari nol.</p>
-          </div>
-          <div class="kat-card reveal delay-2">
-            <div class="kat-icon"></div>
-            <h3>Game Dev</h3>
-            <p>Ciptakan dunia gim.</p>
-          </div>
-          <div class="kat-card reveal delay-3">
-            <div class="kat-icon"></div>
-            <h3>Logika</h3>
-            <p>Asah otak algoritma.</p>
-          </div>
+        <h2 class="section-title reveal">Pilih Jalur Belajarmu</h2>
+        <div class="kategori-wrapper">
+            <div class="kategori-cards">
+                <div class="kat-card reveal delay-1">
+                    <div class="kat-icon-box icon-web">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3>Web Dev</h3>
+                    <p>Bikin website dari nol dengan HTML, CSS & JS.</p>
+                </div>
+                
+                <div class="kat-card reveal delay-2">
+                    <div class="kat-icon-box icon-game">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <h3>Game Dev</h3>
+                    <p>Ciptakan dunia gim interaktif sendiri.</p>
+                </div>
+                
+                <div class="kat-card reveal delay-3">
+                    <div class="kat-icon-box icon-logic">
+                        <i class="fa-solid fa-brain"></i>
+                    </div>
+                    <h3>Logika</h3>
+                    <p>Asah kemampuan berpikir algoritma.</p>
+                </div>
+            </div>
+            
+            <div class="kategori-illustration reveal delay-4">
+                <div class="floating-img">
+                    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/web-development-4438753-3718430.png" alt="Ilustrasi">
+                    <div class="glow-effect"></div>
+                </div>
+            </div>
         </div>
-        <div class="kategori-illustration reveal delay-4">
-          <div class="floating-img">
-            <img
-              src="https://cdn3d.iconscout.com/3d/premium/thumb/web-development-4438753-3718430.png"
-              alt="Ilustrasi"
-            />
-            <div class="glow-effect"></div>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <section id="materi" class="container">
-      <h2 class="section-title reveal">Materi Belajar</h2>
-      <div class="grid-container">
-        <div class="card reveal delay-1" onclick="bukaDetail('html')">
-          <h3>HTML Dasar</h3>
-          <p>Struktur web modern.</p>
-        </div>
-        <div class="card reveal delay-2" onclick="bukaDetail('css')">
-          <h3>CSS Styling</h3>
-          <p>Desain visual web.</p>
-        </div>
-        <div class="card reveal delay-3" onclick="bukaDetail('javascript')">
-          <h3>JavaScript</h3>
-          <p>Logika interaktif.</p>
-        </div>
-        <div class="card reveal delay-4" onclick="bukaDetail('gamedev')">
-          <h3>Game Dev</h3>
-          <p>Dasar pembuatan gim.</p>
-        </div>
-        <div class="card reveal delay-1" onclick="bukaDetail('toolsgame')">
-          <h3>Software Game</h3>
-          <p>Engine Unity & Godot.</p>
-        </div>
-        <div class="card reveal delay-2" onclick="bukaDetail('toolsdev')">
-          <h3>Code Editors</h3>
-          <p>VS Code & Sublime.</p>
-        </div>
-      </div>
-    </section>
-
+  
     <div id="detailModal" class="modal">
       <div class="modal-content">
         <span class="close-btn" onclick="tutupDetail()">&times;</span>
@@ -215,7 +214,7 @@
               background-image: url(&quot;https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&quot;);
             "
           ></div>
-          <h3>Aditya R.</h3>
+          <h3>Miftah Ramadhan</h3>
           <p class="role">Project Manager</p>
         </div>
         <div
@@ -228,7 +227,7 @@
               background-image: url(&quot;https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&quot;);
             "
           ></div>
-          <h3>Bunga C.</h3>
+          <h3>Rima Amarida</h3>
           <p class="role">UI/UX Designer</p>
         </div>
         <div
@@ -241,7 +240,7 @@
               background-image: url(&quot;https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&quot;);
             "
           ></div>
-          <h3>Chandra K.</h3>
+          <h3>Inayattullah Yoga F.</h3>
           <p class="role">Full Stack Dev</p>
         </div>
         <div
@@ -254,7 +253,7 @@
               background-image: url(&quot;https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&quot;);
             "
           ></div>
-          <h3>Dinda P.</h3>
+          <h3>Nayla Septiawati</h3>
           <p class="role">Game Developer</p>
         </div>
         <div
@@ -267,7 +266,7 @@
               background-image: url(&quot;https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&quot;);
             "
           ></div>
-          <h3>Eko S.</h3>
+          <h3>Shifa Octaviani</h3>
           <p class="role">Quality Assurance</p>
         </div>
       </div>
@@ -305,8 +304,12 @@
     <div id="music-player" style="display: none"></div>
 
     <button id="musicBtn" class="music-btn" onclick="toggleMusic()">
-      🎵 Play Music
+       Play Music
     </button>
+
+    <input type="file" id="fileInputPFP" accept="image/*" style="display: none;">
+
+    <div id="music-player" style="display: none;"></div>
 
     <footer>
       <p class="reveal">&copy; 2026 Power Rangers. All Rights Reserved.</p>
