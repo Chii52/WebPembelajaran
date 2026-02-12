@@ -1,1992 +1,370 @@
-/* ========================================= */
-/* ===  STYLE.CSS (ULTIMATE PASTEL THEME) === */
-/* ========================================= */
-
-/* --- 1. RESET & VARIABLES --- */
-:root {
-  /* Gradasi Background Utama */
-  --bg-gradient: linear-gradient(135deg, #fff0f0 0%, #ffe4e1 100%);
-
-  /* Warna Utama */
-  --primary-color: #ff746c; /* Pastel Red */
-  --primary-dark: #e65b53; /* Merah lebih gelap untuk hover */
-
-  /* Warna Kartu & Teks */
-  --card-bg: rgba(255, 255, 255, 0.75); /* Putih Transparan */
-  --text-main: #4a1c1c; /* Coklat Merah Gelap */
-  --text-secondary: #8c5e5e; /* Coklat Pudar */
-
-  /* Navbar & Border */
-  --glass-nav: rgba(255, 255, 255, 0.85);
-  --border-light: rgba(255, 116, 108, 0.2);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-*::-webkit-scrollbar {
-  display: none;
-}
-
-body {
-  background: var(--bg-gradient);
-  color: var(--text-main);
-  font-family: "Poppins", sans-serif;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-/* --- 2. NAVBAR NAVIGATION --- */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 15px 50px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--glass-nav);
-  backdrop-filter: blur(15px);
-  z-index: 1000;
-  border-bottom: 1px solid var(--border-light);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(255, 116, 108, 0.05);
-}
-
-.logo-text {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--primary-color);
-  letter-spacing: 1px;
-}
-
-.nav-links {
-  list-style: none;
-  display: flex;
-  gap: 30px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--text-secondary);
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: 0.3s;
-  position: relative;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--primary-color);
-}
-
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 3px;
-  bottom: -5px;
-  left: 0;
-  background-color: var(--primary-color);
-  transition: width 0.3s;
-  border-radius: 2px;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.search-btn {
-  background: none;
-  border: none;
-  color: var(--text-main);
-  cursor: pointer;
-  opacity: 0.7;
-  transition: 0.3s;
-}
-
-.search-btn:hover {
-  opacity: 1;
-  color: var(--primary-color);
-}
-
-.btn-login {
-  text-decoration: none;
-  background: var(--primary-color);
-  color: white;
-  padding: 8px 25px;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: 0.3s;
-  box-shadow: 0 4px 10px rgba(255, 116, 108, 0.3);
-}
-
-.btn-login:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-}
-
-/* Hamburger Menu (Mobile) */
-.hamburger {
-  display: none;
-  cursor: pointer;
-  flex-direction: column;
-  gap: 5px;
-}
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: var(--text-main);
-}
-
-/* --- 3. HERO SECTION --- */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  padding: 0 20px;
-  background: transparent;
-  overflow: hidden;
-}
-
-.hero-content {
-  z-index: 5;
-  width: 100%;
-  max-width: 800px;
-}
-
-.main-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  margin-bottom: 15px;
-  background: linear-gradient(to right, #ff746c, #ff4d4d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  line-height: 1.2;
-}
-
-.subtitle {
-  color: var(--text-secondary);
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-}
-
-.highlight-bright {
-  color: var(--primary-color);
-  -webkit-text-fill-color: var(--primary-color);
-}
-
-.hero .btn-primary {
-  margin-top: 50px;
-  padding: 15px 40px;
-  font-size: 1.1rem;
-  box-shadow: 0 10px 25px rgba(255, 116, 108, 0.4);
-}
-
-/* Clouds & Wave */
-.cloud-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
-.cloud {
-  position: absolute;
-  opacity: 0.9;
-  color: #fff;
-  filter: drop-shadow(0 10px 15px rgba(255, 182, 193, 0.4));
-}
-.c1 {
-  top: 10%;
-  left: 5%;
-  width: 150px;
-  opacity: 0.6;
-}
-.c2 {
-  bottom: 25%;
-  right: -5%;
-  width: 300px;
-  opacity: 0.8;
-}
-.c3 {
-  top: 30%;
-  right: 20%;
-  width: 100px;
-  opacity: 0.5;
-}
-
-.wave-bottom {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  line-height: 0;
-  z-index: 3;
-  opacity: 0.6;
-}
-.wave-bottom svg path {
-  fill: #ffe4e1;
-}
-
-/* --- 4. LAYOUT & GRID --- */
-section.container {
-  padding: 100px 20px;
-  max-width: 1100px;
-  margin: auto;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 50px;
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-}
-
-/* --- 5. CARDS (MATERI) --- */
-.card {
-  background: var(--card-bg);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  padding: 30px;
-  border-radius: 20px;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  cursor: pointer;
-  position: relative;
-  box-shadow: 0 15px 35px rgba(255, 116, 108, 0.1);
-  overflow: hidden;
-}
-
-.card:hover {
-  transform: translateY(-12px) scale(1.03);
-  background: rgba(255, 240, 240, 0.9);
-  border-color: var(--primary-color);
-  box-shadow: 0 25px 50px rgba(255, 116, 108, 0.25);
-}
-
-.card h3 {
-  color: var(--text-main);
-  margin-bottom: 10px;
-  transition: color 0.3s;
-}
-.card:hover h3 {
-  color: var(--primary-color);
-}
-.card p {
-  color: var(--text-secondary);
-  transition: color 0.3s;
-}
-
-.card-hint {
-  color: var(--primary-color);
-  font-size: 0.9rem;
-  margin-top: 15px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: transform 0.3s ease;
-}
-
-.card:hover .card-hint {
-  transform: translateX(10px);
-}
-
-.card::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0%;
-  height: 4px;
-  background: var(--primary-color);
-  transition: width 0.4s ease;
-}
-.card:hover::after {
-  width: 100%;
-}
-
-/* --- 6. TERMINAL / CODE WINDOW (RESTORED!) --- */
-.code-window {
-  background: #2d1b1b; /* Background Gelap biar kontras */
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: left;
-  font-family: "Courier New", monospace;
-  color: #ffdada;
-  border: 1px solid var(--border-light);
-}
-
-.window-header {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-.red {
-  background: #ff5f56;
-}
-.yellow {
-  background: #ffbd2e;
-}
-.green {
-  background: #27c93f;
-}
-
-.window-body p {
-  margin-bottom: 5px;
-  line-height: 1.5;
-}
-.keyword {
-  color: #ff746c;
-  font-weight: bold;
-}
-.string {
-  color: #a8e6cf;
-}
-.comment {
-  color: #888;
-  font-style: italic;
-}
-.output {
-  color: #fff;
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px dashed #555;
-}
-
-/* --- 5. Kategori (Update Desain Candy) --- */
-.kategori-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  margin-top: 30px;
-  flex-wrap: wrap;
-}
-
-.kategori-cards {
-  display: flex;
-  gap: 25px; /* Jarak antar kartu sedikit diperlebar */
-  flex: 2;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* --- KARTU KATEGORI (VERSI FIKS & SNAPPY) --- */
-.kat-card {
-  /* Pastikan elemen ini dianggap blok agar bisa bergerak */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(15px);
-  padding: 35px 25px;
-  border-radius: 30px;
-  text-align: center;
-  width: 200px;
-
-  /* Border awal transparan */
-  border: 2px solid transparent;
-  box-shadow: 0 15px 35px rgba(255, 116, 108, 0.1);
-  position: relative;
-  overflow: hidden;
-
-  /* --- TRANSISI (KITA PISAH BIAR LINCAH) --- */
-  /* Transform: 0.3s ease-out (Gerakan naik standar, mulus, tidak membal) */
-  /* Border-color: 0.1s (Sangat cepat, hampir instan) */
-  transition:
-    transform 0.3s ease-out,
-    box-shadow 0.3s ease,
-    border-color 0.1s linear;
-}
-
-/* Efek Hover (Saat Kursor Masuk) */
-.kat-card:hover {
-  /* PAKSA NAIK KE ATAS 10 PIXEL */
-  transform: translateY(-10px) !important;
-
-  /* Warna merah langsung muncul (0.1 detik) */
-  border-color: var(--primary-color) !important;
-
-  /* Bayangan di bawah makin tebal */
-  box-shadow: 0 25px 50px rgba(255, 116, 108, 0.25);
-}
-
-/* --- Desain Ikon Baru (Kotak Gradasi) --- */
-.kat-icon-box {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 20px auto;
-  border-radius: 25px; /* Bentuk squircle (kotak tumpul) */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  color: white; /* Ikon berwarna putih */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.4s ease;
-}
-
-.kat-card:hover .kat-icon-box {
-  transform: rotate(10deg) scale(1.1); /* Ikon berputar sedikit saat hover */
-}
-
-/* Warna Gradasi Spesifik per Kategori (Tema Pastel Candy) */
-.icon-web {
-  background: linear-gradient(
-    135deg,
-    #ff9a9e 0%,
-    #fad0c4 100%
-  ); /* Pink-Merah */
-  box-shadow: 0 10px 25px rgba(255, 154, 158, 0.4);
-}
-
-.icon-game {
-  background: linear-gradient(
-    135deg,
-    #a1c4fd 0%,
-    #c2e9fb 100%
-  ); /* Biru Pastel */
-  box-shadow: 0 10px 25px rgba(161, 196, 253, 0.4);
-}
-
-.icon-logic {
-  background: linear-gradient(
-    135deg,
-    #f6d365 0%,
-    #fda085 100%
-  ); /* Kuning-Oranye */
-  box-shadow: 0 10px 25px rgba(246, 211, 101, 0.4);
-}
-
-.kat-card h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 10px;
-}
-
-.kat-card p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-.kategori-illustration {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-.floating-img {
-  width: 300px;
-  animation: float 6s ease-in-out infinite;
-  position: relative;
-}
-.floating-img img {
-  width: 100%;
-  z-index: 2;
-  position: relative;
-  filter: drop-shadow(0 15px 30px rgba(255, 116, 108, 0.3));
-}
-.floating-img .glow-effect {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
-  background: var(--primary-color);
-  filter: blur(80px);
-  opacity: 0.3;
-  z-index: 1;
-  border-radius: 50%;
-}
-
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* --- 8. INTERACTIVE (GAME & QUIZ) --- */
-.interactive-box {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 15px 40px rgba(255, 116, 108, 0.1);
-  max-width: 600px;
-  margin: 0 auto;
-  border: 1px solid var(--border-light);
-  text-align: center;
-}
-
-.question-box {
-  text-align: left;
-  background: #fff5f5;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  border: 1px solid var(--border-light);
-}
-
-.question-box p {
-  font-weight: 600;
-  margin-bottom: 10px;
-  color: var(--text-main);
-}
-.question-box label {
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: block;
-  margin: 5px 0;
-}
-
-input[type="number"] {
-  padding: 12px 20px;
-  border-radius: 50px;
-  border: 2px solid #ffcccb;
-  background: #fff;
-  color: var(--text-main);
-  width: 120px;
-  text-align: center;
-  margin: 15px auto;
-  display: block;
-  font-size: 1.1rem;
-  outline: none;
-}
-input[type="number"]:focus {
-  border-color: var(--primary-color);
-}
-
-/* --- TOMBOL UTAMA (MODERN HOVER) --- */
-.btn-primary {
-  display: inline-block;
-  position: relative;
-  background: var(--primary-color); /* Warna Awal: Merah Pastel */
-  color: #ffffff; /* Teks Awal: Putih */
-  border: none;
-  padding: 15px 40px;
-  border-radius: 50px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 1.1rem;
-  box-shadow: 0 10px 20px rgba(255, 116, 108, 0.3);
-  overflow: hidden;
-  z-index: 1; /* Pastikan teks ada di atas layer fill */
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* Lapisan FILL (Warna Putih) */
-.btn-primary::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0%; /* Awalnya ngumpet di bawah */
-  background-color: #ffffff; /* FILL JADI PUTIH */
-  z-index: -1; /* Di belakang teks */
-  transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border-radius: 50px;
-}
-
-/* --- SAAT DI-HOVER (KURSOR MASUK) --- */
-.btn-primary:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-
-  /* INI KUNCINYA: Ubah teks jadi hitam saat di-hover */
-  color: #1a1a1a !important;
-}
-
-/* Saat hover, lapisan putih naik ke atas */
-.btn-primary:hover::before {
-  height: 100%;
-}
-
-/* --- SAAT DI-KLIK --- */
-.btn-primary:active {
-  transform: translateY(-2px) scale(0.95);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.result-text {
-  font-weight: 700;
-  margin-top: 20px;
-  font-size: 1.1rem;
-}
-
-/* Tombol Suit */
-.suit-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 25px 0;
-  flex-wrap: wrap;
-}
-.btn-suit {
-  background: #fff;
-  border: 2px solid #ffdcdc;
-  color: var(--text-main);
-  padding: 15px 25px;
-  border-radius: 15px;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.btn-suit:hover {
-  border-color: var(--primary-color);
-  background: #fff0f0;
-  transform: scale(1.05);
-}
-
-/* --- 9. MODAL / POPUP --- */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(74, 28, 28, 0.5);
-  z-index: 2000;
-  backdrop-filter: blur(5px);
-  animation: fadeIn 0.3s ease;
-}
-
-.modal-content {
-  background: #fff;
-  margin: 5% auto;
-  padding: 40px;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 800px;
-  max-height: 85vh;
-  overflow-y: auto;
-  position: relative;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.4s ease;
-}
-
-.close-btn {
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  font-size: 28px;
-  cursor: pointer;
-  color: var(--text-secondary);
-  transition: 0.3s;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-}
-.close-btn:hover {
-  background: #fff0f0;
-  color: var(--primary-color);
-}
-
-.modal-title {
-  color: var(--primary-color);
-  margin-bottom: 15px;
-  font-size: 2rem;
-}
-.modal-description {
-  color: var(--text-main);
-  line-height: 1.7;
-  margin-bottom: 25px;
-}
-
-/* Code Block Inside Modal */
-.code-example {
-  background: #2d1b1b;
-  color: #ffdada;
-  padding: 20px;
-  border-radius: 10px;
-  font-family: "Courier New", monospace;
-  overflow-x: auto;
-  margin: 15px 0;
-  border-left: 5px solid var(--primary-color);
-}
-.modal-example h4,
-.modal-benefits h4 {
-  color: var(--primary-color);
-  margin-bottom: 10px;
-}
-.modal-benefits li {
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-}
-
-/* --- 10. TEAM / ABOUT US --- */
-#about .grid-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-#about .team-card {
-  flex: 0 1 280px;
-  width: 100%;
-  max-width: 300px;
-  margin: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.profile-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  margin-bottom: 15px;
-  border: 3px solid var(--primary-color);
-  box-shadow: 0 10px 20px rgba(255, 116, 108, 0.3);
-  transition: transform 0.3s;
-}
-.team-card:hover .profile-img {
-  transform: rotate(5deg) scale(1.1);
-}
-.role {
-  color: var(--primary-color);
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 5px;
-}
-.desc {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-/* --- 11. FOOTER --- */
-footer {
-  text-align: center;
-  padding: 40px;
-  color: var(--text-secondary);
-  border-top: 1px solid var(--border-light);
-  margin-top: 80px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-}
-
-/* --- 12. AMBIENT BACKGROUND & CANDY --- */
-.ambient-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -2;
-  overflow: hidden;
-  pointer-events: none;
-}
-.shape-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.5;
-  mix-blend-mode: multiply;
-}
-.shape-1 {
-  background-color: #ff746c;
-  width: 500px;
-  height: 500px;
-  top: 20%;
-  left: -10%;
-  animation: ambientFloat 18s infinite alternate ease-in-out;
-}
-.shape-2 {
-  background-color: #ffb347;
-  width: 400px;
-  height: 400px;
-  bottom: 10%;
-  right: -5%;
-  animation: ambientFloat 15s infinite alternate-reverse ease-in-out;
-}
-.shape-3 {
-  background-color: #ffccbc;
-  width: 300px;
-  height: 300px;
-  bottom: -10%;
-  left: 30%;
-  opacity: 0.4;
-  animation: ambientFloat 20s infinite alternate ease-in-out;
-}
-
-.candy-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
-}
-.candy {
-  position: absolute;
-  filter: drop-shadow(0 15px 25px rgba(255, 116, 108, 0.4));
-}
-.candy-1 {
-  top: 15%;
-  left: 10%;
-  width: 80px;
-  filter: blur(1px) drop-shadow(0 10px 20px rgba(255, 116, 108, 0.3));
-}
-.candy-2 {
-  bottom: 20%;
-  right: 15%;
-  width: 120px;
-}
-.candy-3 {
-  top: 40%;
-  right: 5%;
-  width: 60px;
-  filter: blur(2px) drop-shadow(0 5px 10px rgba(255, 116, 108, 0.2));
-  opacity: 0.8;
-}
-.candy-4 {
-  bottom: 10%;
-  left: 20%;
-  width: 50px;
-  filter: blur(4px);
-  opacity: 0.6;
-}
-
-/* --- 13. ANIMATIONS --- */
-@keyframes ambientFloat {
-  0% {
-    transform: translate(0, 0) scale(1) rotate(0deg);
-  }
-  100% {
-    transform: translate(40px, -40px) scale(1.1) rotate(10deg);
-  }
-}
-@keyframes floatCloud {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(10px, -20px);
-  }
-}
-@keyframes floatRotate {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(20px, -30px) rotate(10deg);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-}
-@keyframes floatRotateReverse {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(-20px, 30px) rotate(-15deg);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-}
-
-.float-slow {
-  animation: floatRotate 12s ease-in-out infinite;
-}
-.float-medium {
-  animation: floatRotateReverse 9s ease-in-out infinite;
-}
-.float-fast {
-  animation: floatRotate 7s ease-in-out infinite;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-.delay-1 {
-  transition-delay: 0.1s;
-}
-.delay-2 {
-  transition-delay: 0.2s;
-}
-.delay-3 {
-  transition-delay: 0.3s;
-}
-.delay-4 {
-  transition-delay: 0.4s;
-}
-
-/* --- 14. RESPONSIVE --- */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 15px 20px;
-  }
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    flex-direction: column;
-    padding: 20px;
-    text-align: center;
-    border-bottom: 1px solid var(--border-light);
-  }
-  .nav-links.active {
-    display: flex;
-  }
-/* --- PERBAIKAN TAMPILAN HP (MOBILE) --- */
-    
-    /* 1. Munculkan Tombol Login / User Menu */
-    .nav-actions {
-        display: flex; /* Ganti dari none ke flex */
-        align-items: center;
-        margin-right: 15px; /* Kasih jarak dengan hamburger */
-    }
-
-    /* 2. Kecilkan Tombol Login biar muat */
-    .btn-login {
-        padding: 6px 15px; /* Lebih ramping */
-        font-size: 0.8rem; /* Huruf lebih kecil */
-    }
-
-    /* 3. Atur ukuran foto profil di HP (kalau sudah login) */
-    .user-info img {
-        width: 30px;
-        height: 30px;
-    }
-
-    /* 4. Sembunyikan Nama User di HP (Biar gak penuh, cuma foto aja) */
-    .user-info span {
-        display: none;
-    }
-
-    /* 5. Geser Menu Dropdown Titik 3 biar gak kepotong layar */
-    .dropdown-content {
-        right: -10px; /* Geser dikit ke kanan */
-        width: 150px; /* Kecilkan lebar menu */
-    }
-    
-  .hamburger {
-    display: flex;
-  }
-
-  .main-title {
-    font-size: 2.5rem;
-  }
-  .kategori-wrapper {
-    flex-direction: column-reverse;
-    gap: 20px;
-  }
-  .kat-card {
-    width: 100%;
-    max-width: 280px;
-  }
-  .floating-img {
-    width: 200px;
-  }
-  section.container {
-    padding: 60px 20px;
-  }
-  .candy-1 {
-    width: 60px;
-  }
-  .candy-2 {
-    width: 90px;
-  }
-}
-
-/* --- TOMBOL MUSIK MELAYANG --- */
-.music-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 9999; /* Paling depan */
-  background: white;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  padding: 12px 25px;
-  border-radius: 50px;
-  font-weight: 700;
-  font-family: "Poppins", sans-serif;
-  cursor: pointer;
-  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.4);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.music-btn:hover {
-  transform: scale(1.1);
-  background: var(--primary-color);
-  color: white;
-  box-shadow: 0 10px 25px rgba(255, 116, 108, 0.6);
-}
-
-/* Animasi berdenyut biar dinotice user */
-@keyframes pulseMusic {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.music-playing {
-  animation: pulseMusic 2s infinite;
-  background: var(--primary-color);
-  color: white;
-}
-
-/* --- STYLE TAMBAHAN UNTUK LOGIN --- */
-#loginModal input {
-  background: #fff5f5;
-  border: 2px solid #ffdcdc;
-  padding: 12px 15px;
-  border-radius: 10px;
-  font-family: "Poppins", sans-serif;
-  transition: 0.3s;
-  outline: none;
-  color: var(--text-main);
-}
-
-#loginModal input:focus {
-  border-color: var(--primary-color);
-  background: #fff;
-  box-shadow: 0 0 10px rgba(255, 116, 108, 0.2);
-}
-
-/* ========================================= */
-/* ===  USER MENU & DROPDOWN (TITIK 3)   === */
-/* ========================================= */
-
-.user-menu {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* Info User (Foto & Nama) */
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.user-info img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-color);
-  object-fit: cover;
-}
-
-.user-info span {
-  font-weight: 600;
-  color: var(--text-main);
-  font-size: 0.95rem;
-}
-
-/* Tombol Titik Tiga */
-.three-dots-btn {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text-main);
-  padding: 0 10px;
-  transition: 0.3s;
-  line-height: 1;
-}
-
-.three-dots-btn:hover {
-  color: var(--primary-color);
-  transform: scale(1.2);
-}
-
-/* Container Dropdown */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Isi Menu (Kotak Putih Melayang) */
-.dropdown-content {
-  display: none; /* Default sembunyi */
-  position: absolute;
-  right: 0;
-  top: 100%;
-  margin-top: 10px;
-  background-color: #fff;
-  min-width: 180px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border-radius: 15px;
-  padding: 10px 0;
-  z-index: 9999;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  animation: fadeIn 0.2s ease;
-}
-
-/* Link di dalam menu */
-.dropdown-content a {
-  color: var(--text-secondary);
-  padding: 12px 20px;
-  text-decoration: none;
-  display: block;
-  font-size: 0.9rem;
-  transition: 0.2s;
-  font-weight: 500;
-}
-
-.dropdown-content a:hover {
-  background-color: #fff5f5; /* Merah muda pudar */
-  color: var(--primary-color);
-  padding-left: 25px; /* Efek geser kanan dikit */
-}
-
-/* Garis Pemisah */
-.dropdown-content hr {
-  border: 0;
-  border-top: 1px solid #eee;
-  margin: 5px 0;
-}
-
-/* Tampilkan menu saat kelas 'show' aktif */
-.show {
-  display: block;
-}
-
-/* Responsif di HP: Sembunyikan nama, sisakan foto & titik 3 */
-@media (max-width: 768px) {
-  .user-info span {
-    display: none;
-  }
-}
-
-/* ========================================= */
-/* ===  HALAMAN MATERI & CARD DESIGN BARU === */
-/* ========================================= */
-
-/* Grid Layout untuk Materi */
-.materi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  padding-bottom: 50px;
-}
-
-/* 1. PROJECT CARD CONTAINER */
-.project-card {
-  background: rgba(255, 255, 255, 0.85); /* Glass Effect */
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  overflow: hidden;
-  transition: all 0.4s ease;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-}
-
-.project-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(255, 116, 108, 0.2);
-  border-color: var(--primary-color);
-}
-
-/* 2. BAGIAN GAMBAR ATAS */
-.card-image {
-  height: 180px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  color: white;
-}
-
-/* Warna Warni Background Header per Kartu */
-.html-bg {
-  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-}
-.css-bg {
-  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-}
-.js-bg {
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
-}
-.game-bg {
-  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
-}
-.tools-bg {
-  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-}
-
-.card-icon-big {
-  font-size: 4rem;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
-  transition: transform 0.4s;
-}
-
-.project-card:hover .card-icon-big {
-  transform: scale(1.2) rotate(10deg);
-}
-
-/* Badge "Completed/Dasar" di pojok */
-.badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-/* 3. CARD CONTENT */
-.card-content {
-  padding: 25px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-content h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-  color: var(--text-main);
-}
-
-.card-content p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 20px;
-  flex-grow: 1;
-}
-
-/* Tech Stack Pills (Bulat-bulat kecil) */
-.tech-stack {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 25px;
-  flex-wrap: wrap;
-}
-
-.tech-stack span {
-  background: #fff0f0;
-  color: var(--primary-color);
-  padding: 5px 12px;
-  border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border: 1px solid var(--border-light);
-}
-
-/* 4. FOOTER (Stats & Button) */
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  padding-top: 15px;
-}
-
-.stats {
-  display: flex;
-  gap: 15px;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.stats div {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* Tombol Baca Materi Kecil */
-.btn-read {
-  background: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.btn-read:hover {
-  background: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.4);
-}
-
-/* --- INTRO BOX (Penjelasan Algoritma) --- */
-.intro-box {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 40px;
-  border-radius: 20px;
-  margin-bottom: 50px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-}
-
-/* ========================================= */
-/* ===  PROFILE CARD SETTINGS (BARU)     === */
-/* ========================================= */
-
-/* Reset Style Modal Content khusus Profile */
-.profile-card-modal {
-  padding: 0 !important; /* Hilangkan padding bawaan modal */
-  overflow: hidden;
-  max-width: 380px !important; /* Lebih ramping seperti kartu */
-  border-radius: 25px !important;
-  background: #fff;
-  text-align: center;
-}
-
-/* Header Gradasi di Atas */
-.profile-header-bg {
-  height: 120px;
-  background: linear-gradient(135deg, #ff746c 0%, #ffbd2e 100%);
-  position: relative;
-}
-
-/* Wrapper Foto Profil (Agar bisa overlap ke header) */
-.profile-avatar-wrapper {
-  width: 110px;
-  height: 110px;
-  margin: -55px auto 15px; /* Naik ke atas menutupi header */
-  position: relative;
-}
-
-.profile-avatar-wrapper img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 5px solid #fff; /* Border putih tebal */
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
-  background: #fff;
-}
-
-/* Tombol Kamera Kecil */
-.edit-pfp-btn {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  background: var(--text-main);
-  color: #fff;
-  border: none;
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.edit-pfp-btn:hover {
-  transform: scale(1.1);
-  background: var(--primary-color);
-}
-
-/* Body Kartu */
-.profile-body {
-  padding: 0 30px 40px;
-}
-
-.profile-body h2 {
-  font-size: 1.5rem;
-  color: var(--text-main);
-  margin-bottom: 5px;
-}
-
-/* Tombol Aksi (Ganti Password & Logout) */
-.profile-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.btn-action {
-  background: #fff5f5;
-  color: var(--text-main);
-  border: 1px solid #ffdcdc;
-  padding: 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.btn-action:hover {
-  background: #fff;
-  border-color: var(--primary-color);
-  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.15);
-  transform: translateY(-2px);
-}
-
-.btn-danger {
-  background: #fff;
-  color: #ff5f56;
-  border-color: #ffe0e0;
-}
-
-.btn-danger:hover {
-  background: #ff5f56;
-  color: #fff;
-  border-color: #ff5f56;
-}
-
-/* Update Dropdown Menu agar lebih rapi */
-.dropdown-content {
-  border-radius: 15px;
-  padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-}
-
-/* ========================================= */
-/* ===  FULL SCREEN MATERI + VIDEO       === */
-/* ========================================= */
-
-/* 1. Modal Menjadi Full Screen */
-.full-screen-modal {
-  padding: 0; /* Hapus padding default */
-  background: #fff; /* Background putih penuh */
-  z-index: 9999;
-}
-
-.full-page-content {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden; /* Scroll diurus oleh anak elemen */
-}
-
-/* 2. Navigasi Atas (Tombol Kembali) */
-.modal-nav {
-  padding: 15px 20px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-}
-
-.btn-back {
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-main);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: 0.3s;
-}
-
-.btn-back:hover {
-  color: var(--primary-color);
-  transform: translateX(-5px);
-}
-
-/* 3. Area Scroll (Konten Utama) */
-.modal-scroll-area {
-  flex: 1;
-  overflow-y: auto; /* Scroll hanya di bagian ini */
-  padding-bottom: 50px;
-}
-
-/* 4. Video Responsif (Aspek Rasio 16:9) */
-.video-wrapper {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  background: #000;
-}
-
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-  height: 0;
-  overflow: hidden;
-}
-
-.video-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* 5. Teks Artikel */
-.article-body {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
-
-.article-body h1 {
-  font-size: 2rem;
-  color: var(--primary-color);
-  margin-bottom: 20px;
-  border-bottom: 2px solid #f0f0f0;
-  padding-bottom: 15px;
-}
-
-.article-body h2 {
-  font-size: 1.5rem;
-  margin-top: 30px;
-  margin-bottom: 15px;
-  color: var(--text-main);
-}
-
-.article-body p,
-.article-body li {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.article-body ul,
-.article-body ol {
-  padding-left: 20px;
-  margin-bottom: 20px;
-}
-
-/* Code block di dalam materi */
-.article-body pre {
-  background: #2d1b1b;
-  color: #ffdada;
-  padding: 15px;
-  border-radius: 10px;
-  overflow-x: auto;
-  font-family: "Courier New", monospace;
-  margin: 20px 0;
-}
-
-.article-footer {
-  text-align: center;
-  padding: 40px 20px;
-  background: #fafafa;
-  margin-top: 30px;
-}
-
-/* ========================================= */
-/* ===  UPDATE TOMBOL KEMBALI (GAYA HERO) == */
-/* ========================================= */
-
-/* Kita modifikasi sedikit btn-primary KHUSUS untuk di navigasi modal */
-.btn-nav-custom {
-  padding: 10px 25px !important; /* Lebih ramping dari tombol beranda */
-  font-size: 0.95rem !important; /* Ukuran font disesuaikan */
-  display: flex !important;
-  align-items: center;
-  gap: 10px;
-  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.3) !important;
-}
-
-/* Pastikan efek hover fill-nya tetap jalan */
-.btn-nav-custom:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Hapus style .btn-back yang lama (Opsional, biar bersih aja) */
-.btn-back {
-  display: none;
-}
-
-/* ========================================= */
-/* ===  MODAL POPUP TEAM (CARD STYLE)    === */
-/* ========================================= */
-
-/* Ukuran Modal (Setengah Layar / Compact) */
-.team-popup-content {
-  max-width: 750px !important; /* Lebar maksimal */
-  width: 90%;
-  padding: 0 !important;
-  border-radius: 20px !important;
-  overflow: hidden;
-  background: #fff;
-}
-
-.team-popup-layout {
-  display: flex;
-  flex-wrap: wrap; /* Biar responsif di HP */
-}
-
-/* KIRI: Foto & Sosmed */
-.team-popup-left {
-  flex: 2; /* Lebar 40% */
-  background: linear-gradient(135deg, #fff0f0 0%, #ffe4e1 100%);
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.team-popup-left img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 4px solid #fff;
-  box-shadow: 0 8px 20px rgba(255, 116, 108, 0.25);
-  object-fit: cover;
-  margin-bottom: 15px;
-}
-
-.team-socials {
-  display: flex;
-  gap: 15px;
-  font-size: 1.2rem;
-  color: var(--primary-color);
-}
-
-/* KANAN: Biodata */
-.team-popup-right {
-  flex: 3; /* Lebar 60% */
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.badge-role-popup {
-  background: #fff3e0;
-  color: #ff9800;
-  padding: 4px 12px;
-  border-radius: 15px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  display: inline-block;
-  align-self: flex-start;
-  margin-bottom: 10px;
-}
-
-.team-popup-right h2 {
-  font-size: 1.8rem;
-  color: var(--text-main);
-  margin-bottom: 5px;
-}
-
-.divider-small {
-  width: 40px;
-  height: 3px;
-  background: var(--primary-color);
-  border: none;
-  border-radius: 2px;
-  margin: 10px 0 15px 0;
-}
-
-.team-desc {
-  font-size: 0.9rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.skill-box h4 {
-  font-size: 0.85rem;
-  color: var(--primary-color);
-  margin-bottom: 8px;
-}
-
-.tech-stack-popup {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.tech-stack-popup span {
-  background: #f0f9ff;
-  color: #0ea5e9;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border: 1px solid #bae6fd;
-}
-
-.team-motto {
-  font-style: italic;
-  color: #888;
-  font-size: 0.85rem;
-  border-left: 3px solid #eee;
-  padding-left: 10px;
-}
-
-/* Responsif HP (Tumpuk ke bawah) */
-@media (max-width: 600px) {
-  .team-popup-layout {
-    flex-direction: column;
-  }
-  .team-popup-left {
-    padding: 30px 20px;
-  }
-  .team-popup-right {
-    padding: 25px;
-  }
-}
-
-/* ========================================= */
-/* ===  STYLE KUIS STEP-BY-STEP (BARU)   === */
-/* ========================================= */
-
-.quiz-header {
-    margin-bottom: 25px;
-}
-
-.progress-info {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-/* Progress Bar */
-.progress-bar-bg {
-    width: 100%;
-    height: 10px;
-    background: #ffe0e0;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    background: var(--primary-color);
-    width: 0%;
-    transition: width 0.4s ease;
-    border-radius: 20px;
-}
-
-/* Pertanyaan */
-#question-text {
-    font-size: 1.3rem;
-    color: var(--text-main);
-    margin-bottom: 25px;
-    line-height: 1.6;
-}
-
-/* Grid Opsi Jawaban */
-.options-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Tombol Opsi (Pengganti Radio Button) */
-.option-btn {
-    background: #fff;
-    border: 2px solid #ffdcdc;
-    padding: 15px 20px;
-    border-radius: 12px;
-    text-align: left;
-    font-size: 1rem;
-    color: var(--text-main);
-    cursor: pointer;
-    transition: 0.2s;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-    overflow: hidden;
-}
-
-.option-btn:hover {
-    border-color: var(--primary-color);
-    background: #fff5f5;
-    transform: translateX(5px);
-}
-
-/* Saat Opsi Dipilih */
-.option-btn.selected {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-    font-weight: 600;
-}
-
-/* Footer & Button */
-.quiz-footer {
-    margin-top: 30px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-#next-btn:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none;
-}
-
-/* Hasil Akhir */
-.result-icon {
-    font-size: 5rem;
-    margin-bottom: 10px;
-    animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.final-score {
-    font-size: 4rem;
-    font-weight: 800;
-    color: var(--primary-color);
-    margin: 10px 0;
-}
-
-@keyframes popUp {
-    0% { transform: scale(0); }
-    80% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
-
-/* Animasi Ganti Soal */
-.fade-animation {
-    animation: fadeInQuiz 0.4s ease-out;
-}
-
-@keyframes fadeInQuiz {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@media (max-width: 768px) {
-    /* ... kode lain ... */
-
-    /* INI WAJIB ADA BIAR TOMBOL MUNCUL DI HP */
-    .nav-actions {
-        display: flex !important; /* Paksa muncul */
-        margin-right: 10px;
-    }
-    
-    .btn-login {
-        padding: 5px 12px;
-        font-size: 0.8rem;
-    }
-
-    /* Sembunyikan nama user kalau kepanjangan di HP */
-    .user-info span {
-        display: none;
-    }
-}
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Belajar | Materi PPLG</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo"><span class="logo-text">Power Rangers</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="game.html">Simulasi</a></li>
+        <li><a href="quiz.html">Kuis</a></li>
+        <li><a href="materi.html" class="active">Materi</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#" id="navLoginBtn" class="btn-login" onclick="bukaLogin()"
+          >Masuk/Daftar</a
+        >
+        <div id="userMenu" class="user-menu" style="display: none">
+          <div class="user-info">
+            <img id="navUserImg" src="" alt="Profile" />
+            <span id="navUserName">User</span>
+          </div>
+          <div class="dropdown">
+            <button class="three-dots-btn" onclick="toggleProfileMenu()">
+              ⋮
+            </button>
+            <div id="dropdownContent" class="dropdown-content">
+              <a href="#" onclick="ubahPFP()">🖼️ Ganti Foto</a>
+              <a href="#" onclick="ubahPassword()">🔑 Ubah Password</a>
+              <hr />
+              <a href="#" onclick="handleLogout()" style="color: #ff5f56"
+                >🚪 Keluar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </nav>
+
+    <section class="container" style="margin-top: 100px">
+      <div class="intro-box reveal">
+        <h1 class="section-title" style="text-align: left; margin-bottom: 20px">
+          Apa itu <span class="highlight-bright">PPLG & Algoritma?</span>
+        </h1>
+        <p
+          style="line-height: 1.8; color: var(--text-main); margin-bottom: 20px"
+        >
+          <strong>PPLG (Pengembangan Perangkat Lunak dan Gim)</strong> adalah
+          jurusan yang mempelajari cara membuat software, aplikasi, website,
+          hingga video game.
+        </p>
+        <p style="line-height: 1.8; color: var(--text-main)">
+          Dasar dari semua itu adalah <strong>Algoritma</strong>. Bayangkan
+          algoritma seperti "resep masakan". Ia adalah urutan langkah-langkah
+          logis untuk menyelesaikan masalah. Jika kamu ingin membuat karakter
+          game melompat, kamu harus menulis algoritmanya:
+          <em
+            >"Jika tombol spasi ditekan -> Ubah posisi Y karakter ke atas ->
+            Tunggu sebentar -> Turunkan kembali."</em
+          >
+        </p>
+      </div>
+    </section>
+
+    <section class="container">
+      <h2 class="section-title reveal">Modul Pembelajaran</h2>
+
+      <div class="materi-grid">
+        <div class="project-card reveal delay-1">
+          <div class="card-image html-bg">
+            <span class="badge">Dasar</span>
+            <i class="fa-brands fa-html5 card-icon-big"></i>
+          </div>
+          <div class="card-content">
+            <h3>HTML5 Structure</h3>
+            <p>
+              Pondasi utama dalam pembuatan website. Mempelajari tag, elemen,
+              dan struktur semantik.
+            </p>
+
+            <div class="tech-stack">
+              <span>Tag</span>
+              <span>Form</span>
+              <span>Table</span>
+            </div>
+
+            <div class="card-footer">
+              <div class="stats">
+                <div><i class="fa-solid fa-user"></i> Pemula</div>
+                <div><i class="fa-solid fa-clock"></i> 15 Mnt</div>
+              </div>
+              <button onclick="bukaDetail('html')" class="btn-read">
+                Baca Materi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal delay-2">
+          <div class="card-image css-bg">
+            <span class="badge">Visual</span>
+            <i class="fa-brands fa-css3-alt card-icon-big"></i>
+          </div>
+          <div class="card-content">
+            <h3>CSS3 Styling</h3>
+            <p>
+              Menghias website agar cantik. Belajar layout, warna, font, dan
+              animasi dasar.
+            </p>
+
+            <div class="tech-stack">
+              <span>Flexbox</span>
+              <span>Grid</span>
+              <span>Color</span>
+            </div>
+
+            <div class="card-footer">
+              <div class="stats">
+                <div><i class="fa-solid fa-paint-brush"></i> Desain</div>
+                <div><i class="fa-solid fa-clock"></i> 20 Mnt</div>
+              </div>
+              <button onclick="bukaDetail('css')" class="btn-read">
+                Baca Materi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal delay-3">
+          <div class="card-image js-bg">
+            <span class="badge">Logika</span>
+            <i class="fa-brands fa-js card-icon-big"></i>
+          </div>
+          <div class="card-content">
+            <h3>JavaScript</h3>
+            <p>
+              Membuat website menjadi hidup dan interaktif. Belajar variabel,
+              fungsi, dan event.
+            </p>
+
+            <div class="tech-stack">
+              <span>DOM</span>
+              <span>Event</span>
+              <span>Logic</span>
+            </div>
+
+            <div class="card-footer">
+              <div class="stats">
+                <div><i class="fa-solid fa-code"></i> Logic</div>
+                <div><i class="fa-solid fa-clock"></i> 30 Mnt</div>
+              </div>
+              <button onclick="bukaDetail('javascript')" class="btn-read">
+                Baca Materi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal delay-4">
+          <div class="card-image game-bg">
+            <span class="badge">Fun</span>
+            <i class="fa-solid fa-gamepad card-icon-big"></i>
+          </div>
+          <div class="card-content">
+            <h3>Game Dev</h3>
+            <p>
+              Dasar pembuatan gim, mulai dari konsep, aset, hingga logika
+              permainan sederhana.
+            </p>
+
+            <div class="tech-stack">
+              <span>Unity</span>
+              <span>Logic</span>
+              <span>Assets</span>
+            </div>
+
+            <div class="card-footer">
+              <div class="stats">
+                <div><i class="fa-solid fa-ghost"></i> Game</div>
+                <div><i class="fa-solid fa-clock"></i> 25 Mnt</div>
+              </div>
+              <button onclick="bukaDetail('gamedev')" class="btn-read">
+                Baca Materi
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal delay-1">
+          <div class="card-image tools-bg">
+            <span class="badge">Wajib</span>
+            <i class="fa-solid fa-laptop-code card-icon-big"></i>
+          </div>
+          <div class="card-content">
+            <h3>Tools PPLG</h3>
+            <p>
+              Perangkat lunak senjata utama programmer. Text Editor, Browser,
+              dan Game Engine.
+            </p>
+
+            <div class="tech-stack">
+              <span>VS Code</span>
+              <span>Chrome</span>
+              <span>Git</span>
+            </div>
+
+            <div class="card-footer">
+              <div class="stats">
+                <div><i class="fa-solid fa-wrench"></i> Tools</div>
+                <div><i class="fa-solid fa-clock"></i> 10 Mnt</div>
+              </div>
+              <button onclick="bukaDetail('toolsdev')" class="btn-read">
+                Baca Materi
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </section>
+
+    <div id="detailModal" class="modal full-screen-modal">
+      <div class="modal-content full-page-content">
+        <div class="modal-nav">
+          <button onclick="tutupDetail()" class="btn-primary btn-nav-custom">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Materi
+          </button>
+        </div>
+
+        <div class="modal-scroll-area">
+          <div class="video-wrapper">
+            <div class="video-container">
+              <iframe
+                id="materiVideo"
+                src=""
+                title="YouTube video player"
+                frameborder="0"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="article-body">
+            <h1 id="materiTitle">Judul Materi</h1>
+            <div id="materiContent"></div>
+          </div>
+
+          <div class="article-footer">
+            <p>
+              Sudah paham?
+              <a
+                href="quiz.html"
+                style="color: var(--primary-color); font-weight: bold"
+                >Coba Kerjakan Kuis!</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+      <div class="modal-content" style="max-width: 400px; text-align: center">
+        <span class="close-btn" onclick="tutupLogin()">&times;</span>
+        <h2 id="modalTitle" class="modal-title">Masuk Akun</h2>
+        <p class="modal-description">Simpan progres belajarmu di awan!</p>
+        <form id="authForm" onsubmit="handleAuth(event)">
+          <input
+            type="text"
+            id="username"
+            placeholder="Username (Nama Panggilan)"
+            style="width: 100%; margin-bottom: 10px; display: none"
+          />
+          <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required
+            style="width: 100%; margin-bottom: 10px"
+          />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+            style="width: 100%; margin-bottom: 20px"
+          />
+          <button type="submit" class="btn-primary" style="width: 100%">
+            Masuk Sekarang
+          </button>
+        </form>
+        <p style="margin-top: 20px; font-size: 0.9rem">
+          Belum punya akun?
+          <a
+            href="#"
+            onclick="switchAuthMode()"
+            style="color: var(--primary-color); font-weight: bold"
+            >Daftar di sini</a
+          >
+        </p>
+        <p
+          id="authError"
+          style="color: #ff5f56; font-size: 0.85rem; margin-top: 10px"
+        ></p>
+      </div>
+    </div>
+
+    <div class="ambient-background">
+      <div class="shape-blob shape-1"></div>
+      <div class="shape-blob shape-2"></div>
+      <div class="shape-blob shape-3"></div>
+    </div>
+    <div class="candy-container">
+      <img
+        src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter"
+        class="candy candy-1 float-slow"
+        alt="candy"
+      />
+      <img
+        src="https://tr.rbxcdn.com/180DAY-a33b49d2164f3c9e93e17919d8d728e9/420/420/FaceAccessory/Png/noFilter"
+        class="candy candy-2 float-medium"
+        alt="candy"
+      />
+    </div>
+
+    <div id="music-player" style="display: none"></div>
+    <button id="musicBtn" class="music-btn" onclick="toggleMusic()">
+      🎵 Play Music
+    </button>
+
+    <input
+      type="file"
+      id="fileInputPFP"
+      accept="image/*"
+      style="display: none"
+    />
+
+    <div id="music-player" style="display: none"></div>
+
+    <footer>
+      <p class="reveal">&copy; 2026 Power Rangers. All Rights Reserved.</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
