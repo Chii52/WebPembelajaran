@@ -277,78 +277,174 @@ window.mainkanSuit = function (pilihanPlayer) {
   resultText.innerHTML = `Kamu: <b>${pilihanPlayer.toUpperCase()}</b> VS Komputer: <b>${pilihanKomputer.toUpperCase()}</b><br><br>${hasil}`;
 };
 
-window.cekQuiz = function () {
-  const hasil = document.getElementById("quizResult");
-  if (!hasil) return;
-  const kunciJawaban = ["c", "b", "d", "c", "d", "b", "c", "c", "c", "c"];
-  let jumlahBenar = 0;
-  const totalSoal = 10;
-  for (let i = 1; i <= totalSoal; i++) {
-    const jawabanUser = document.querySelector(`input[name="q${i}"]:checked`);
-    if (jawabanUser && jawabanUser.value === kunciJawaban[i - 1]) {
-      jumlahBenar++;
+/* =========================================================== */
+/* BAGIAN 3: LOGIKA KUIS STEP-BY-STEP (MODERN)                 */
+/* =========================================================== */
+
+// 1. Database Soal (Array of Objects)
+const questionsData = [
+    {
+        question: "Fungsi utama tag <head> dalam struktur HTML adalah...",
+        options: ["Menampilkan seluruh isi website", "Menyimpan elemen interaktif", "Menyimpan informasi metadata", "Mengatur tampilan halaman"],
+        correct: 2 // Index jawaban benar (mulai dari 0). Jadi 2 = Opsi ke-3
+    },
+    {
+        question: "Perbedaan utama antara HTML dan CSS adalah...",
+        options: ["HTML untuk logika, CSS untuk data", "HTML untuk struktur, CSS untuk tampilan", "HTML untuk animasi, CSS untuk database", "HTML untuk server, CSS untuk client"],
+        correct: 1
+    },
+    {
+        question: "Agar website tampil responsif di berbagai ukuran layar, CSS berperan dalam hal...",
+        options: ["Validasi form", "Struktur data", "Interaksi pengguna", "Pengaturan layout dan tampilan"],
+        correct: 3
+    },
+    {
+        question: "Fungsi utama atribut onclick pada tombol adalah...",
+        options: ["Jalan saat halaman dibuka", "Jalan saat mouse diarahkan", "Jalan saat tombol diklik", "Jalan otomatis"],
+        correct: 2
+    },
+    {
+        question: "Yang BUKAN termasuk unsur utama dalam sebuah gim adalah...",
+        options: ["Player", "Compiler", "Aturan", "Tantangan"],
+        correct: 1
+    },
+    {
+        question: "Urutan alur pembuatan gim yang benar adalah...",
+        options: ["Kode → Ide → Uji", "Ide → Desain → Kode → Uji", "Desain → Ide → Kode", "Ide → Kode → Desain"],
+        correct: 1
+    },
+    {
+        question: "Pada JavaScript, perintah untuk menyimpan nilai yang TIDAK boleh berubah adalah...",
+        options: ["var", "let", "const", "function"],
+        correct: 2
+    },
+    {
+        question: "Fungsi utama Code Editor dalam PPLG adalah...",
+        options: ["Menjalankan OS", "Menyimpan database", "Menulis & mendeteksi error kode", "Hosting website"],
+        correct: 2
+    },
+    {
+        question: "Berikut ini yang termasuk software pemrograman adalah...",
+        options: ["Windows", "Google Chrome", "Visual Studio Code", "Photoshop"],
+        correct: 2
+    },
+    {
+        question: "Mengapa sikap bertanggung jawab terhadap kode sangat penting?",
+        options: ["Biar kode panjang", "Biar warna-warni", "Agar mudah dipahami & dikembangkan", "Agar program lambat"],
+        correct: 2
     }
-  }
-  const skor = (jumlahBenar / totalSoal) * 100;
-  if (skor >= 80) {
-    hasil.style.color = "#7ec699";
-    hasil.innerText = `Luar Biasa! Skor: ${skor} / 100 (${jumlahBenar} Benar)`;
-  } else if (skor >= 60) {
-    hasil.style.color = "#ffbd2e";
-    hasil.innerText = `Cukup Bagus! Skor: ${skor} / 100 (${jumlahBenar} Benar)`;
-  } else {
-    hasil.style.color = "#ff5f56";
-    hasil.innerText = `Jangan Menyerah! Skor: ${skor} / 100 (${jumlahBenar} Benar)`;
-  }
-};
+];
 
-window.bukaDetail = function (materi) {
-  const modal = document.getElementById("detailModal");
-  const modalBody = document.getElementById("modalBody");
-  if (!modal || !modalBody) return;
-  let konten = "";
+// Variabel State
+let currentQuestionIndex = 0;
+let score = 0;
+let selectedOptionIndex = null; // Menyimpan jawaban sementara user
 
-  if (materi === "html") konten = `<h2>HTML</h2><p>Struktur dasar web...</p>`;
-  else if (materi === "css")
-    konten = `<h2>CSS</h2><p>Untuk menghias web...</p>`;
-  else if (materi === "javascript")
-    konten = `<h2>JavaScript</h2><p>Membuat web interaktif...</p>`;
-  else if (materi === "gamedev")
-    konten = `<h2>Game Dev</h2><p>Membuat logika permainan...</p>`;
-  else if (materi === "toolsgame")
-    konten = `<h2>Tools Game</h2><p>Unity & Godot...</p>`;
-  else if (materi === "toolsdev")
-    konten = `<h2>Code Editor</h2><p>VS Code & Sublime...</p>`;
-  else if (materi === "member1")
-    konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #6c63ff;"><h2 class="modal-title">Aditya R.</h2><p>PROJECT MANAGER</p></div>`;
-  else if (materi === "member2")
-    konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ff5f56;"><h2 class="modal-title">Bunga C.</h2><p>UI/UX DESIGNER</p></div>`;
-  else if (materi === "member3")
-    konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #27c93f;"><h2 class="modal-title">Chandra K.</h2><p>FULL STACK DEV</p></div>`;
-  else if (materi === "member4")
-    konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #ffbd2e;"><h2 class="modal-title">Dinda P.</h2><p>GAME DEVELOPER</p></div>`;
-  else if (materi === "member5")
-    konten = `<div style="text-align:center;"><img src="https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&size=128" style="border-radius:50%; margin-bottom:15px; border:3px solid #00f3ff;"><h2 class="modal-title">Eko S.</h2><p>QUALITY ASSURANCE</p></div>`;
+// Fungsi Mulai/Load Soal
+function loadQuestion() {
+    // Ambil elemen
+    const questionEl = document.getElementById("question-text");
+    const optionsEl = document.getElementById("options-container");
+    const progressText = document.getElementById("question-number");
+    const progressBar = document.getElementById("progress-bar");
+    const nextBtn = document.getElementById("next-btn");
+    const quizBody = document.getElementById("quiz-body");
 
-  modalBody.innerHTML = konten;
-  modal.style.display = "block";
-};
+    // Validasi elemen (cegah error di halaman lain)
+    if(!questionEl) return;
 
-window.tutupDetail = function () {
-  const modal = document.getElementById("detailModal");
-  if (modal) modal.style.display = "none";
-};
+    // Reset State Tampilan
+    const currentData = questionsData[currentQuestionIndex];
+    selectedOptionIndex = null;
+    nextBtn.disabled = true;
+    nextBtn.innerHTML = (currentQuestionIndex === questionsData.length - 1) ? "Selesai" : "Selanjutnya <i class='fa-solid fa-arrow-right'></i>";
+    
+    // Animasi Fade In
+    quizBody.classList.remove("fade-animation");
+    void quizBody.offsetWidth; // Trigger reflow
+    quizBody.classList.add("fade-animation");
 
-window.toggleMenu = function () {
-  const navLinks = document.querySelector(".nav-links");
-  if (navLinks) navLinks.classList.toggle("active");
-};
+    // Update Teks & Progress
+    questionEl.innerText = `${currentQuestionIndex + 1}. ${currentData.question}`;
+    progressText.innerText = `Soal ${currentQuestionIndex + 1} / ${questionsData.length}`;
+    
+    // Hitung Persentase Progress Bar
+    const progressPercent = ((currentQuestionIndex) / questionsData.length) * 100;
+    progressBar.style.width = `${progressPercent}%`;
 
-document.addEventListener("keydown", function (event) {
-  if (event.key === "Escape") {
-    window.tutupDetail();
-    window.tutupLogin();
-  }
+    // Render Opsi Jawaban (Button)
+    optionsEl.innerHTML = ""; // Kosongkan dulu
+    currentData.options.forEach((opt, index) => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.innerText = opt;
+        btn.onclick = () => selectOption(index, btn); // Pasang event klik
+        optionsEl.appendChild(btn);
+    });
+}
+
+// Fungsi Saat User Klik Opsi
+function selectOption(index, btnElement) {
+    selectedOptionIndex = index;
+    
+    // Hapus kelas 'selected' dari semua tombol
+    const allBtns = document.querySelectorAll(".option-btn");
+    allBtns.forEach(b => b.classList.remove("selected"));
+
+    // Tambahkan kelas ke yang diklik
+    btnElement.classList.add("selected");
+
+    // Aktifkan tombol Next
+    document.getElementById("next-btn").disabled = false;
+}
+
+// Fungsi Tombol Selanjutnya
+window.nextQuestion = function() {
+    // 1. Cek Jawaban Benar/Salah
+    if (selectedOptionIndex === questionsData[currentQuestionIndex].correct) {
+        score += 10; // Tambah poin
+        document.getElementById("score-live").innerText = `Score: ${score}`; // Update live score (opsional)
+    }
+
+    // 2. Pindah Soal
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questionsData.length) {
+        loadQuestion(); // Muat soal berikutnya
+    } else {
+        showResult(); // Tampilkan hasil akhir
+    }
+}
+
+// Fungsi Tampilkan Hasil Akhir
+function showResult() {
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("result-container").style.display = "block";
+    
+    // Tampilkan Skor
+    document.getElementById("final-score").innerText = score;
+    
+    // Pesan berdasarkan skor
+    const messageEl = document.getElementById("final-message");
+    const iconEl = document.querySelector(".result-icon");
+    
+    if(score >= 80) {
+        messageEl.innerText = "Luar Biasa! Kamu calon programmer hebat! 🚀";
+        iconEl.innerText = "🏆";
+    } else if (score >= 60) {
+        messageEl.innerText = "Cukup Bagus! Tingkatkan lagi belajarnya. 📚";
+        iconEl.innerText = "👏";
+    } else {
+        messageEl.innerText = "Jangan menyerah! Coba baca materi lagi ya. 💪";
+        iconEl.innerText = "💪";
+    }
+}
+
+// Jalankan Load Pertama kali saat halaman dimuat
+document.addEventListener("DOMContentLoaded", () => {
+    if(document.getElementById("quiz-container")) {
+        loadQuestion();
+    }
 });
 
 const revealElements = document.querySelectorAll(".reveal");
@@ -374,8 +470,8 @@ window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player("music-player", {
     height: "0",
     width: "0",
-    videoId: "iik25wqIuFo",
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: "iik25wqIuFo" },
+    videoId: "KNtJGQkC",
+    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: "KNtJGQkC" },
     events: { onReady: onPlayerReady },
   });
 };
@@ -723,48 +819,44 @@ window.tutupDetail = function () {
 /* =========================================================== */
 
 // Database Tim (Data lengkap)
+// Database Tim (Data SUDAH DISESUAIKAN dengan HTML)
 const teamData = {
   member1: {
-    name: "Aditya R.",
+    name: "Miftah Ramadhan",
     role: "Project Manager",
-    photo:
-      "https://ui-avatars.com/api/?name=Aditya+R&background=6c63ff&color=fff&size=256",
+    photo: "https://ui-avatars.com/api/?name=Miftah+R&background=6c63ff&color=fff&size=256",
     desc: "Pemimpin proyek yang memastikan setiap baris kode berjalan sesuai rencana. Fokus pada manajemen waktu dan efisiensi tim.",
     skills: ["Leadership", "Agile", "Jira"],
     motto: "Kode bersih, pikiran jernih.",
   },
   member2: {
-    name: "Bunga C.",
+    name: "Rima Amarida",
     role: "UI/UX Designer",
-    photo:
-      "https://ui-avatars.com/api/?name=Bunga+C&background=ff5f56&color=fff&size=256",
+    photo: "https://ui-avatars.com/api/?name=Rima+A&background=ff5f56&color=fff&size=256",
     desc: "Merancang antarmuka yang tidak hanya cantik, tapi juga mudah digunakan (User Friendly). Seni adalah passion saya.",
     skills: ["Figma", "Adobe XD", "Prototyping"],
     motto: "Desain adalah tentang fungsi.",
   },
   member3: {
-    name: "Chandra K.",
+    name: "Inayattullah Yoga F.",
     role: "Full Stack Dev",
-    photo:
-      "https://ui-avatars.com/api/?name=Chandra+K&background=27c93f&color=fff&size=256",
+    photo: "https://ui-avatars.com/api/?name=Inayattullah+Y&background=27c93f&color=fff&size=256",
     desc: "Menguasai Frontend dan Backend. Suka memecahkan masalah kompleks dengan solusi kode yang efisien dan skalabel.",
     skills: ["HTML/CSS", "Node.js", "Firebase"],
     motto: "Talk is cheap. Show me the code.",
   },
   member4: {
-    name: "Dinda P.",
+    name: "Nayla Septiawati",
     role: "Game Developer",
-    photo:
-      "https://ui-avatars.com/api/?name=Dinda+P&background=ffbd2e&color=fff&size=256",
+    photo: "https://ui-avatars.com/api/?name=Nayla+S&background=ffbd2e&color=fff&size=256",
     desc: "Menciptakan dunia virtual interaktif. Ahli dalam logika permainan dan fisika game menggunakan engine modern.",
     skills: ["Unity", "C#", "Pixel Art"],
     motto: "Level up your life!",
   },
   member5: {
-    name: "Eko S.",
+    name: "Shifa Octaviani",
     role: "Quality Assurance",
-    photo:
-      "https://ui-avatars.com/api/?name=Eko+S&background=00f3ff&color=fff&size=256",
+    photo: "https://ui-avatars.com/api/?name=Shifa+O&background=00f3ff&color=fff&size=256",
     desc: "Detektif Bug. Tugas saya memastikan tidak ada kesalahan sebelum aplikasi sampai ke tangan pengguna.",
     skills: ["Testing", "Automation", "Detail Oriented"],
     motto: "Zero bug, happy user.",
