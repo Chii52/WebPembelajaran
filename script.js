@@ -1,908 +1,1972 @@
-/* =========================================================== */
-/* BAGIAN 0: SETUP FIREBASE (LENGKAP DENGAN PROFIL)            */
-/* =========================================================== */
+/* ========================================= */
+/* ===  STYLE.CSS (ULTIMATE PASTEL THEME) === */
+/* ========================================= */
 
-// Import fungsi yang dibutuhkan (Tambahan: updatePassword)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  updateProfile,
-  updatePassword,
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+/* --- 1. RESET & VARIABLES --- */
+:root {
+  /* Gradasi Background Utama */
+  --bg-gradient: linear-gradient(135deg, #fff0f0 0%, #ffe4e1 100%);
 
-// --- PASTE KONFIGURASI FIREBASE KAMU DI SINI ---
-const firebaseConfig = {
-  apiKey: "AIzaSyBrHbchi0sGC3LS7ZP6B4jAFwt338C2Aq0",
-  authDomain: "webbelajarpplg.firebaseapp.com",
-  projectId: "webbelajarpplg",
-  storageBucket: "webbelajarpplg.firebasestorage.app",
-  messagingSenderId: "1027186626520",
-  appId: "1:1027186626520:web:44b34aa6fd76692022ecad",
-  measurementId: "G-MNJB98BF4T",
-};
+  /* Warna Utama */
+  --primary-color: #ff746c; /* Pastel Red */
+  --primary-dark: #e65b53; /* Merah lebih gelap untuk hover */
 
-let app, auth;
-try {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-} catch (e) {
-  console.error("Firebase Config Error:", e);
+  /* Warna Kartu & Teks */
+  --card-bg: rgba(255, 255, 255, 0.75); /* Putih Transparan */
+  --text-main: #4a1c1c; /* Coklat Merah Gelap */
+  --text-secondary: #8c5e5e; /* Coklat Pudar */
+
+  /* Navbar & Border */
+  --glass-nav: rgba(255, 255, 255, 0.85);
+  --border-light: rgba(255, 116, 108, 0.2);
 }
 
-// Variabel Global
-let isRegisterMode = false;
-
-/* --- FUNGSI AUTH & USER MENU --- */
-
-// Toggle Menu Titik 3
-window.toggleProfileMenu = function () {
-  document.getElementById("dropdownContent").classList.toggle("show");
-};
-
-// Tutup menu kalau klik di luar
-window.onclick = function (event) {
-  if (!event.target.matches(".three-dots-btn")) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    for (var i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
-      }
-    }
-  }
-  // Logic modal click
-  const modalDetail = document.getElementById("detailModal");
-  const modalLogin = document.getElementById("loginModal");
-  if (event.target == modalDetail) window.tutupDetail();
-  if (event.target == modalLogin) window.tutupLogin();
-};
-
-// 1. Ganti Foto Profil (PFP)
-window.ubahPFP = async function () {
-  const user = auth.currentUser;
-  if (user) {
-    // Minta URL gambar dari user
-    const newPhotoURL = prompt(
-      "Masukkan Link/URL Gambar Foto Profil baru:",
-      "https://ui-avatars.com/api/?name=Baru",
-    );
-
-    if (newPhotoURL) {
-      try {
-        await updateProfile(user, { photoURL: newPhotoURL });
-        alert("Foto profil berhasil diubah!");
-        // Update tampilan langsung tanpa reload
-        document.getElementById("navUserImg").src = newPhotoURL;
-      } catch (error) {
-        alert("Gagal mengubah foto: " + error.message);
-      }
-    }
-  }
-};
-
-// Tambahkan listener ini agar Module bisa menangkap URL dari fungsi window di atas
-window.addEventListener("fotoBaruTersedia", async (e) => {
-  const url = e.detail;
-  const user = auth.currentUser;
-  if (user) {
-    try {
-      await updateProfile(user, { photoURL: url });
-
-      // Update Tampilan UI
-      document.getElementById("navUserImg").src = url;
-      document.getElementById("navUserImg").style.opacity = "1";
-
-      alert("Foto Profil Berhasil Diupdate! 🔥");
-    } catch (error) {
-      alert("Gagal update profil Firebase: " + error.message);
-    }
-  }
-});
-
-// 2. Ganti Password
-window.ubahPassword = async function () {
-  const user = auth.currentUser;
-  if (user) {
-    const newPass = prompt("Masukkan Password Baru (Minimal 6 karakter):");
-
-    if (newPass && newPass.length >= 6) {
-      try {
-        await updatePassword(user, newPass);
-        alert("Password berhasil diubah! Silakan login ulang.");
-        await signOut(auth);
-      } catch (error) {
-        alert("Gagal (Mungkin perlu login ulang dulu): " + error.message);
-      }
-    } else if (newPass) {
-      alert("Password terlalu pendek!");
-    }
-  }
-};
-
-// Login & Register Logic
-window.bukaLogin = function () {
-  const modal = document.getElementById("loginModal");
-  if (modal) modal.style.display = "block";
-};
-
-window.tutupLogin = function () {
-  document.getElementById("loginModal").style.display = "none";
-};
-
-window.switchAuthMode = function () {
-  isRegisterMode = !isRegisterMode;
-  const title = document.getElementById("modalTitle");
-  const btn = document.querySelector("#authForm button");
-  const toggleText = document.querySelector("#loginModal a");
-  const usernameInput = document.getElementById("username");
-
-  if (isRegisterMode) {
-    title.innerText = "Daftar Akun Baru";
-    btn.innerText = "Daftar Sekarang";
-    toggleText.innerText = "Sudah punya akun? Login";
-    usernameInput.style.display = "block";
-    usernameInput.setAttribute("required", "true");
-  } else {
-    title.innerText = "Masuk Akun";
-    btn.innerText = "Masuk Sekarang";
-    toggleText.innerText = "Belum punya akun? Daftar";
-    usernameInput.style.display = "none";
-    usernameInput.removeAttribute("required");
-  }
-};
-
-window.handleAuth = async function (event) {
-  event.preventDefault();
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-  const username = document.getElementById("username").value;
-  const errorText = document.getElementById("authError");
-  errorText.innerText = "Loading...";
-
-  try {
-    if (isRegisterMode) {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        pass,
-      );
-      await updateProfile(userCredential.user, { displayName: username });
-      alert(`Halo ${username}! Akun berhasil dibuat.`);
-      window.tutupLogin();
-      location.reload();
-    } else {
-      await signInWithEmailAndPassword(auth, email, pass);
-      alert("Berhasil masuk!");
-      window.tutupLogin();
-    }
-  } catch (error) {
-    console.error(error);
-    errorText.innerText = "Error: " + error.message;
-  }
-};
-
-window.handleLogout = async function () {
-  if (confirm("Yakin ingin keluar?")) {
-    await signOut(auth);
-    location.reload();
-  }
-};
-
-// DETEKTIF STATUS LOGIN (PENTING!)
-if (auth) {
-  onAuthStateChanged(auth, (user) => {
-    const loginBtn = document.getElementById("navLoginBtn"); // Tombol Masuk
-    const userMenu = document.getElementById("userMenu"); // Menu User (Titik 3)
-
-    // Elemen tampilan user
-    const navImg = document.getElementById("navUserImg");
-    const navName = document.getElementById("navUserName");
-
-    if (user) {
-      // USER LOGIN: Sembunyikan Tombol Masuk, Tampilkan Menu User
-      if (loginBtn) loginBtn.style.display = "none";
-      if (userMenu) userMenu.style.display = "flex"; // Pakai flex biar sejajar
-
-      // Set Data User
-      const name = user.displayName || user.email.split("@")[0];
-      const photo =
-        user.photoURL ||
-        `https://ui-avatars.com/api/?name=${name}&background=ff746c&color=fff`;
-
-      if (navName) navName.innerText = `Halo, ${name}`;
-      if (navImg) navImg.src = photo;
-    } else {
-      // USER LOGOUT: Tampilkan Tombol Masuk, Sembunyikan Menu User
-      if (loginBtn) loginBtn.style.display = "block";
-      if (userMenu) userMenu.style.display = "none";
-    }
-  });
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* =========================================================== */
-/* BAGIAN LAIN (GAME, MATERI, DLL) - TETAP SAMA                */
-/* =========================================================== */
-
-let targetAngka = Math.floor(Math.random() * 10) + 1;
-
-window.mainkanGame = function () {
-  const inputUserElem = document.getElementById("tebakInput");
-  const resultTextElem = document.getElementById("gameResult");
-  if (!inputUserElem || !resultTextElem) return;
-  const inputUser = inputUserElem.value;
-  if (inputUser === "") {
-    resultTextElem.style.color = "#ffbd2e";
-    resultTextElem.innerText = "Masukkan angka dulu!";
-    return;
-  }
-  if (inputUser == targetAngka) {
-    resultTextElem.style.color = "#7ec699";
-    resultTextElem.innerText = "BENAR! Angkanya adalah " + targetAngka;
-    targetAngka = Math.floor(Math.random() * 10) + 1;
-    inputUserElem.value = "";
-  } else if (inputUser > targetAngka) {
-    resultTextElem.style.color = "#ff5f56";
-    resultTextElem.innerText = "Terlalu tinggi! Coba turunkan.";
-  } else if (inputUser < targetAngka) {
-    resultTextElem.style.color = "#ff5f56";
-    resultTextElem.innerText = "Terlalu rendah! Coba naikkan.";
-  }
-};
-
-window.mainkanSuit = function (pilihanPlayer) {
-  const resultText = document.getElementById("suitResult");
-  if (!resultText) return;
-  const pilihanKomputer = ["batu", "gunting", "kertas"][
-    Math.floor(Math.random() * 3)
-  ];
-  let hasil = "";
-  if (pilihanPlayer === pilihanKomputer) {
-    hasil = "SERI! 😐";
-    resultText.style.color = "#ffbd2e";
-  } else if (
-    (pilihanPlayer === "batu" && pilihanKomputer === "gunting") ||
-    (pilihanPlayer === "gunting" && pilihanKomputer === "kertas") ||
-    (pilihanPlayer === "kertas" && pilihanKomputer === "batu")
-  ) {
-    hasil = "KAMU MENANG! 🎉";
-    resultText.style.color = "#7ec699";
-  } else {
-    hasil = "KAMU KALAH! 💀";
-    resultText.style.color = "#ff5f56";
-  }
-  resultText.innerHTML = `Kamu: <b>${pilihanPlayer.toUpperCase()}</b> VS Komputer: <b>${pilihanKomputer.toUpperCase()}</b><br><br>${hasil}`;
-};
-
-/* =========================================================== */
-/* BAGIAN 3: LOGIKA KUIS STEP-BY-STEP (MODERN)                 */
-/* =========================================================== */
-
-// 1. Database Soal (Array of Objects)
-const questionsData = [
-    {
-        question: "Fungsi utama tag <head> dalam struktur HTML adalah...",
-        options: ["Menampilkan seluruh isi website", "Menyimpan elemen interaktif", "Menyimpan informasi metadata", "Mengatur tampilan halaman"],
-        correct: 2 // Index jawaban benar (mulai dari 0). Jadi 2 = Opsi ke-3
-    },
-    {
-        question: "Perbedaan utama antara HTML dan CSS adalah...",
-        options: ["HTML untuk logika, CSS untuk data", "HTML untuk struktur, CSS untuk tampilan", "HTML untuk animasi, CSS untuk database", "HTML untuk server, CSS untuk client"],
-        correct: 1
-    },
-    {
-        question: "Agar website tampil responsif di berbagai ukuran layar, CSS berperan dalam hal...",
-        options: ["Validasi form", "Struktur data", "Interaksi pengguna", "Pengaturan layout dan tampilan"],
-        correct: 3
-    },
-    {
-        question: "Fungsi utama atribut onclick pada tombol adalah...",
-        options: ["Jalan saat halaman dibuka", "Jalan saat mouse diarahkan", "Jalan saat tombol diklik", "Jalan otomatis"],
-        correct: 2
-    },
-    {
-        question: "Yang BUKAN termasuk unsur utama dalam sebuah gim adalah...",
-        options: ["Player", "Compiler", "Aturan", "Tantangan"],
-        correct: 1
-    },
-    {
-        question: "Urutan alur pembuatan gim yang benar adalah...",
-        options: ["Kode → Ide → Uji", "Ide → Desain → Kode → Uji", "Desain → Ide → Kode", "Ide → Kode → Desain"],
-        correct: 1
-    },
-    {
-        question: "Pada JavaScript, perintah untuk menyimpan nilai yang TIDAK boleh berubah adalah...",
-        options: ["var", "let", "const", "function"],
-        correct: 2
-    },
-    {
-        question: "Fungsi utama Code Editor dalam PPLG adalah...",
-        options: ["Menjalankan OS", "Menyimpan database", "Menulis & mendeteksi error kode", "Hosting website"],
-        correct: 2
-    },
-    {
-        question: "Berikut ini yang termasuk software pemrograman adalah...",
-        options: ["Windows", "Google Chrome", "Visual Studio Code", "Photoshop"],
-        correct: 2
-    },
-    {
-        question: "Mengapa sikap bertanggung jawab terhadap kode sangat penting?",
-        options: ["Biar kode panjang", "Biar warna-warni", "Agar mudah dipahami & dikembangkan", "Agar program lambat"],
-        correct: 2
-    }
-];
-
-// Variabel State
-let currentQuestionIndex = 0;
-let score = 0;
-let selectedOptionIndex = null; // Menyimpan jawaban sementara user
-
-// Fungsi Mulai/Load Soal
-function loadQuestion() {
-    // Ambil elemen
-    const questionEl = document.getElementById("question-text");
-    const optionsEl = document.getElementById("options-container");
-    const progressText = document.getElementById("question-number");
-    const progressBar = document.getElementById("progress-bar");
-    const nextBtn = document.getElementById("next-btn");
-    const quizBody = document.getElementById("quiz-body");
-
-    // Validasi elemen (cegah error di halaman lain)
-    if(!questionEl) return;
-
-    // Reset State Tampilan
-    const currentData = questionsData[currentQuestionIndex];
-    selectedOptionIndex = null;
-    nextBtn.disabled = true;
-    nextBtn.innerHTML = (currentQuestionIndex === questionsData.length - 1) ? "Selesai" : "Selanjutnya <i class='fa-solid fa-arrow-right'></i>";
-    
-    // Animasi Fade In
-    quizBody.classList.remove("fade-animation");
-    void quizBody.offsetWidth; // Trigger reflow
-    quizBody.classList.add("fade-animation");
-
-    // Update Teks & Progress
-    questionEl.innerText = `${currentQuestionIndex + 1}. ${currentData.question}`;
-    progressText.innerText = `Soal ${currentQuestionIndex + 1} / ${questionsData.length}`;
-    
-    // Hitung Persentase Progress Bar
-    const progressPercent = ((currentQuestionIndex) / questionsData.length) * 100;
-    progressBar.style.width = `${progressPercent}%`;
-
-    // Render Opsi Jawaban (Button)
-    optionsEl.innerHTML = ""; // Kosongkan dulu
-    currentData.options.forEach((opt, index) => {
-        const btn = document.createElement("button");
-        btn.classList.add("option-btn");
-        btn.innerText = opt;
-        btn.onclick = () => selectOption(index, btn); // Pasang event klik
-        optionsEl.appendChild(btn);
-    });
+*::-webkit-scrollbar {
+  display: none;
 }
 
-// Fungsi Saat User Klik Opsi
-function selectOption(index, btnElement) {
-    selectedOptionIndex = index;
-    
-    // Hapus kelas 'selected' dari semua tombol
-    const allBtns = document.querySelectorAll(".option-btn");
-    allBtns.forEach(b => b.classList.remove("selected"));
-
-    // Tambahkan kelas ke yang diklik
-    btnElement.classList.add("selected");
-
-    // Aktifkan tombol Next
-    document.getElementById("next-btn").disabled = false;
-}
-
-// Fungsi Tombol Selanjutnya
-window.nextQuestion = function() {
-    // 1. Cek Jawaban Benar/Salah
-    if (selectedOptionIndex === questionsData[currentQuestionIndex].correct) {
-        score += 10; // Tambah poin
-        document.getElementById("score-live").innerText = `Score: ${score}`; // Update live score (opsional)
-    }
-
-    // 2. Pindah Soal
-    currentQuestionIndex++;
-
-    if (currentQuestionIndex < questionsData.length) {
-        loadQuestion(); // Muat soal berikutnya
-    } else {
-        showResult(); // Tampilkan hasil akhir
-    }
-}
-
-// Fungsi Tampilkan Hasil Akhir
-function showResult() {
-    document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("result-container").style.display = "block";
-    
-    // Tampilkan Skor
-    document.getElementById("final-score").innerText = score;
-    
-    // Pesan berdasarkan skor
-    const messageEl = document.getElementById("final-message");
-    const iconEl = document.querySelector(".result-icon");
-    
-    if(score >= 80) {
-        messageEl.innerText = "Luar Biasa! Kamu calon programmer hebat! 🚀";
-        iconEl.innerText = "🏆";
-    } else if (score >= 60) {
-        messageEl.innerText = "Cukup Bagus! Tingkatkan lagi belajarnya. 📚";
-        iconEl.innerText = "👏";
-    } else {
-        messageEl.innerText = "Jangan menyerah! Coba baca materi lagi ya. 💪";
-        iconEl.innerText = "💪";
-    }
-}
-
-// Jalankan Load Pertama kali saat halaman dimuat
-document.addEventListener("DOMContentLoaded", () => {
-    if(document.getElementById("quiz-container")) {
-        loadQuestion();
-    }
-});
-
-const revealElements = document.querySelectorAll(".reveal");
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) entry.target.classList.add("active");
-    });
-  },
-  { threshold: 0.15 },
-);
-revealElements.forEach((el) => revealObserver.observe(el));
-
-/* ===  MUSIC PLAYER === */
-var player;
-var isPlaying = false;
-var tag = document.createElement("script");
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName("script")[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-window.onYouTubeIframeAPIReady = function () {
-  player = new YT.Player("music-player", {
-    height: "0",
-    width: "0",
-    videoId: "KNtJGQkC",
-    playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: "KNtJGQkC" },
-    events: { onReady: onPlayerReady },
-  });
-};
-
-function onPlayerReady(event) {
-  event.target.setVolume(40);
-}
-
-window.toggleMusic = function () {
-  var btn = document.getElementById("musicBtn");
-  if (isPlaying) {
-    player.pauseVideo();
-    btn.innerHTML = "🎵 Play Music";
-    btn.classList.remove("music-playing");
-    isPlaying = false;
-  } else {
-    player.playVideo();
-    btn.innerHTML = "⏸ Pause Music";
-    btn.classList.add("music-playing");
-    isPlaying = true;
-  }
-};
-
-/* =========================================================== */
-/* BAGIAN INTEGRASI CLOUDINARY (BARU)                          */
-/* =========================================================== */
-
-// --- CONFIG CLOUDINARY (ISI DENGAN DATA KAMU!) ---
-const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dqybajzya/image/upload";
-const CLOUDINARY_PRESET = "pplg_preset";
-// Contoh URL: "https://api.cloudinary.com/v1_1/dxyz123/image/upload"
-// Contoh Preset: "pplg_preset"
-
-// 1. Fungsi Klik Tombol Ganti Foto
-window.ubahPFP = function () {
-  const fileInput = document.getElementById("fileInputPFP");
-  if (fileInput) {
-    // Otomatis klik input file yang tersembunyi
-    fileInput.click();
-  } else {
-    alert("Elemen input file tidak ditemukan di HTML!");
-  }
-};
-
-// 2. Event Listener saat File Dipilih (Otomatis Upload)
-// Kita pasang listener ini sekali saja saat script dimuat
-const fileInput = document.getElementById("fileInputPFP");
-if (fileInput) {
-  fileInput.addEventListener("change", async function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Cek ukuran file (Maksimal 2MB biar ga berat)
-    if (file.size > 2 * 1024 * 1024) {
-      alert("File terlalu besar! Maksimal 2MB.");
-      return;
-    }
-
-    // Tampilkan status Loading
-    const navImg = document.getElementById("navUserImg");
-    const oldSrc = navImg.src;
-    navImg.style.opacity = "0.5"; // Efek redup tanda loading
-    alert("Sedang mengupload foto... Mohon tunggu sebentar.");
-
-    // Siapkan Data untuk Cloudinary
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", CLOUDINARY_PRESET);
-
-    try {
-      // --- PROSES UPLOAD KE CLOUDINARY ---
-      const response = await fetch(CLOUDINARY_URL, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Gagal upload ke Cloudinary");
-
-      const data = await response.json();
-      const imageUrl = data.secure_url; // Link gambar dari Cloudinary
-
-      // --- SIMPAN LINK KE FIREBASE ---
-      // (Pastikan auth dan user sudah siap)
-      // Kita akses auth dari variabel global yang sudah ada di script.js
-      // Karena script type="module", kita perlu akses auth via window atau variabel scope.
-      // Asumsi: 'auth' sudah dideklarasikan di bagian atas script.js kamu.
-
-      // Note: Karena 'auth' ada di dalam module scope, kita perlu cara untuk mengaksesnya
-      // Solusi: Kita gunakan window.currentUser (jika kamu sudah set) atau reload logic
-      // Tapi cara paling aman di module adalah import ulang di fungsi ini jika perlu,
-      // tapi karena ini file tunggal, kita pakai trick updateProfile langsung.
-
-      // Import UpdateProfile (Copy baris ini ke paling atas file jika belum ada)
-      // import { updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-      // Karena ini di dalam event listener DOM biasa, kita butuh akses ke 'auth' dari scope module.
-      // Kita akan memicu custom event atau memanggil fungsi window yang terhubung ke module.
-
-      await window.simpanFotoKeFirebase(imageUrl);
-    } catch (error) {
-      console.error("Error Upload:", error);
-      alert("Gagal mengupload foto. Cek koneksi atau setting Cloudinary.");
-      navImg.src = oldSrc; // Balikin gambar lama
-      navImg.style.opacity = "1";
-    }
-  });
-}
-
-// 3. Fungsi Penghubung ke Firebase (Masukkan ke dalam module script.js kamu)
-window.simpanFotoKeFirebase = async function (url) {
-  // Kita butuh 'auth' dan 'updateProfile' yang ada di scope module
-  // KITA AKALI DENGAN CARA INI:
-  // Panggil fungsi ini dari dalam blok kode handleAuth atau buat fungsi khusus
-  // TAPI cara paling mudah: Masukkan logika updateProfile di sini langsung
-  // Asalkan auth sudah ter-init di bagian atas script.js
-
-  // PERHATIAN: Kamu harus pastikan 'auth' bisa diakses.
-  // Jika kode ini di dalam <script type="module"> yang sama, variabel 'auth' bisa diakses.
-
-  // Cek apakah user sedang login
-  // Karena 'auth' variabel lokal module, kita pakai window.auth (kalau kita expose)
-  // ATAU kita tangkap auth.currentUser langsung
-
-  // SOLUSI TERBAIK: Pindahkan logika updateProfile ke sini (Copy-Paste import di atas)
-  const user = auth.currentUser;
-
-  if (user) {
-    try {
-      // Kita import updateProfile di bagian paling atas file script.js kamu ya!
-      // Baris: import { ..., updateProfile } from "...firebase-auth.js";
-
-      // Cara panggil updateProfile dari library yang sudah diimport di atas:
-      // Karena updateProfile adalah fungsi module, kita harus memanggilnya langsung.
-      // TAPI window.simpanFotoKeFirebase ada di window, dia gak kenal 'updateProfile' yang diimport module.
-
-      // JADI: Kita buat event custom agar module menangkap URL barunya.
-      const event = new CustomEvent("fotoBaruTersedia", { detail: url });
-      window.dispatchEvent(event);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-};
-
-/* --- TAMBAHAN: LOGIKA MODAL PENGATURAN AKUN --- */
-
-window.bukaPengaturan = function () {
-  const modal = document.getElementById("settingsModal");
-  const user = auth.currentUser; // Ambil user yang sedang login
-
-  if (user && modal) {
-    // Isi data ke dalam Modal
-    const name = user.displayName || "User";
-    const email = user.email;
-    // Gunakan foto dari Firebase atau default avatar
-    const photo =
-      user.photoURL ||
-      `https://ui-avatars.com/api/?name=${name}&background=ff746c&color=fff`;
-
-    document.getElementById("settingsName").innerText = name;
-    document.getElementById("settingsEmail").innerText = email;
-    document.getElementById("settingsPFP").src = photo;
-
-    // Tampilkan Modal
-    modal.style.display = "block";
-
-    // Tutup dropdown menu biar rapi
-    document.getElementById("dropdownContent").classList.remove("show");
-  }
-};
-
-window.tutupPengaturan = function () {
-  const modal = document.getElementById("settingsModal");
-  if (modal) modal.style.display = "none";
-};
-
-// Update window.onclick agar bisa menutup modal pengaturan saat klik di luar
-// (Tambahkan logika ini ke fungsi window.onclick yang sudah ada)
-const originalOnClick = window.onclick;
-window.onclick = function (event) {
-  if (originalOnClick) originalOnClick(event); // Jalankan fungsi lama juga
-
-  const modalSettings = document.getElementById("settingsModal");
-  if (event.target == modalSettings) window.tutupPengaturan();
-};
-
-/* =========================================================== */
-/* BAGIAN 4: DATABASE MATERI & VIDEO LENGKAP                   */
-/* =========================================================== */
-
-// Database Materi (Video ID ambil dari Youtube)
-// Format ID Youtube: https://www.youtube.com/watch?v=ID_VIDEO_DISINI
-const databaseMateri = {
-  html: {
-    title: "HTML5 Dasar untuk Pemula",
-    videoId: "NBZ9Ro6UKV8", // Video Web Programming Unpas (Contoh)
-    content: `
-            <p>HTML (HyperText Markup Language) adalah tulang punggung dari setiap halaman web yang Anda lihat di internet. Tanpa HTML, web browser tidak akan tahu cara menampilkan teks, memuat gambar, atau merender video.</p>
-            
-            <h2>1. Struktur Dasar HTML</h2>
-            <p>Setiap file HTML harus memiliki struktur dasar berikut agar bisa dibaca oleh browser:</p>
-            <pre>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;title&gt;Judul Halaman&lt;/title&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;h1&gt;Halo Dunia!&lt;/h1&gt;
-    &lt;p&gt;Ini paragraf pertamaku.&lt;/p&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</pre>
-            
-            <h2>2. Tag Penting yang Wajib Tahu</h2>
-            <ul>
-                <li><strong>&lt;h1&gt; sampai &lt;h6&gt;</strong>: Digunakan untuk membuat judul atau heading. h1 paling besar, h6 paling kecil.</li>
-                <li><strong>&lt;p&gt;</strong>: Tag untuk membuat paragraf teks.</li>
-                <li><strong>&lt;a href="..."&gt;</strong>: Anchor tag untuk membuat link ke halaman lain.</li>
-                <li><strong>&lt;img src="..."&gt;</strong>: Untuk menampilkan gambar.</li>
-            </ul>
-            <p>Cobalah menulis kode di atas di Visual Studio Code dan simpan dengan akhiran <code>.html</code>, lalu buka di browser!</p>
-        `,
-  },
-  css: {
-    title: "CSS3 Styling & Layout",
-    videoId: "CleFk3BZB3g", // Video WPU CSS
-    content: `
-            <p>CSS (Cascading Style Sheets) ibarat "baju" dan "make-up" bagi HTML. Jika HTML adalah kerangka, maka CSS adalah yang membuatnya terlihat indah.</p>
-            <h2>Cara Menggunakan CSS</h2>
-            <p>Ada 3 cara memasukkan CSS ke dalam HTML:</p>
-            <ol>
-                <li><strong>Inline CSS:</strong> Langsung di tag HTML (Kurang disarankan).</li>
-                <li><strong>Internal CSS:</strong> Di dalam tag &lt;style&gt; di head.</li>
-                <li><strong>External CSS:</strong> File terpisah (.css) yang paling sering digunakan profesional.</li>
-            </ol>
-            <pre>/* Contoh CSS */
 body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
-h1 {
-    color: blue;
-}</pre>
-        `,
-  },
-  javascript: {
-    title: "JavaScript Logic & DOM",
-    videoId: "RUTV_5m4WIV", // Video WPU JS
-    content: `
-            <p>JavaScript adalah bahasa pemrograman yang membuat website menjadi "hidup". Dengan JS, Anda bisa membuat tombol bereaksi saat diklik, membuat animasi, hingga game.</p>
-            <h2>Variabel di JS</h2>
-            <p>Gunakan <code>let</code> atau <code>const</code> untuk membuat variabel.</p>
-            <pre>let nama = "Budi";
-const nilai = 90;
 
-if(nilai > 75) {
-    alert("Selamat " + nama + ", Anda Lulus!");
-}</pre>
-        `,
-  },
-  gamedev: {
-    title: "Pengenalan Game Development",
-    videoId: "z0kTMXv3fQI", // Video Intro Game Dev
-    content: `
-            <p>Game Development adalah proses menciptakan video game. Ini menggabungkan coding, desain grafis, suara, dan storytelling.</p>
-            <h2>Engine Populer</h2>
-            <ul>
-                <li><strong>Unity:</strong> Menggunakan bahasa C#. Sangat populer untuk game mobile dan 3D.</li>
-                <li><strong>Godot:</strong> Gratis dan ringan. Menggunakan GDScript (mirip Python).</li>
-                <li><strong>Unreal Engine:</strong> Untuk game grafis tingkat tinggi (AAA).</li>
-            </ul>
-        `,
-  },
-  toolsgame: {
-    title: "Software & Tools PPLG",
-    videoId: "8aGhZQkoFbQ", // Video Tools Coding
-    content: `
-            <p>Sebagai siswa PPLG, senjata utama kita adalah software. Berikut adalah yang wajib diinstall:</p>
-            <ul>
-                <li><strong>Visual Studio Code:</strong> Text Editor terbaik saat ini. Ringan dan banyak fitur.</li>
-                <li><strong>Google Chrome:</strong> Browser untuk debugging website.</li>
-                <li><strong>Git:</strong> Untuk mengatur versi kode (Version Control System).</li>
-            </ul>
-        `,
-  },
-  toolsdev: {
-    title: "Setup VS Code & Environment",
-    videoId: "8aGhZQkoFbQ",
-    content: `
-            <p>Visual Studio Code (VS Code) adalah editor kode sumber yang dikembangkan oleh Microsoft. Fitur utamanya meliputi debugging, penyorotan sintaksis, penyelesaian kode cerdas, cuplikan, refactoring kode, dan Git.</p>
-            <h2>Ekstensi Wajib:</h2>
-            <ul>
-                <li>Live Server</li>
-                <li>Prettier - Code Formatter</li>
-                <li>Auto Close Tag</li>
-            </ul>
-        `,
-  },
-};
+/* --- 2. NAVBAR NAVIGATION --- */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--glass-nav);
+  backdrop-filter: blur(15px);
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255, 116, 108, 0.05);
+}
 
-// Fungsi Buka Detail Baru (Full Screen)
-window.bukaDetail = function (key) {
-  const modal = document.getElementById("detailModal");
-  const titleElem = document.getElementById("materiTitle");
-  const contentElem = document.getElementById("materiContent");
-  const videoElem = document.getElementById("materiVideo");
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  letter-spacing: 1px;
+}
 
-  // Ambil data berdasarkan key (html, css, dll)
-  const data = databaseMateri[key];
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
 
-  if (data && modal) {
-    // Isi Konten
-    titleElem.innerText = data.title;
-    contentElem.innerHTML = data.content;
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: 0.3s;
+  position: relative;
+}
 
-    // Set Video Youtube (Embed URL)
-    // Format embed: https://www.youtube.com/embed/VIDEO_ID
-    videoElem.src = `https://www.youtube.com/embed/${data.videoId}`;
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--primary-color);
+}
 
-    // Tampilkan Modal
-    modal.style.display = "block";
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: -5px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s;
+  border-radius: 2px;
+}
 
-    // Matikan scroll body utama biar fokus ke modal
-    document.body.style.overflow = "hidden";
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.search-btn:hover {
+  opacity: 1;
+  color: var(--primary-color);
+}
+
+.btn-login {
+  text-decoration: none;
+  background: var(--primary-color);
+  color: white;
+  padding: 8px 25px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(255, 116, 108, 0.3);
+}
+
+.btn-login:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+/* Hamburger Menu (Mobile) */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-main);
+}
+
+/* --- 3. HERO SECTION --- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding: 0 20px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.hero-content {
+  z-index: 5;
+  width: 100%;
+  max-width: 800px;
+}
+
+.main-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  background: linear-gradient(to right, #ff746c, #ff4d4d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.highlight-bright {
+  color: var(--primary-color);
+  -webkit-text-fill-color: var(--primary-color);
+}
+
+.hero .btn-primary {
+  margin-top: 50px;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 25px rgba(255, 116, 108, 0.4);
+}
+
+/* Clouds & Wave */
+.cloud-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+.cloud {
+  position: absolute;
+  opacity: 0.9;
+  color: #fff;
+  filter: drop-shadow(0 10px 15px rgba(255, 182, 193, 0.4));
+}
+.c1 {
+  top: 10%;
+  left: 5%;
+  width: 150px;
+  opacity: 0.6;
+}
+.c2 {
+  bottom: 25%;
+  right: -5%;
+  width: 300px;
+  opacity: 0.8;
+}
+.c3 {
+  top: 30%;
+  right: 20%;
+  width: 100px;
+  opacity: 0.5;
+}
+
+.wave-bottom {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  z-index: 3;
+  opacity: 0.6;
+}
+.wave-bottom svg path {
+  fill: #ffe4e1;
+}
+
+/* --- 4. LAYOUT & GRID --- */
+section.container {
+  padding: 100px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+}
+
+/* --- 5. CARDS (MATERI) --- */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 30px;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 15px 35px rgba(255, 116, 108, 0.1);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  background: rgba(255, 240, 240, 0.9);
+  border-color: var(--primary-color);
+  box-shadow: 0 25px 50px rgba(255, 116, 108, 0.25);
+}
+
+.card h3 {
+  color: var(--text-main);
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+.card:hover h3 {
+  color: var(--primary-color);
+}
+.card p {
+  color: var(--text-secondary);
+  transition: color 0.3s;
+}
+
+.card-hint {
+  color: var(--primary-color);
+  font-size: 0.9rem;
+  margin-top: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-hint {
+  transform: translateX(10px);
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 4px;
+  background: var(--primary-color);
+  transition: width 0.4s ease;
+}
+.card:hover::after {
+  width: 100%;
+}
+
+/* --- 6. TERMINAL / CODE WINDOW (RESTORED!) --- */
+.code-window {
+  background: #2d1b1b; /* Background Gelap biar kontras */
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+  font-family: "Courier New", monospace;
+  color: #ffdada;
+  border: 1px solid var(--border-light);
+}
+
+.window-header {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.red {
+  background: #ff5f56;
+}
+.yellow {
+  background: #ffbd2e;
+}
+.green {
+  background: #27c93f;
+}
+
+.window-body p {
+  margin-bottom: 5px;
+  line-height: 1.5;
+}
+.keyword {
+  color: #ff746c;
+  font-weight: bold;
+}
+.string {
+  color: #a8e6cf;
+}
+.comment {
+  color: #888;
+  font-style: italic;
+}
+.output {
+  color: #fff;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #555;
+}
+
+/* --- 5. Kategori (Update Desain Candy) --- */
+.kategori-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.kategori-cards {
+  display: flex;
+  gap: 25px; /* Jarak antar kartu sedikit diperlebar */
+  flex: 2;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* --- KARTU KATEGORI (VERSI FIKS & SNAPPY) --- */
+.kat-card {
+  /* Pastikan elemen ini dianggap blok agar bisa bergerak */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(15px);
+  padding: 35px 25px;
+  border-radius: 30px;
+  text-align: center;
+  width: 200px;
+
+  /* Border awal transparan */
+  border: 2px solid transparent;
+  box-shadow: 0 15px 35px rgba(255, 116, 108, 0.1);
+  position: relative;
+  overflow: hidden;
+
+  /* --- TRANSISI (KITA PISAH BIAR LINCAH) --- */
+  /* Transform: 0.3s ease-out (Gerakan naik standar, mulus, tidak membal) */
+  /* Border-color: 0.1s (Sangat cepat, hampir instan) */
+  transition:
+    transform 0.3s ease-out,
+    box-shadow 0.3s ease,
+    border-color 0.1s linear;
+}
+
+/* Efek Hover (Saat Kursor Masuk) */
+.kat-card:hover {
+  /* PAKSA NAIK KE ATAS 10 PIXEL */
+  transform: translateY(-10px) !important;
+
+  /* Warna merah langsung muncul (0.1 detik) */
+  border-color: var(--primary-color) !important;
+
+  /* Bayangan di bawah makin tebal */
+  box-shadow: 0 25px 50px rgba(255, 116, 108, 0.25);
+}
+
+/* --- Desain Ikon Baru (Kotak Gradasi) --- */
+.kat-icon-box {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px auto;
+  border-radius: 25px; /* Bentuk squircle (kotak tumpul) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white; /* Ikon berwarna putih */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.4s ease;
+}
+
+.kat-card:hover .kat-icon-box {
+  transform: rotate(10deg) scale(1.1); /* Ikon berputar sedikit saat hover */
+}
+
+/* Warna Gradasi Spesifik per Kategori (Tema Pastel Candy) */
+.icon-web {
+  background: linear-gradient(
+    135deg,
+    #ff9a9e 0%,
+    #fad0c4 100%
+  ); /* Pink-Merah */
+  box-shadow: 0 10px 25px rgba(255, 154, 158, 0.4);
+}
+
+.icon-game {
+  background: linear-gradient(
+    135deg,
+    #a1c4fd 0%,
+    #c2e9fb 100%
+  ); /* Biru Pastel */
+  box-shadow: 0 10px 25px rgba(161, 196, 253, 0.4);
+}
+
+.icon-logic {
+  background: linear-gradient(
+    135deg,
+    #f6d365 0%,
+    #fda085 100%
+  ); /* Kuning-Oranye */
+  box-shadow: 0 10px 25px rgba(246, 211, 101, 0.4);
+}
+
+.kat-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.kat-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.kategori-illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.floating-img {
+  width: 300px;
+  animation: float 6s ease-in-out infinite;
+  position: relative;
+}
+.floating-img img {
+  width: 100%;
+  z-index: 2;
+  position: relative;
+  filter: drop-shadow(0 15px 30px rgba(255, 116, 108, 0.3));
+}
+.floating-img .glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: var(--primary-color);
+  filter: blur(80px);
+  opacity: 0.3;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-};
-
-// Fungsi Tutup Detail
-window.tutupDetail = function () {
-  const modal = document.getElementById("detailModal");
-  const videoElem = document.getElementById("materiVideo");
-
-  if (modal) {
-    modal.style.display = "none";
-
-    // STOP VIDEO saat ditutup (Penting!)
-    videoElem.src = "";
-
-    // Nyalakan scroll body lagi
-    document.body.style.overflow = "auto";
+  50% {
+    transform: translateY(-20px);
   }
-};
+}
 
-/* =========================================================== */
-/* BAGIAN 6: LOGIKA POPUP TIM (MODAL SETENGAH LAYAR)           */
-/* =========================================================== */
+/* --- 8. INTERACTIVE (GAME & QUIZ) --- */
+.interactive-box {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 15px 40px rgba(255, 116, 108, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  border: 1px solid var(--border-light);
+  text-align: center;
+}
 
-// Database Tim (Data lengkap)
-// Database Tim (Data SUDAH DISESUAIKAN dengan HTML)
-const teamData = {
-  member1: {
-    name: "Miftah Ramadhan",
-    role: "Project Manager",
-    photo: "https://ui-avatars.com/api/?name=Miftah+R&background=6c63ff&color=fff&size=256",
-    desc: "Pemimpin proyek yang memastikan setiap baris kode berjalan sesuai rencana. Fokus pada manajemen waktu dan efisiensi tim.",
-    skills: ["Leadership", "Agile", "Jira"],
-    motto: "Kode bersih, pikiran jernih.",
-  },
-  member2: {
-    name: "Rima Amarida",
-    role: "UI/UX Designer",
-    photo: "https://ui-avatars.com/api/?name=Rima+A&background=ff5f56&color=fff&size=256",
-    desc: "Merancang antarmuka yang tidak hanya cantik, tapi juga mudah digunakan (User Friendly). Seni adalah passion saya.",
-    skills: ["Figma", "Adobe XD", "Prototyping"],
-    motto: "Desain adalah tentang fungsi.",
-  },
-  member3: {
-    name: "Inayattullah Yoga F.",
-    role: "Full Stack Dev",
-    photo: "https://ui-avatars.com/api/?name=Inayattullah+Y&background=27c93f&color=fff&size=256",
-    desc: "Menguasai Frontend dan Backend. Suka memecahkan masalah kompleks dengan solusi kode yang efisien dan skalabel.",
-    skills: ["HTML/CSS", "Node.js", "Firebase"],
-    motto: "Talk is cheap. Show me the code.",
-  },
-  member4: {
-    name: "Nayla Septiawati",
-    role: "Game Developer",
-    photo: "https://ui-avatars.com/api/?name=Nayla+S&background=ffbd2e&color=fff&size=256",
-    desc: "Menciptakan dunia virtual interaktif. Ahli dalam logika permainan dan fisika game menggunakan engine modern.",
-    skills: ["Unity", "C#", "Pixel Art"],
-    motto: "Level up your life!",
-  },
-  member5: {
-    name: "Shifa Octaviani",
-    role: "Quality Assurance",
-    photo: "https://ui-avatars.com/api/?name=Shifa+O&background=00f3ff&color=fff&size=256",
-    desc: "Detektif Bug. Tugas saya memastikan tidak ada kesalahan sebelum aplikasi sampai ke tangan pengguna.",
-    skills: ["Testing", "Automation", "Detail Oriented"],
-    motto: "Zero bug, happy user.",
-  },
-};
+.question-box {
+  text-align: left;
+  background: #fff5f5;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-light);
+}
 
-// Fungsi Buka Modal Tim
-window.bukaTeam = function (id) {
-  const modal = document.getElementById("teamModal");
-  const member = teamData[id];
+.question-box p {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-main);
+}
+.question-box label {
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: block;
+  margin: 5px 0;
+}
 
-  if (member && modal) {
-    // Isi Data ke HTML
-    document.getElementById("tImg").src = member.photo;
-    document.getElementById("tRole").innerText = member.role;
-    document.getElementById("tName").innerText = member.name;
-    document.getElementById("tDesc").innerText = member.desc;
-    document.getElementById("tMotto").innerText = `"${member.motto}"`;
+input[type="number"] {
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 2px solid #ffcccb;
+  background: #fff;
+  color: var(--text-main);
+  width: 120px;
+  text-align: center;
+  margin: 15px auto;
+  display: block;
+  font-size: 1.1rem;
+  outline: none;
+}
+input[type="number"]:focus {
+  border-color: var(--primary-color);
+}
 
-    // Render Skill (Looping)
-    const skillContainer = document.getElementById("tSkills");
-    skillContainer.innerHTML = ""; // Bersihkan skill sebelumnya
+/* --- TOMBOL UTAMA (MODERN HOVER) --- */
+.btn-primary {
+  display: inline-block;
+  position: relative;
+  background: var(--primary-color); /* Warna Awal: Merah Pastel */
+  color: #ffffff; /* Teks Awal: Putih */
+  border: none;
+  padding: 15px 40px;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 20px rgba(255, 116, 108, 0.3);
+  overflow: hidden;
+  z-index: 1; /* Pastikan teks ada di atas layer fill */
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 
-    member.skills.forEach((skill) => {
-      const span = document.createElement("span");
-      span.innerText = skill;
-      skillContainer.appendChild(span);
-    });
+/* Lapisan FILL (Warna Putih) */
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%; /* Awalnya ngumpet di bawah */
+  background-color: #ffffff; /* FILL JADI PUTIH */
+  z-index: -1; /* Di belakang teks */
+  transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border-radius: 50px;
+}
 
-    // Tampilkan Modal
-    modal.style.display = "block";
+/* --- SAAT DI-HOVER (KURSOR MASUK) --- */
+.btn-primary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+
+  /* INI KUNCINYA: Ubah teks jadi hitam saat di-hover */
+  color: #1a1a1a !important;
+}
+
+/* Saat hover, lapisan putih naik ke atas */
+.btn-primary:hover::before {
+  height: 100%;
+}
+
+/* --- SAAT DI-KLIK --- */
+.btn-primary:active {
+  transform: translateY(-2px) scale(0.95);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.result-text {
+  font-weight: 700;
+  margin-top: 20px;
+  font-size: 1.1rem;
+}
+
+/* Tombol Suit */
+.suit-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 25px 0;
+  flex-wrap: wrap;
+}
+.btn-suit {
+  background: #fff;
+  border: 2px solid #ffdcdc;
+  color: var(--text-main);
+  padding: 15px 25px;
+  border-radius: 15px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-suit:hover {
+  border-color: var(--primary-color);
+  background: #fff0f0;
+  transform: scale(1.05);
+}
+
+/* --- 9. MODAL / POPUP --- */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(74, 28, 28, 0.5);
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background: #fff;
+  margin: 5% auto;
+  padding: 40px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 28px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: 0.3s;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.close-btn:hover {
+  background: #fff0f0;
+  color: var(--primary-color);
+}
+
+.modal-title {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+.modal-description {
+  color: var(--text-main);
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+/* Code Block Inside Modal */
+.code-example {
+  background: #2d1b1b;
+  color: #ffdada;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: "Courier New", monospace;
+  overflow-x: auto;
+  margin: 15px 0;
+  border-left: 5px solid var(--primary-color);
+}
+.modal-example h4,
+.modal-benefits h4 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+.modal-benefits li {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+/* --- 10. TEAM / ABOUT US --- */
+#about .grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+#about .team-card {
+  flex: 0 1 280px;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 15px;
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 10px 20px rgba(255, 116, 108, 0.3);
+  transition: transform 0.3s;
+}
+.team-card:hover .profile-img {
+  transform: rotate(5deg) scale(1.1);
+}
+.role {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+.desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* --- 11. FOOTER --- */
+footer {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-light);
+  margin-top: 80px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+/* --- 12. AMBIENT BACKGROUND & CANDY --- */
+.ambient-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+.shape-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+}
+.shape-1 {
+  background-color: #ff746c;
+  width: 500px;
+  height: 500px;
+  top: 20%;
+  left: -10%;
+  animation: ambientFloat 18s infinite alternate ease-in-out;
+}
+.shape-2 {
+  background-color: #ffb347;
+  width: 400px;
+  height: 400px;
+  bottom: 10%;
+  right: -5%;
+  animation: ambientFloat 15s infinite alternate-reverse ease-in-out;
+}
+.shape-3 {
+  background-color: #ffccbc;
+  width: 300px;
+  height: 300px;
+  bottom: -10%;
+  left: 30%;
+  opacity: 0.4;
+  animation: ambientFloat 20s infinite alternate ease-in-out;
+}
+
+.candy-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.candy {
+  position: absolute;
+  filter: drop-shadow(0 15px 25px rgba(255, 116, 108, 0.4));
+}
+.candy-1 {
+  top: 15%;
+  left: 10%;
+  width: 80px;
+  filter: blur(1px) drop-shadow(0 10px 20px rgba(255, 116, 108, 0.3));
+}
+.candy-2 {
+  bottom: 20%;
+  right: 15%;
+  width: 120px;
+}
+.candy-3 {
+  top: 40%;
+  right: 5%;
+  width: 60px;
+  filter: blur(2px) drop-shadow(0 5px 10px rgba(255, 116, 108, 0.2));
+  opacity: 0.8;
+}
+.candy-4 {
+  bottom: 10%;
+  left: 20%;
+  width: 50px;
+  filter: blur(4px);
+  opacity: 0.6;
+}
+
+/* --- 13. ANIMATIONS --- */
+@keyframes ambientFloat {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
   }
-};
+  100% {
+    transform: translate(40px, -40px) scale(1.1) rotate(10deg);
+  }
+}
+@keyframes floatCloud {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(10px, -20px);
+  }
+}
+@keyframes floatRotate {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(20px, -30px) rotate(10deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+@keyframes floatRotateReverse {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-20px, 30px) rotate(-15deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
 
-// Fungsi Tutup Modal Tim
-window.tutupTeam = function () {
-  const modal = document.getElementById("teamModal");
-  if (modal) modal.style.display = "none";
-};
+.float-slow {
+  animation: floatRotate 12s ease-in-out infinite;
+}
+.float-medium {
+  animation: floatRotateReverse 9s ease-in-out infinite;
+}
+.float-fast {
+  animation: floatRotate 7s ease-in-out infinite;
+}
 
-// Update Event Listener Klik Luar (Biar bisa tutup modal tim juga)
-// (Cari window.onclick yang lama, dan UPDATE bagian dalamnya seperti ini)
-const oldWindowClick = window.onclick;
-window.onclick = function (event) {
-  if (oldWindowClick) oldWindowClick(event); // Jalankan fungsi lama
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-  const teamModal = document.getElementById("teamModal");
-  if (event.target == teamModal) window.tutupTeam();
-};
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.delay-1 {
+  transition-delay: 0.1s;
+}
+.delay-2 {
+  transition-delay: 0.2s;
+}
+.delay-3 {
+  transition-delay: 0.3s;
+}
+.delay-4 {
+  transition-delay: 0.4s;
+}
+
+/* --- 14. RESPONSIVE --- */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .nav-links.active {
+    display: flex;
+  }
+/* --- PERBAIKAN TAMPILAN HP (MOBILE) --- */
+    
+    /* 1. Munculkan Tombol Login / User Menu */
+    .nav-actions {
+        display: flex; /* Ganti dari none ke flex */
+        align-items: center;
+        margin-right: 15px; /* Kasih jarak dengan hamburger */
+    }
+
+    /* 2. Kecilkan Tombol Login biar muat */
+    .btn-login {
+        padding: 6px 15px; /* Lebih ramping */
+        font-size: 0.8rem; /* Huruf lebih kecil */
+    }
+
+    /* 3. Atur ukuran foto profil di HP (kalau sudah login) */
+    .user-info img {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* 4. Sembunyikan Nama User di HP (Biar gak penuh, cuma foto aja) */
+    .user-info span {
+        display: none;
+    }
+
+    /* 5. Geser Menu Dropdown Titik 3 biar gak kepotong layar */
+    .dropdown-content {
+        right: -10px; /* Geser dikit ke kanan */
+        width: 150px; /* Kecilkan lebar menu */
+    }
+    
+  .hamburger {
+    display: flex;
+  }
+
+  .main-title {
+    font-size: 2.5rem;
+  }
+  .kategori-wrapper {
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+  .kat-card {
+    width: 100%;
+    max-width: 280px;
+  }
+  .floating-img {
+    width: 200px;
+  }
+  section.container {
+    padding: 60px 20px;
+  }
+  .candy-1 {
+    width: 60px;
+  }
+  .candy-2 {
+    width: 90px;
+  }
+}
+
+/* --- TOMBOL MUSIK MELAYANG --- */
+.music-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999; /* Paling depan */
+  background: white;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.4);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.music-btn:hover {
+  transform: scale(1.1);
+  background: var(--primary-color);
+  color: white;
+  box-shadow: 0 10px 25px rgba(255, 116, 108, 0.6);
+}
+
+/* Animasi berdenyut biar dinotice user */
+@keyframes pulseMusic {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.music-playing {
+  animation: pulseMusic 2s infinite;
+  background: var(--primary-color);
+  color: white;
+}
+
+/* --- STYLE TAMBAHAN UNTUK LOGIN --- */
+#loginModal input {
+  background: #fff5f5;
+  border: 2px solid #ffdcdc;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s;
+  outline: none;
+  color: var(--text-main);
+}
+
+#loginModal input:focus {
+  border-color: var(--primary-color);
+  background: #fff;
+  box-shadow: 0 0 10px rgba(255, 116, 108, 0.2);
+}
+
+/* ========================================= */
+/* ===  USER MENU & DROPDOWN (TITIK 3)   === */
+/* ========================================= */
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Info User (Foto & Nama) */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  object-fit: cover;
+}
+
+.user-info span {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+/* Tombol Titik Tiga */
+.three-dots-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-main);
+  padding: 0 10px;
+  transition: 0.3s;
+  line-height: 1;
+}
+
+.three-dots-btn:hover {
+  color: var(--primary-color);
+  transform: scale(1.2);
+}
+
+/* Container Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Isi Menu (Kotak Putih Melayang) */
+.dropdown-content {
+  display: none; /* Default sembunyi */
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 10px;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 10px 0;
+  z-index: 9999;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.2s ease;
+}
+
+/* Link di dalam menu */
+.dropdown-content a {
+  color: var(--text-secondary);
+  padding: 12px 20px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.9rem;
+  transition: 0.2s;
+  font-weight: 500;
+}
+
+.dropdown-content a:hover {
+  background-color: #fff5f5; /* Merah muda pudar */
+  color: var(--primary-color);
+  padding-left: 25px; /* Efek geser kanan dikit */
+}
+
+/* Garis Pemisah */
+.dropdown-content hr {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 5px 0;
+}
+
+/* Tampilkan menu saat kelas 'show' aktif */
+.show {
+  display: block;
+}
+
+/* Responsif di HP: Sembunyikan nama, sisakan foto & titik 3 */
+@media (max-width: 768px) {
+  .user-info span {
+    display: none;
+  }
+}
+
+/* ========================================= */
+/* ===  HALAMAN MATERI & CARD DESIGN BARU === */
+/* ========================================= */
+
+/* Grid Layout untuk Materi */
+.materi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  padding-bottom: 50px;
+}
+
+/* 1. PROJECT CARD CONTAINER */
+.project-card {
+  background: rgba(255, 255, 255, 0.85); /* Glass Effect */
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(255, 116, 108, 0.2);
+  border-color: var(--primary-color);
+}
+
+/* 2. BAGIAN GAMBAR ATAS */
+.card-image {
+  height: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: white;
+}
+
+/* Warna Warni Background Header per Kartu */
+.html-bg {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}
+.css-bg {
+  background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+}
+.js-bg {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+.game-bg {
+  background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+}
+.tools-bg {
+  background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+
+.card-icon-big {
+  font-size: 4rem;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+  transition: transform 0.4s;
+}
+
+.project-card:hover .card-icon-big {
+  transform: scale(1.2) rotate(10deg);
+}
+
+/* Badge "Completed/Dasar" di pojok */
+.badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 3. CARD CONTENT */
+.card-content {
+  padding: 25px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--text-main);
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+/* Tech Stack Pills (Bulat-bulat kecil) */
+.tech-stack {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.tech-stack span {
+  background: #fff0f0;
+  color: var(--primary-color);
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border-light);
+}
+
+/* 4. FOOTER (Stats & Button) */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 15px;
+}
+
+.stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.stats div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Tombol Baca Materi Kecil */
+.btn-read {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-read:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.4);
+}
+
+/* --- INTRO BOX (Penjelasan Algoritma) --- */
+.intro-box {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 40px;
+  border-radius: 20px;
+  margin-bottom: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================= */
+/* ===  PROFILE CARD SETTINGS (BARU)     === */
+/* ========================================= */
+
+/* Reset Style Modal Content khusus Profile */
+.profile-card-modal {
+  padding: 0 !important; /* Hilangkan padding bawaan modal */
+  overflow: hidden;
+  max-width: 380px !important; /* Lebih ramping seperti kartu */
+  border-radius: 25px !important;
+  background: #fff;
+  text-align: center;
+}
+
+/* Header Gradasi di Atas */
+.profile-header-bg {
+  height: 120px;
+  background: linear-gradient(135deg, #ff746c 0%, #ffbd2e 100%);
+  position: relative;
+}
+
+/* Wrapper Foto Profil (Agar bisa overlap ke header) */
+.profile-avatar-wrapper {
+  width: 110px;
+  height: 110px;
+  margin: -55px auto 15px; /* Naik ke atas menutupi header */
+  position: relative;
+}
+
+.profile-avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 5px solid #fff; /* Border putih tebal */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+  background: #fff;
+}
+
+/* Tombol Kamera Kecil */
+.edit-pfp-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: var(--text-main);
+  color: #fff;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-pfp-btn:hover {
+  transform: scale(1.1);
+  background: var(--primary-color);
+}
+
+/* Body Kartu */
+.profile-body {
+  padding: 0 30px 40px;
+}
+
+.profile-body h2 {
+  font-size: 1.5rem;
+  color: var(--text-main);
+  margin-bottom: 5px;
+}
+
+/* Tombol Aksi (Ganti Password & Logout) */
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-action {
+  background: #fff5f5;
+  color: var(--text-main);
+  border: 1px solid #ffdcdc;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-action:hover {
+  background: #fff;
+  border-color: var(--primary-color);
+  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.15);
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background: #fff;
+  color: #ff5f56;
+  border-color: #ffe0e0;
+}
+
+.btn-danger:hover {
+  background: #ff5f56;
+  color: #fff;
+  border-color: #ff5f56;
+}
+
+/* Update Dropdown Menu agar lebih rapi */
+.dropdown-content {
+  border-radius: 15px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================= */
+/* ===  FULL SCREEN MATERI + VIDEO       === */
+/* ========================================= */
+
+/* 1. Modal Menjadi Full Screen */
+.full-screen-modal {
+  padding: 0; /* Hapus padding default */
+  background: #fff; /* Background putih penuh */
+  z-index: 9999;
+}
+
+.full-page-content {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* Scroll diurus oleh anak elemen */
+}
+
+/* 2. Navigasi Atas (Tombol Kembali) */
+.modal-nav {
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.btn-back {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+}
+
+.btn-back:hover {
+  color: var(--primary-color);
+  transform: translateX(-5px);
+}
+
+/* 3. Area Scroll (Konten Utama) */
+.modal-scroll-area {
+  flex: 1;
+  overflow-y: auto; /* Scroll hanya di bagian ini */
+  padding-bottom: 50px;
+}
+
+/* 4. Video Responsif (Aspek Rasio 16:9) */
+.video-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: #000;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* 5. Teks Artikel */
+.article-body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.article-body h1 {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.article-body h2 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  color: var(--text-main);
+}
+
+.article-body p,
+.article-body li {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.article-body ul,
+.article-body ol {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+/* Code block di dalam materi */
+.article-body pre {
+  background: #2d1b1b;
+  color: #ffdada;
+  padding: 15px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+  margin: 20px 0;
+}
+
+.article-footer {
+  text-align: center;
+  padding: 40px 20px;
+  background: #fafafa;
+  margin-top: 30px;
+}
+
+/* ========================================= */
+/* ===  UPDATE TOMBOL KEMBALI (GAYA HERO) == */
+/* ========================================= */
+
+/* Kita modifikasi sedikit btn-primary KHUSUS untuk di navigasi modal */
+.btn-nav-custom {
+  padding: 10px 25px !important; /* Lebih ramping dari tombol beranda */
+  font-size: 0.95rem !important; /* Ukuran font disesuaikan */
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 5px 15px rgba(255, 116, 108, 0.3) !important;
+}
+
+/* Pastikan efek hover fill-nya tetap jalan */
+.btn-nav-custom:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Hapus style .btn-back yang lama (Opsional, biar bersih aja) */
+.btn-back {
+  display: none;
+}
+
+/* ========================================= */
+/* ===  MODAL POPUP TEAM (CARD STYLE)    === */
+/* ========================================= */
+
+/* Ukuran Modal (Setengah Layar / Compact) */
+.team-popup-content {
+  max-width: 750px !important; /* Lebar maksimal */
+  width: 90%;
+  padding: 0 !important;
+  border-radius: 20px !important;
+  overflow: hidden;
+  background: #fff;
+}
+
+.team-popup-layout {
+  display: flex;
+  flex-wrap: wrap; /* Biar responsif di HP */
+}
+
+/* KIRI: Foto & Sosmed */
+.team-popup-left {
+  flex: 2; /* Lebar 40% */
+  background: linear-gradient(135deg, #fff0f0 0%, #ffe4e1 100%);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.team-popup-left img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 8px 20px rgba(255, 116, 108, 0.25);
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.team-socials {
+  display: flex;
+  gap: 15px;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+}
+
+/* KANAN: Biodata */
+.team-popup-right {
+  flex: 3; /* Lebar 60% */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.badge-role-popup {
+  background: #fff3e0;
+  color: #ff9800;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 10px;
+}
+
+.team-popup-right h2 {
+  font-size: 1.8rem;
+  color: var(--text-main);
+  margin-bottom: 5px;
+}
+
+.divider-small {
+  width: 40px;
+  height: 3px;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 2px;
+  margin: 10px 0 15px 0;
+}
+
+.team-desc {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.skill-box h4 {
+  font-size: 0.85rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.tech-stack-popup {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.tech-stack-popup span {
+  background: #f0f9ff;
+  color: #0ea5e9;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #bae6fd;
+}
+
+.team-motto {
+  font-style: italic;
+  color: #888;
+  font-size: 0.85rem;
+  border-left: 3px solid #eee;
+  padding-left: 10px;
+}
+
+/* Responsif HP (Tumpuk ke bawah) */
+@media (max-width: 600px) {
+  .team-popup-layout {
+    flex-direction: column;
+  }
+  .team-popup-left {
+    padding: 30px 20px;
+  }
+  .team-popup-right {
+    padding: 25px;
+  }
+}
+
+/* ========================================= */
+/* ===  STYLE KUIS STEP-BY-STEP (BARU)   === */
+/* ========================================= */
+
+.quiz-header {
+    margin-bottom: 25px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+/* Progress Bar */
+.progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: #ffe0e0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--primary-color);
+    width: 0%;
+    transition: width 0.4s ease;
+    border-radius: 20px;
+}
+
+/* Pertanyaan */
+#question-text {
+    font-size: 1.3rem;
+    color: var(--text-main);
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* Grid Opsi Jawaban */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Tombol Opsi (Pengganti Radio Button) */
+.option-btn {
+    background: #fff;
+    border: 2px solid #ffdcdc;
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-align: left;
+    font-size: 1rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.option-btn:hover {
+    border-color: var(--primary-color);
+    background: #fff5f5;
+    transform: translateX(5px);
+}
+
+/* Saat Opsi Dipilih */
+.option-btn.selected {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    font-weight: 600;
+}
+
+/* Footer & Button */
+.quiz-footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#next-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Hasil Akhir */
+.result-icon {
+    font-size: 5rem;
+    margin-bottom: 10px;
+    animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.final-score {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Animasi Ganti Soal */
+.fade-animation {
+    animation: fadeInQuiz 0.4s ease-out;
+}
+
+@keyframes fadeInQuiz {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
