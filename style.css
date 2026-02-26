@@ -1991,3 +1991,90 @@ footer {
         display: none;
     }
 }
+
+/* --- STYLE TAMBAHAN: RATING & DOWNLOAD --- */
+
+/* 1. Rating Bintang */
+.rating-box {
+    color: #ffbd2e; /* Warna Kuning Emas */
+    font-size: 0.85rem;
+    margin-bottom: 12px; /* Jarak ke deskripsi */
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.rating-box span {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+/* 2. Layout Tombol di Footer */
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Jarak antar tombol download dan baca */
+    align-items: center;
+}
+
+/* 3. Tombol Download (Icon Only) */
+.btn-download {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #ffdcdc;
+    background: #fff5f5;
+    color: var(--primary-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn-download:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(255, 116, 108, 0.3);
+}
+
+/* Update sedikit btn-read agar seimbang */
+.btn-read {
+    padding: 8px 20px; /* Sedikit lebih lebar */
+}
+/* --- STYLE TOMBOL DOWNLOAD & GRUP TOMBOL --- */
+
+/* 1. Mengatur posisi tombol agar berdampingan */
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Jarak antara tombol download & baca */
+    align-items: center;
+}
+
+/* 2. Desain Tombol Download (Bulat) */
+.btn-download {
+    width: 38px;          /* Lebar tombol */
+    height: 38px;         /* Tinggi tombol */
+    border-radius: 50%;   /* Membuat bulat */
+    border: 2px solid #ffdcdc; 
+    background: #fff;     /* Warna latar putih */
+    color: #ff746c;       /* Warna ikon merah */
+    cursor: pointer;
+    display: flex;        /* Agar ikon di tengah */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05); /* Bayangan tipis */
+}
+
+/* Efek saat didekati mouse */
+.btn-download:hover {
+    background: #ff746c;  /* Jadi merah */
+    color: white;         /* Ikon jadi putih */
+    border-color: #ff746c;
+    transform: translateY(-3px);
+}
