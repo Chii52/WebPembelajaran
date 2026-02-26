@@ -616,7 +616,7 @@ const teamData = {
   member1: { 
       name: "Miftah Ramadhan", 
       role: "Project Manager", 
-      photo: "img/miftah.jpg", 
+      photo: "miftah.jpeg", 
       desc: "Pemimpin proyek.", 
       skills: ["Leadership", "Agile"], 
       motto: "Kode bersih, pikiran jernih." 
@@ -624,7 +624,7 @@ const teamData = {
   member2: { 
       name: "Rima Amarida", 
       role: "UI/UX Designer", 
-      photo: "img/rima.jpg", 
+      photo: "rima.jpeg", 
       desc: "Desainer kreatif.", 
       skills: ["Figma", "Design"], 
       motto: "Design is functionality." 
@@ -632,23 +632,23 @@ const teamData = {
   member3: { 
       name: "Inayattullah Yoga F.", 
       role: "Full Stack Dev", 
-      photo: "img/inayat.jpg", 
+      photo: "saya.jpg", 
       desc: "Frontend & Backend.", 
       skills: ["JS", "Firebase"], 
       motto: "Talk is cheap." 
   },
   member4: { 
       name: "Nayla Seftiawati", 
-      role: "Game Developer", 
-      photo: "img/nayla.jpg", 
-      desc: "Pembuat Game.", 
+      role: "Pembuat Materi", 
+      photo: "nayla.jpeg", 
+      desc: "Pembuat Materi.", 
       skills: ["Unity", "C#"], 
       motto: "Level Up!" 
   },
   member5: { 
       name: "Shifa Octaviani", 
       role: "Quality Assurance", 
-      photo: "img/shifa.jpg", 
+      photo: "shifa.jpeg", 
       desc: "Pencari Bug.", 
       skills: ["Testing", "Detail"], 
       motto: "Zero Bug." 
@@ -733,12 +733,12 @@ window.onYouTubeIframeAPIReady = function () {
     height: "0",
     width: "0",
     // ID Video: Lofi Girl (Pasti Jalan)
-    videoId: "jfKfPfyJRdk", 
+    videoId: "rXF9ziZ3AU4", 
     playerVars: { 
         autoplay: 0, 
         controls: 0, 
         loop: 1, 
-        playlist: "jfKfPfyJRdk", 
+        playlist: "fk4BbF7B29w", 
         playsinline: 1 
     },
     events: { 
@@ -775,4 +775,31 @@ window.toggleMusic = function () {
     btn.classList.add("music-playing");
     isPlaying = true;
   }
+};
+
+/* =========================================================== */
+/* TAMBAHAN: DOWNLOAD MODUL                                    */
+/* =========================================================== */
+
+// Fungsi Download Simulasi
+window.downloadModul = function(namaModul) {
+    // 1. Konfirmasi
+    if (!confirm(`Mau download modul PDF untuk ${namaModul}?`)) return;
+
+    // 2. Efek Loading pada tombol yang diklik
+    const btn = event.currentTarget;
+    const icon = btn.querySelector("i");
+    const oldClass = icon.className;
+
+    // Ubah ikon jadi putaran loading
+    icon.className = "fa-solid fa-spinner fa-spin";
+
+    // 3. Simulasi Selesai (2 detik)
+    setTimeout(() => {
+        icon.className = "fa-solid fa-check"; // Centang sukses
+        alert(`✅ Berhasil! Modul ${namaModul} tersimpan.`);
+        
+        // Balikin ikon semula
+        setTimeout(() => icon.className = oldClass, 2000);
+    }, 1500);
 };
