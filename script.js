@@ -320,6 +320,10 @@ const questionsData = [
     { question: "Kenapa harus tanggung jawab sama kode?", options: ["Biar Panjang", "Warna-warni", "Mudah dipahami", "Lambat"], correct: 2 }
 ];
 
+
+const sfxBenar = new Audio("https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"); // Suara "Ting!"
+const sfxSalah = new Audio("https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3"); // Suara "Tetot!"
+
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedOptionIndex = null;
@@ -363,29 +367,53 @@ function loadQuestion() {
     });
 }
 
-// Fungsi Pindah Soal / Selesai (DIPERBAIKI)
+// Fungsi Pindah Soal dengan SUARA
 window.nextQuestion = function() {
-    // Cek jawaban
+    // Cek apakah jawaban benar
     if (selectedOptionIndex === questionsData[currentQuestionIndex].correct) {
         score += 10;
-        // --- LIVE SCORE UPDATE ---
+        
+        // MAINKAN SUARA BENAR
+        sfxBenar.currentTime = 0; // Reset durasi biar bisa dipencet cepat
+        sfxBenar.play();
+
+        // Update Skor Live
         const scoreElem = document.getElementById("score-live");
         if(scoreElem) {
             scoreElem.innerText = `Score: ${score}`;
+            scoreElem.style.color = "#7ec699"; // Hijau sebentar
+            setTimeout(() => scoreElem.style.color = "", 500);
         }
+
+    } else {
+        // MAINKAN SUARA SALAH (TETOT!)
+        sfxSalah.currentTime = 0;
+        sfxSalah.play();
+        
+        // Efek getar layar sedikit (opsional, biar dramatis)
+        const quizBox = document.getElementById("quiz-container");
+        quizBox.classList.add("shake-effect");
+        setTimeout(() => quizBox.classList.remove("shake-effect"), 300);
     }
     
+    // Lanjut ke soal berikutnya
     currentQuestionIndex++;
     
     if (currentQuestionIndex < questionsData.length) {
-        loadQuestion();
+        // Beri jeda sedikit (500ms) sebelum ganti soal, biar suaranya dinikmati dulu
+        setTimeout(() => {
+            loadQuestion();
+        }, 500); 
     } else {
-        // Tampilkan Hasil Akhir
+        // Kuis Selesai
         document.getElementById("quiz-container").style.display = "none";
         document.getElementById("result-container").style.display = "block";
         document.getElementById("final-score").innerText = score;
+        
+        // Suara Fanfare kalau selesai (Opsional)
+        if(score > 70) sfxBenar.play(); 
     }
-}
+};
 
 // --- INISIALISASI KUIS OTOMATIS (FIX LOADING TERUS) ---
 // Langsung cek apakah elemen kuis ada di halaman saat script dimuat
