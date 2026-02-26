@@ -2078,3 +2078,192 @@ footer {
     border-color: #ff746c;
     transform: translateY(-3px);
 }
+
+/* ========================================= */
+/* ===  STYLE FOOTER KEREN (3 KOLOM)     === */
+/* ========================================= */
+
+.footer-distributed {
+    background: #1a1a1a; /* Warna Background Gelap */
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: bold 16px sans-serif;
+    padding: 55px 50px;
+    margin-top: 80px; /* Jarak dari konten atas */
+    border-top: 4px solid var(--primary-color); /* Garis warna tema di atas */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center; /* Vertikal center */
+}
+
+/* --- Kolom Kiri --- */
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Lebar Pembagian Kolom */
+.footer-distributed .footer-left { width: 35%; }
+.footer-distributed .footer-center { width: 35%; }
+.footer-distributed .footer-right { width: 25%; }
+
+/* --- Styling Logo & Teks --- */
+.footer-distributed h3 {
+    color: #ffffff;
+    font: normal 36px 'Poppins', cursive;
+    margin: 0;
+}
+
+.footer-distributed h3 span {
+    color: var(--primary-color); /* Warna merah tema */
+}
+
+.footer-distributed .footer-links {
+    color: #ffffff;
+    margin: 20px 0 12px;
+    padding: 0;
+}
+
+.footer-distributed .footer-links a {
+    display: inline-block;
+    line-height: 1.8;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.3s;
+}
+.footer-distributed .footer-links a:hover {
+    color: var(--primary-color);
+}
+
+.footer-distributed .footer-company-name {
+    color: #8f9296;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* --- Styling Kontak (Tengah) --- */
+.footer-distributed .footer-center div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Jarak antar kontak */
+}
+
+.footer-distributed .footer-center i {
+    background-color: #33383b;
+    color: #ffffff;
+    font-size: 20px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 38px; /* Biar icon di tengah lingkaran */
+    margin-right: 15px;
+    flex-shrink: 0; /* Biar lingkaran gak gepeng */
+}
+
+.footer-distributed .footer-center p {
+    display: inline-block;
+    color: #ffffff;
+    vertical-align: middle;
+    margin: 0;
+}
+
+.footer-distributed .footer-center p span {
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.footer-distributed .footer-center p a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+/* --- Styling Kanan (About & Sosmed) --- */
+.footer-distributed .footer-company-about {
+    line-height: 20px;
+    color: #92999f;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.footer-distributed .footer-company-about span {
+    display: block;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.footer-distributed .footer-icons {
+    margin-top: 25px;
+}
+
+.footer-distributed .footer-icons a {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    background-color: #33383b;
+    border-radius: 2px;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+    margin-right: 3px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+}
+
+.footer-distributed .footer-icons a:hover {
+    background-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* --- Responsif (HP) --- */
+@media (max-width: 880px) {
+    .footer-distributed {
+        font: bold 14px sans-serif;
+    }
+    .footer-distributed .footer-left,
+    .footer-distributed .footer-center,
+    .footer-distributed .footer-right {
+        display: block;
+        width: 100%;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+    .footer-distributed .footer-center i {
+        margin-left: 0;
+    }
+    .footer-distributed .footer-center div {
+        justify-content: center; /* Icon di tengah saat di HP */
+    }
+}
+/* Efek Getar saat Salah Jawab */
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.shake-effect {
+  animation: shake 0.3s;
+  border-color: #ff5f56 !important; /* Border jadi merah sebentar */
+}
